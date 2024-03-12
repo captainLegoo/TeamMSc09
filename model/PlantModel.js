@@ -15,8 +15,7 @@ let PlantSchema = new mongoose.Schema({
         coordinates: {
             type: [Number],
             required: true
-        },
-        required: true
+        }
     },
     description: {
         type: String,
