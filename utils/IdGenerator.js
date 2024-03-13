@@ -18,9 +18,8 @@
  */
 class IdGenerator {
     constructor(dataCenterId, machineId) {
-        // 校验参数合法性
         if (dataCenterId > this.DATA_CENTER_MAX || machineId > this.MACHINE_MAX) {
-            throw new Error("传入的数据中心编号和机器编号非法");
+            throw new Error("The data center number and machine number passed in are illegal");
         }
         this.dataCenterId = dataCenterId;
         this.machineId = machineId;
@@ -69,16 +68,16 @@ class IdGenerator {
     }
 
     getId() {
-        // 处理时间戳
+        // Process timestamp
         let currentTime = Date.now();
         let timeStamp = currentTime - IdGenerator.START_STAMP;
 
-        // 判断时钟回拨
+        // Determine clock dialback
         if (timeStamp < this.lastTimeStamp) {
-            throw new Error("服务器发生时钟回拨");
+            throw new Error("Server clock rollback occurs");
         }
 
-        // 处理序列号
+        // handle serial number
         if (timeStamp === this.lastTimeStamp) {
             this.sequenceId++;
             if (this.sequenceId >= IdGenerator.SEQUENCE_MAX) {
@@ -89,10 +88,10 @@ class IdGenerator {
             this.sequenceId = 0;
         }
 
-        // 更新时间戳
+        //Update timestamp
         this.lastTimeStamp = timeStamp;
 
-        // 生成ID
+        // Generate ID
         let sequence = this.sequenceId;
         return timeStamp << IdGenerator.TIMESTAMP_LEFT | this.dataCenterId << IdGenerator.DATA_CENTER_LEFT | this.machineId << IdGenerator.MACHINE_LEFT | sequence;
     }
