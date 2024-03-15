@@ -3,12 +3,12 @@ var router = express.Router();
 
 const url = require('url');
 const PlantModel = require('../model/PlantModel');
-// const {Double} = require("mongodb");
-// const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-// const mongoose = require('mongoose');
-// mongoose.connect(URI)
-//     .then((result)=> console.log('connect successfully'))
-//     .catch((error) => console.log(error))
+const {Double} = require("mongodb");
+const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoose = require('mongoose');
+mongoose.connect(URI)
+    .then((result)=> console.log('connect successfully'))
+    .catch((error) => console.log(error))
 
 // ADD PLANT
 router.post('/addPlant',function (req,res){
@@ -94,15 +94,15 @@ router.get('/plants', async (req, res) => {
 // /* GET home page. */
 router.get('/', async (req, res) => {
   try {
-    const allPlants = await PlantModel.find({});
-    res.render('index',{data:allPlants,title:'randy'});
+    const allPlants = await PlantModel.findById('65ef932e7f392acbffefa873');
+    res.render('singlePlant',{data:allPlants,title:'randy'});
   } catch (error) {
     console.error('Error fetching plant records:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-router.get('/edit',async (req,res) => {
+router.get('/singlePlant',async (req,res) => {
   const _id = req.params._id;
   const urlObj = url.parse(req.url, true);
   const query = urlObj.query;

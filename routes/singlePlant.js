@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', async function (req, res, next) {
-    // Get the ID from the request parameters
-    const plantId = req.params.id;
-    // Fetch the plant data from your data source using the plantId
-    // This is just an example. You would replace this with your actual data fetching logic.
-    const plantData = await getPlantDataById(plantId);
-    const comments = await getCommentsByPlantId(plantId); // This should return an array of comment objects.
-    res.render('singlePlant', {plant: plantData, comments: comments});
-});
+// router.get('/', async function (req, res, next) {
+//     // Get the ID from the request parameters
+//     const plantId = req.params.id;
+//     // Fetch the plant data from your data source using the plantId
+//     // This is just an example. You would replace this with your actual data fetching logic.
+//     const plantData = await getPlantDataById(plantId);
+//     const comments = await getCommentsByPlantId(plantId); // This should return an array of comment objects.
+//     res.render('singlePlant', {plant: plantData, comments: comments});
+// });
 
 // Dummy function that mimics fetching data from a database
 // Replace this with your actual data-fetching logic
