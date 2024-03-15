@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Sightings</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0; /* Reduced padding at the top and bottom */
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            display: flex;
+            gap: 10px;
+            padding: 0;
+            margin: 0;
+        }
+        .title-section {
+            text-align: center;
+            padding: 100px; /* Adjust this padding to control the space around the image and text */
+        }
+        .title-section img {
+            width: 175px; /* Set this to the width of your custom image */
+            height: auto; /* Maintain aspect ratio */
+            margin: 10px auto; /* Center the image */
+        }
+        .title-section h1 {
+            margin: 10px 0;
+        }
+        .filter-bar {
+            text-align: center;
+            padding: 20px;
+        }
+        .filter-bar button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 5px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .content {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 0 10px;
+            text-align: center;
+            background-color: white;
+        }
+        .card img {
+            width: 150px;
+            height: 150px;
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">Plant Sightings</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Add</a></li>
+            <li><a href="#">Github</a></li>
+        </ul>
+    </div>
+
+    <!-- Title Section with Customizable Image and Text -->
+    <div class="title-section">
+        <img src="../public/images/plant_logo.png" alt="Customizable Image">
+        <h1>OverView</h1>
+        <p>Your customizable text here</p>
+    </div>
+</div>
+
+<!-- Filter Section -->
+<div class="filter-bar">
+    <button>All</button>
+    <button>品目B</button>
+</div>
+
+<!-- Content Section -->
+<div class="content">
+    <div class="card">
+        <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
+        <p>===描述===</p>
+    </div>
+    <!-- Repeat the card as needed -->
+</div>
+
+</body>
+</html>
