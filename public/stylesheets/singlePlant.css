@@ -1,0 +1,153 @@
+/* General Styles */
+body {
+    background-color: #00cc66; /* This is a placeholder color for the green background */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+/* Header Styles */
+.header {
+    /*background-color: #000000;*/
+    border: 2px solid #000000;
+    border-radius: 10px;
+    color: #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.header-button {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    border: 2px solid #000000;
+    padding: 8px 16px;
+    margin: 0 4px;
+}
+
+/* Title and Description Styles */
+.title-section {
+    text-align: center;
+    padding: 32px 0;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.description {
+    color: #000000;
+    margin: 8px 0;
+}
+
+/* Detail Styles */
+.details {
+    display: flex;
+    margin: 16px 0;
+    justify-content: space-between;
+}
+
+.detail-half {
+    flex-basis: 50%;
+    padding: 8px;
+}
+
+.detail-label {
+    color: #000000;
+    text-align: center;
+    margin-bottom: 4px;
+    margin-right: 10px;
+}
+
+.detail-value {
+    background-color: #ffffff;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+.detail-value-attribute {
+    text-align: center;
+    border-radius: 10px;
+    width: 50px;
+    background-color: #ffffff;
+    padding: 4px;
+}
+.detail-value-question {
+    text-align: center;
+    border-radius: 10px;
+    width: 100px;
+    padding: 4px;
+}
+
+.detail-photo {
+    /*height: 200px;*/
+    /*width: 200px;*/
+    /*background-color: #ffffff;*/
+}
+
+/* Attributes Styles */
+.attribute-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+}
+
+
+.attribute-item {
+    display: grid;
+    row-gap: 30px;
+}
+
+/* Discussion Section Styles */
+.discussion {
+    /*background-color: #000000;*/
+    border: 2px solid #000000;
+    border-radius: 10px;
+    color: #000000;
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.discussion-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.comment {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+/* Comment Form Styles */
+.comment-form {
+    margin-top: 16px;
+    width: 500px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.comment-form button {
+    background-color: #008000; /* This is a placeholder color for the green button */
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+}

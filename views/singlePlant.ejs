@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Sightings</title>
+    <link rel="stylesheet" href="stylesheets/singlePlant.css">
+</head>
+
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1 class="header-title">Plant Sightings</h1>
+        <div>
+            <button class="header-button">Home</button>
+            <button class="header-button">Overview</button>
+            <button class="header-button">Add</button>
+            <button class="header-button">Github</button>
+        </div>
+    </div>
+
+    <!-- Title and Description -->
+    <div class="title-section">
+        <h2 class="title"><%= plant.name %></h2>
+        <p class="description">===========================<%= plant.description %>===========================</p>
+    </div>
+
+    <!-- Details Section -->
+    <div class="details">
+        <div class="detail-half">
+            <label class="detail-label">Name</label>
+            <div class="detail-value"><%= plant.name %></div>
+
+            <label class="detail-label">Description</label>
+            <div class="detail-value"><%= plant.description %></div>
+
+            <label class="detail-label">Photo</label>
+            <div class="detail-photo">
+                <!-- Assuming you have a URL for the photo -->
+                <img src="<%= plant.photoUrl %>" alt="Photo of <%= plant.name %>">
+            </div>
+        </div>
+        <div class="detail-half">
+            <div class="attribute-grid">
+                <!-- Attributes -->
+                <div class="attribute-item">
+                    <span class="detail-value-question">Has Flower?</span>
+                    <span class="detail-value-question">Has Leaf?</span>
+                    <span class="detail-value-question">Has Gain?</span>
+                    <span class="detail-value-question">Sun?</span>
+                    <span class="detail-value-question">Color</span>
+                    <span class="detail-value-question">Position</span>
+                    <span class="detail-value-question">DBPedia</span>
+                </div>
+                <div class="attribute-item">
+                    <div class="detail-value-attribute"><%= plant.hasFlower ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= plant.hasLeaf ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= plant.hasGain ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= plant.sun ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= plant.color %></div>
+                    <div class="detail-value-attribute"><%= plant.position %></div>
+                    <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= plant.url %>')">URL</button>
+                    <script>
+                        function redirectToPlantPage(url) {
+                            window.location.href = url;
+                        }
+                    </script>
+                </div>
+                <!-- Repeat for each attribute -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Discussion Section -->
+    <div class="discussion">
+        <h3 class="discussion-title">DISCUSSION FORUM</h3>
+        <!-- Comments will go here -->
+        <% comments.forEach(function(comment) { %>
+            <div class="comment"><%= comment.content %></div>
+        <% }); %>
+
+        <!-- Comment Form -->
+        <form class="comment-form" action="/add-comment" method="POST">
+            <textarea name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>
