@@ -7,16 +7,15 @@ let PlantSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: {
-            type: String,
-            enum: ['Point'],
-            required: true
-        },
+        // type: {
+        //     type: String,
+        //     enum: ['Point'],
+        //     required: true
+        // },
         coordinates: {
             type: [Number],
             required: true
-        },
-        required: true
+        }
     },
     description: {
         type: String,
