@@ -53,13 +53,28 @@
             text-align: center;
             padding: 20px;
         }
+        /* 过滤条按钮的样式 */
         .filter-bar button {
-            background: none;
-            border: 2px solid white;
-            color: white;
-            padding: 5px 20px;
-            margin: 0 5px;
+            background: #ffffff; /* 设置按钮背景为白色 */
+            border: 2px solid #4CAF50; /* 设置边框颜色为标题栏相同的绿色 */
+            color: #4CAF50; /* 设置文本颜色为绿色 */
+            padding: 10px 20px; /* 按钮内边距 */
+            margin: 0 10px; /* 按钮外边距 */
+            font-weight: bold; /* 文本加粗 */
+            border-radius: 5px; /* 边框圆角效果 */
             cursor: pointer;
+            transition: background-color 0.3s, color 0.3s; /* 过渡动画效果 */
+            width: 100px; /* 统一按钮宽度 */
+            height: 40px;
+            box-sizing: border-box; /* box-sizing 设置为 border-box 以包含边框和内边距 */
+            display: inline-block; /* 使按钮按内联块级元素渲染 */
+        }
+
+        /* 当鼠标悬浮在按钮上时的样式 */
+        .filter-bar button:hover {
+            background: #4CAF50; /* 鼠标悬浮时背景颜色变为绿色 */
+            color: #ffffff; /* 鼠标悬浮时文本颜色变为白色 */
+            border: 2px solid #ffffff; /* 鼠标悬浮时边框颜色变为白色 */
         }
         .content {
             padding: 20px;
@@ -78,6 +93,32 @@
             height: 150px;
             background-color: #ddd;
         }
+        /* 导航按钮的基础样式 */
+        .nav-button {
+            padding: 5px 10px;
+            display: inline-block; /* 使链接像按钮一样显示 */
+            transition: background-color 0.3s, color 0.3s; /* 添加过渡动画效果 */
+            border-radius: 5px; /* 轻微的圆角效果 */
+        }
+
+        /* 鼠标悬浮在导航按钮上时的样式 */
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* 添加淡白色背景 */
+            color: #ffffff; /* 文本颜色保持不变，即使在淡白色背景上也能看清 */
+        }
+        /* 排序下拉菜单样式 */
+        .sort-dropdown {
+            padding: 10px 20px;
+            margin-left: 10px; /* 与其他按钮保持一致的外边距 */
+            border: 2px solid #4CAF50; /* 边框颜色 */
+            border-radius: 5px; /* 圆角效果 */
+            background-color: white;
+            color: #4CAF50;
+            cursor: pointer;
+            outline: none; /* 去掉点击时的轮廓 */
+            width: 120px; /* 统一按钮宽度 */
+            height: 40px;
+        }
     </style>
 </head>
 <body>
@@ -87,10 +128,10 @@
     <div class="navbar">
         <div class="logo">Plant Sightings</div>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Add</a></li>
-            <li><a href="#">Github</a></li>
+            <li><a href="#" class="nav-button">Home</a></li>
+            <li><a href="#" class="nav-button">Overview</a></li>
+            <li><a href="#" class="nav-button">Add</a></li>
+            <li><a href="#" class="nav-button">Github</a></li>
         </ul>
     </div>
 
@@ -105,7 +146,12 @@
 <!-- Filter Section -->
 <div class="filter-bar">
     <button>All</button>
-    <button>品目B</button>
+    <button>B</button>
+    <select class="sort-dropdown" onchange="sortImages(this.value);">
+        <option value="default">默认排序</option>
+        <option value="date">按日期排序</option>
+        <option value="name">按名称排序</option>
+    </select>
 </div>
 
 <!-- Content Section -->
