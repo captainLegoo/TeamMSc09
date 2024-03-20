@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+<form action="/updatePlant" method="POST">
+    <input type="hidden" name="_id" value="<%=data._id%>">
+    <table>
+        <tr>
+            <td><label>latitude</label></td>
+            <td><input type="text" name="latitude" value="<%=data.location.coordinates[0]%>"></td>
+            <td><label>longitude</label></td>
+            <td><input type="text" name="longitude" value="<%=data.location.coordinates[1]%>"></td>
+        </tr>
+
+        <tr>
+            <td><label>description</label></td>
+            <td><input type="text" name="description" value="<%=data.description%>"></td>
+            <td><label>plantSize</label></td>
+            <td><input type="text" name="plantSize" value="<%=data.plantSize%>"></td>
+        </tr>
+
+        <tr>
+            <td><label>haveFlower</label></td>
+            <td>
+                True<input type="radio" name="haveFlower" value="true" <%=(data.haveFlower===true)?'checked':''%>>
+                False<input type="radio" name="haveFlower" value="false" <%=(data.haveFlower===false)?'checked':''%>>
+            </td>
+            <td><label>haveLeaves</label></td>
+            <td>
+                True<input type="radio" name="haveLeaves" value="true" <%=(data.haveLeaves===true)?'checked':''%>>
+                False<input type="radio" name="haveLeaves" value="false" <%=(data.haveLeaves===false)?'checked':''%>>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>haveSeeds</label></td>
+            <td>
+                True<input type="radio" name="haveSeeds" value="true" <%=(data.haveSeeds===true)?'checked':''%>>
+                False<input type="radio" name="haveSeeds" value="false" <%=(data.haveSeeds===false)?'checked':''%>>
+            </td>
+            <td><label>sunExposure</label></td>
+            <td>
+                <select name="sunExposure">
+                    <option value="Full Sun" <%=(data.sunExposure==="Full Sun")?'selected':''%>>Full Sun</option>
+                    <option value="Partial Shade" <%=(data.sunExposure==="Partial Shade")?'selected':''%>>Partial Shade</option>
+                    <option value="Full Shade" <%=(data.sunExposure==="Full Shade")?'selected':''%>>Full Shade</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>flowerColor</label></td>
+            <td>
+                <select name="flowerColor">
+                    <option value="Red" <%=(data.flowerColor==="Red")?'selected':''%>>Red</option>
+                    <option value="Yellow" <%=(data.flowerColor==="Yellow")?'selected':''%>>Yellow</option>
+                    <option value="White" <%=(data.flowerColor==="White")?'selected':''%>>White</option>
+                    <option value="Purple" <%=(data.flowerColor==="Purple")?'selected':''%>>Purple</option>
+                    <option value="Orange" <%=(data.flowerColor==="Orange")?'selected':''%>>Orange</option>
+                    <option value="Green" <%=(data.flowerColor==="Green")?'selected':''%>>Green</option>
+                    <option value="Blue" <%=(data.flowerColor==="Blue")?'selected':''%>>Blue</option>
+                    <option value="Pink" <%=(data.flowerColor==="Pink")?'selected':''%>>Pink</option>
+                    <option value="Black" <%=(data.flowerColor==="Black")?'selected':''%>>Black</option>
+                    <option value="Other" <%=(data.flowerColor==="Other")?'selected':''%>>Other</option>
+                </select>
+            </td>
+            <td><label>id_name</label></td>
+            <td><input type="text" name="id_name" value="<%=data.identification.name%>"></td>
+        </tr>
+
+        <tr>
+            <td><label>id_status</label></td>
+            <td>
+                <select name="id_status">
+                    <option value="Completed" <%=(data.identification.status==="Completed")?'selected':''%>>Completed</option>
+                    <option value="In-progress" <%=(data.identification.status==="In-progress")?'selected':''%>>In-progress</option>
+                </select>
+            </td>
+            <td><label>suggestedNames</label></td>
+            <td><input type="text" name="id_suggestedNames" value="<%=data.identification.suggestedNames%>"></td>
+        </tr>
+
+        <tr>
+            <td><label>id_info_commonName</label></td>
+            <td><input type="text" name="id_info_commonName" value="<%=data.identification.dbpediaInfo.commonName%>"></td>
+            <td><label>id_info_scientificName</label></td>
+            <td><input type="text" name="id_info_scientificName" value="<%=data.identification.dbpediaInfo.scientificName%>"></td>
+        </tr>
+
+        <tr>
+            <td><label>id_info_description</label></td>
+            <td><input type="text" name="id_info_description" value="<%=data.identification.dbpediaInfo.description%>"></td>
+            <td><label>id_info_uri</label></td>
+            <td><input type="text" name="id_info_uri" value="<%=data.identification.dbpediaInfo.uri%>"></td>
+        </tr>
+
+        <tr>
+            <td><label>photo</label></td>
+            <td><input type="text" name="photo" value="<%=data.photo%>"></td>
+            <td><label>userNickname</label></td>
+            <td><input type="text" name="userNickname" value="<%=data.userNickname%>"></td>
+        </tr>
+
+    </table>
+
+
+    <button>submit</button>
+</form>
+</body>
+</html>

@@ -91,3 +91,5 @@ typings/
 .dynamodb/
 
 .idea/
+
+.DS_Store

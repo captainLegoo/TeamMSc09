@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+      function edit_form(id) {
+
+      }
+    </script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <form action="/addPlant" method="POST">
+      <table>
+        <tr>
+          <td><label>latitude</label></td>
+          <td><input type="text" name="latitude" value="21.0"></td>
+          <td><label>longitude</label></td>
+          <td><input type="text" name="longitude" value="22.0"></td>
+        </tr>
+
+        <tr>
+          <td><label>description</label></td>
+          <td><input type="text" name="description" value="some description"></td>
+          <td><label>plantSize</label></td>
+          <td><input type="text" name="plantSize" value="10"></td>
+        </tr>
+
+        <tr>
+          <td><label>haveFlower</label></td>
+          <td>
+            True<input type="radio" name="haveFlower" value="true">
+            False<input type="radio" name="haveFlower" value="false">
+          </td>
+          <td><label>haveLeaves</label></td>
+          <td>
+            True<input type="radio" name="haveLeaves" value="true">
+            False<input type="radio" name="haveLeaves" value="false">
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>haveSeeds</label></td>
+          <td>
+            True<input type="radio" name="haveSeeds" value="true">
+            False<input type="radio" name="haveSeeds" value="false">
+          </td>
+          <td><label>sunExposure</label></td>
+          <td>
+            <select name="sunExposure">
+              <option value="Full Sun">Full Sun</option>
+              <option value="Partial Shade">Partial Shade</option>
+              <option value="Full Shade">Full Shade</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td><label>flowerColor</label></td>
+          <td>
+            <select name="flowerColor">
+              <option value="Red">Red</option>
+              <option value="Yellow">Yellow</option>
+              <option value="White">White</option>
+              <option value="Purple">Purple</option>
+              <option value="Orange">Orange</option>
+              <option value="Green">Green</option>
+              <option value="Blue">Blue</option>
+              <option value="Pink">Pink</option>
+              <option value="Black">Black</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+          <td><label>id_name</label></td>
+          <td><input type="text" name="id_name" value="id_name_tmp"></td>
+        </tr>
+
+        <tr>
+          <td><label>id_status</label></td>
+          <td>
+            <select name="id_status">
+              <option value="Completed">Completed</option>
+              <option value="In-progress">In-progress</option>
+            </select>
+          </td>
+          <td><label>suggestedNames</label></td>
+          <td><input type="text" name="id_suggestedNames" value="this is suggested name"></td>
+        </tr>
+
+        <tr>
+          <td><label>id_info_commonName</label></td>
+          <td><input type="text" name="id_info_commonName" value="this is id_info_commonName"></td>
+          <td><label>id_info_scientificName</label></td>
+          <td><input type="text" name="id_info_scientificName" value="this is id_info_scientificName"></td>
+        </tr>
+
+        <tr>
+          <td><label>id_info_description</label></td>
+          <td><input type="text" name="id_info_description" value="this is id_info_description"></td>
+          <td><label>id_info_uri</label></td>
+          <td><input type="text" name="id_info_uri" value="this is id_info_uri"></td>
+        </tr>
+
+        <tr>
+          <td><label>photo</label></td>
+          <td><input type="text" name="photo" value="photo_url"></td>
+          <td><label>userNickname</label></td>
+          <td><input type="text" name="userNickname" value="randy_fake"></td>
+        </tr>
+
+      </table>
+      <button>submit</button>
+    </form>
+    <table>
+      <% for(var i = 0; i < data.length; i++) { %>
+      <tr>
+        <td><%=data[i].userNickname%></td><td><button onclick="window.location.href='edit?_id=<%=data[i]._id%>'">edit</button></td>
+      </tr>
+      <% } %>
+    </table>
+  </body>
+</html>
