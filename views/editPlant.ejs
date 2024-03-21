@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Sightings</title>
+    <link rel="stylesheet" href="stylesheets/singlePlant.css">
+</head>
+
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1 class="header-title">Plant Sightings</h1>
+        <div>
+            <button class="header-button">Home</button>
+            <button class="header-button">Overview</button>
+            <button class="header-button">Add</button>
+            <button class="header-button">Github</button>
+        </div>
+    </div>
+    <form action="/updatePlant" method="POST">
+        <input type="hidden" name="_id" value="<%=data._id%>">
+        <!-- Title and Description -->
+        <div class="title-section">
+            <h2 class="title">Add/Edit</h2>
+            <p class="description">===========================Description===========================</p>
+        </div>
+
+        <!-- Details Section -->
+        <div class="details">
+            <div class="detail-half">
+                <label class="detail-label">Name</label>
+                <label>
+                    <input class="detail-value" type="text" name="name" value="<%=data.identification.name%>">
+                </label>
+
+                <label class="detail-label">Description</label>
+                <label>
+                    <input class="detail-value" type="text" name="description" value="<%=data.description%>">
+                </label>
+
+                <label class="detail-label">Photo</label>
+                <div class="detail-photo">
+                    <!-- Assuming you have a URL for the photo -->
+                    <label>
+                        <input type="file" name="photo" value="<%=data.photo%>">
+                    </label>
+                    <img src="<%= data.photo %>" alt="Photo of <%= data.identification.name %>">
+                </div>
+            </div>
+            <div class="detail-half">
+                <div class="attribute-grid">
+                    <!-- Attributes -->
+                    <div class="attribute-item">
+                        <span class="detail-value-question">Has Flower?</span>
+                        <span class="detail-value-question">Has Leaf?</span>
+                        <span class="detail-value-question">Has Gain?</span>
+                        <span class="detail-value-question">Sun?</span>
+                        <span class="detail-value-question">Color</span>
+                        <span class="detail-value-question">Position</span>
+                        <span class="detail-value-question">DBPedia</span>
+                    </div>
+                    <div class="attribute-item">
+                        <label>
+                            True<input type="radio" name="haveFlower" value="true" <%=(data.haveFlower===true)?'checked':''%>>
+                            False<input type="radio" name="haveFlower" value="false" <%=(data.haveFlower===false)?'checked':''%>>
+                        </label>
+                        <label>
+                            True<input type="radio" name="haveLeaves" value="true" <%=(data.haveLeaves===true)?'checked':''%>>
+                            False<input type="radio" name="haveLeaves" value="false" <%=(data.haveLeaves===false)?'checked':''%>>
+                        </label>
+                        <label>
+                            True<input type="radio" name="haveSeeds" value="true" <%=(data.haveSeeds===true)?'checked':''%>>
+                            False<input type="radio" name="haveSeeds" value="false" <%=(data.haveSeeds===false)?'checked':''%>>
+                        </label>
+                        <label>
+                            <select name="sunExposure">
+                                <option value="Full Sun" <%=(data.sunExposure==="Full Sun")?'selected':''%>>Full Sun</option>
+                                <option value="Partial Shade" <%=(data.sunExposure==="Partial Shade")?'selected':''%>>Partial Shade</option>
+                                <option value="Full Shade" <%=(data.sunExposure==="Full Shade")?'selected':''%>>Full Shade</option>
+                            </select>
+                        </label>
+                        <label>
+                            <select name="flowerColor">
+                                <option value="Red" <%=(data.flowerColor==="Red")?'selected':''%>>Red</option>
+                                <option value="Yellow" <%=(data.flowerColor==="Yellow")?'selected':''%>>Yellow</option>
+                                <option value="White" <%=(data.flowerColor==="White")?'selected':''%>>White</option>
+                                <option value="Purple" <%=(data.flowerColor==="Purple")?'selected':''%>>Purple</option>
+                                <option value="Orange" <%=(data.flowerColor==="Orange")?'selected':''%>>Orange</option>
+                                <option value="Green" <%=(data.flowerColor==="Green")?'selected':''%>>Green</option>
+                                <option value="Blue" <%=(data.flowerColor==="Blue")?'selected':''%>>Blue</option>
+                                <option value="Pink" <%=(data.flowerColor==="Pink")?'selected':''%>>Pink</option>
+                                <option value="Black" <%=(data.flowerColor==="Black")?'selected':''%>>Black</option>
+                                <option value="Other" <%=(data.flowerColor==="Other")?'selected':''%>>Other</option>
+                            </select>
+                        </label>
+                        <label>
+                            <label>latitude</label>
+                            <label>
+                                <input type="text" name="latitude" value="<%=data.location.coordinates[0]%>">
+                            </label>
+                            <label>longitude</label>
+                            <label>
+                                <input type="text" name="longitude" value="<%=data.location.coordinates[1]%>">
+                            </label>
+                        </label>
+                        <!-- URL -->
+                    </div>
+                    <!-- Repeat for each attribute -->
+                </div>
+            </div>
+        </div>
+        <button type="submit">submit</button>
+    </form>
+</div>
+</body>
+
+</html>
