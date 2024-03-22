@@ -23,23 +23,23 @@
 
     <!-- Title and Description -->
     <div class="title-section">
-        <h2 class="title"><%= plant.name %></h2>
-        <p class="description">===========================<%= plant.description %>===========================</p>
+        <h2 class="title"><%= data.identification.name %></h2>
+        <p class="description">===========================<%= data.description %>===========================</p>
     </div>
 
     <!-- Details Section -->
     <div class="details">
         <div class="detail-half">
             <label class="detail-label">Name</label>
-            <div class="detail-value"><%= plant.name %></div>
+            <div class="detail-value"><%= data.identification.name %></div>
 
             <label class="detail-label">Description</label>
-            <div class="detail-value"><%= plant.description %></div>
+            <div class="detail-value"><%= data.description %></div>
 
             <label class="detail-label">Photo</label>
             <div class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
-                <img src="<%= plant.photoUrl %>" alt="Photo of <%= plant.name %>">
+                <img src="<%= data.photo %>" alt="Photo of <%= data.identification.name %>">
             </div>
         </div>
         <div class="detail-half">
@@ -55,13 +55,13 @@
                     <span class="detail-value-question">DBPedia</span>
                 </div>
                 <div class="attribute-item">
-                    <div class="detail-value-attribute"><%= plant.hasFlower ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= plant.hasLeaf ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= plant.hasGain ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= plant.sun ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= plant.color %></div>
-                    <div class="detail-value-attribute"><%= plant.position %></div>
-                    <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= plant.url %>')">URL</button>
+                    <div class="detail-value-attribute"><%= data.haveFlower ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= data.haveLeaves ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= data.haveSeeds ? 'Yes' : 'No' %></div>
+                    <div class="detail-value-attribute"><%= data.sunExposure %></div>
+                    <div class="detail-value-attribute"><%= data.flowerColor %></div>
+                    <div class="detail-value-attribute"><%= data.location.coordinates[0] %><%= data.location.coordinates[1] %></div>
+                    <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= data.identification.dbpediaInfo.uri %>')">URL</button>
                     <script>
                         function redirectToPlantPage(url) {
                             window.location.href = url;
@@ -77,9 +77,8 @@
     <div class="discussion">
         <h3 class="discussion-title">DISCUSSION FORUM</h3>
         <!-- Comments will go here -->
-        <% comments.forEach(function(comment) { %>
-            <div class="comment"><%= comment.content %></div>
-        <% }); %>
+
+        <div class="comment"></div>
 
         <!-- Comment Form -->
         <form class="comment-form" action="/add-comment" method="POST">
