@@ -102,19 +102,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/singlePlant',async (req,res) => {
+router.get('/edit',async (req,res) => {
   const _id = req.params._id;
   const urlObj = url.parse(req.url, true);
   const query = urlObj.query;
   const id = query._id;
   console.log(query._id);
   try {
-    const plant = await PlantModel.findById(id);
+    const plant = await PlantModel.findById('65ef932e7f392acbffefa873');
     if (!plant) {
       return res.status(404).json({message: 'Plant not found'});
     }
-
-    res.render('edit',{title:'aaa',data:plant});
+    res.render('editPlant',{title:'aaa',data:plant});
   } catch (error) {
     console.error('Error fetching plant records:', error);
     res.status(500).json({ message: 'Internal server error' });

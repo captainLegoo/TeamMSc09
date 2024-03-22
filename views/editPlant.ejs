@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <base href="http://localhost:3000/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Sightings</title>
@@ -45,10 +46,25 @@
                 <div class="detail-photo">
                     <!-- Assuming you have a URL for the photo -->
                     <label>
-                        <input type="file" name="photo" value="<%=data.photo%>">
+                        <input type="file" id="photoInput" name="photo" value="<%=data.photo%>">
                     </label>
-                    <img src="<%= data.photo %>" alt="Photo of <%= data.identification.name %>">
                 </div>
+                <div class="detail-photo">
+                    <img class="photoView" id="photoPreview" src="" alt="Photo preview" style="display: none;">
+                </div>
+                <script>
+                    document.getElementById('photoInput').addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            // Create a URL for the file
+                            const fileUrl = URL.createObjectURL(file);
+                            // Set the URL as the src of the <img> element
+                            document.getElementById('photoPreview').src = fileUrl;
+                            // Make sure the image is visible
+                            document.getElementById('photoPreview').style.display = 'block';
+                        }
+                    });
+                </script>
             </div>
             <div class="detail-half">
                 <div class="attribute-grid">
@@ -63,27 +79,27 @@
                         <span class="detail-value-question">DBPedia</span>
                     </div>
                     <div class="attribute-item">
-                        <label>
+                        <label class="detail-value-attribute-edit-boolean">
                             True<input type="radio" name="haveFlower" value="true" <%=(data.haveFlower===true)?'checked':''%>>
                             False<input type="radio" name="haveFlower" value="false" <%=(data.haveFlower===false)?'checked':''%>>
                         </label>
-                        <label>
+                        <label class="detail-value-attribute-edit-boolean">
                             True<input type="radio" name="haveLeaves" value="true" <%=(data.haveLeaves===true)?'checked':''%>>
                             False<input type="radio" name="haveLeaves" value="false" <%=(data.haveLeaves===false)?'checked':''%>>
                         </label>
-                        <label>
+                        <label class="detail-value-attribute-edit-boolean">
                             True<input type="radio" name="haveSeeds" value="true" <%=(data.haveSeeds===true)?'checked':''%>>
                             False<input type="radio" name="haveSeeds" value="false" <%=(data.haveSeeds===false)?'checked':''%>>
                         </label>
                         <label>
-                            <select name="sunExposure">
+                            <select name="sunExposure" class="detail-value-attribute-edit">
                                 <option value="Full Sun" <%=(data.sunExposure==="Full Sun")?'selected':''%>>Full Sun</option>
                                 <option value="Partial Shade" <%=(data.sunExposure==="Partial Shade")?'selected':''%>>Partial Shade</option>
                                 <option value="Full Shade" <%=(data.sunExposure==="Full Shade")?'selected':''%>>Full Shade</option>
                             </select>
                         </label>
                         <label>
-                            <select name="flowerColor">
+                            <select name="flowerColor" class="detail-value-attribute-edit">
                                 <option value="Red" <%=(data.flowerColor==="Red")?'selected':''%>>Red</option>
                                 <option value="Yellow" <%=(data.flowerColor==="Yellow")?'selected':''%>>Yellow</option>
                                 <option value="White" <%=(data.flowerColor==="White")?'selected':''%>>White</option>
@@ -96,17 +112,19 @@
                                 <option value="Other" <%=(data.flowerColor==="Other")?'selected':''%>>Other</option>
                             </select>
                         </label>
-                        <label>
+                        <label class = detail-value-attribute-edit-pos>
                             <label>latitude</label>
                             <label>
-                                <input type="text" name="latitude" value="<%=data.location.coordinates[0]%>">
+                                <input class="detail-value-attribute" type="text" name="latitude" value="<%=data.location.coordinates[0]%>">
                             </label>
                             <label>longitude</label>
                             <label>
-                                <input type="text" name="longitude" value="<%=data.location.coordinates[1]%>">
+                                <input class="detail-value-attribute" type="text" name="longitude" value="<%=data.location.coordinates[1]%>">
                             </label>
                         </label>
-                        <!-- URL -->
+                        <label>
+                            <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= data.identification.dbpediaInfo.uri %>')">URL</button>
+                        </label>
                     </div>
                     <!-- Repeat for each attribute -->
                 </div>

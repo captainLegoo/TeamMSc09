@@ -83,6 +83,27 @@ body {
     background-color: #ffffff;
     padding: 4px;
 }
+
+.detail-value-attribute-edit {
+    text-align: center;
+    border-radius: 10px;
+    width: 115px;
+    background-color: #ffffff;
+    padding: 4px;
+}
+.detail-value-attribute-edit-boolean {
+    text-align: center;
+    border-radius: 10px;
+    width: 120px;
+    background-color: #ffffff;
+    padding: 4px;
+}
+.detail-value-attribute-edit-pos {
+    text-align: center;
+    border-radius: 10px;
+    width: 312px;
+    padding: 4px;
+}
 .detail-value-question {
     text-align: center;
     border-radius: 10px;
@@ -151,3 +172,11 @@ body {
     padding: 8px 16px;
     border: none;
 }
+
+.photoView {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
