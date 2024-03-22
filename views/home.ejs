@@ -107,11 +107,12 @@
 
 <!-- Content Section -->
 <div class="content">
-  <div class="card">
-    <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
-    <p>这里可以放置首页内容。</p> <!-- 内容可根据需要更改 -->
-  </div>
-  <!-- Repeat the card as needed -->
+  <% plants.forEach(plan => { %>
+    <div class="card">
+      <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
+      <p><%= plan.description %></p>
+    </div>
+  <% }) %>
 </div>
 
 </body>
