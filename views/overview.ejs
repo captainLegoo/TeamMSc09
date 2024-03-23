@@ -119,6 +119,10 @@
             width: 120px; /* 统一按钮宽度 */
             height: 40px;
         }
+        .clearfix {
+            clear: both;
+        }
+
     </style>
 </head>
 <body>
@@ -126,12 +130,12 @@
 <div class="header">
     <!-- Navigation Bar -->
     <div class="navbar">
-        <div class="logo">Plant Sightings</div>
+        <div class="logo"><a href="/">Plant Sightings</a></div>
         <ul>
-            <li><a href="#" class="nav-button">Home</a></li>
-            <li><a href="#" class="nav-button">Overview</a></li>
+            <li><a href="/home" class="nav-button">Home</a></li>
+            <li><a href="/overview" class="nav-button">Overview</a></li>
             <li><a href="#" class="nav-button">Add</a></li>
-            <li><a href="#" class="nav-button">Github</a></li>
+            <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
         </ul>
     </div>
 
@@ -146,7 +150,7 @@
 <!-- Filter Section -->
 <div class="filter-bar">
     <button>All</button>
-    <button>B</button>
+    <button>My</button>
     <select class="sort-dropdown" onchange="sortImages(this.value);">
         <option value="default">默认排序</option>
         <option value="date">按日期排序</option>
@@ -156,11 +160,12 @@
 
 <!-- Content Section -->
 <div class="content">
-    <div class="card">
-        <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
-        <p>===描述===</p>
-    </div>
-    <!-- Repeat the card as needed -->
+    <% plants.forEach(plant => { %>
+        <div class="card">
+            <img src="/images/plant_logo.png" alt="Placeholder image for plant sighting">
+            <p><%= plant.description %></p>
+        </div>
+    <% }) %>
 </div>
 
 </body>
