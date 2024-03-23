@@ -107,13 +107,13 @@
 
 <!-- Content Section -->
 <div class="content">
-  <% plants.forEach(plan => { %>
+  <% plants.forEach(plant => { %>
     <div class="card">
-      <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
-      <p><%= plan.description %></p>
+      <img src="/images/plant_logo.png" alt="Placeholder image for plant sighting">
+      <p><%= plant.description %></p>
+      <p><%= plant.identification.name %></p>
     </div>
   <% }) %>
 </div>
-
 </body>
 </html>
