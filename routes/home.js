@@ -27,7 +27,7 @@ router.get('/', async (req, res, next) => {
             .sort({date: -1})
             .limit(3);
 
-        console.log(data[0].description);
+        // console.log(data);
         // Response successful
         res.render('home', {plants: data});
     } catch (err) {
