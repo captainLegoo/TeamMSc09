@@ -6,12 +6,21 @@ const PlantModel = require('../model/PlantModel');
 const {Double} = require("mongodb");
 const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const mongoose = require('mongoose');
+
+const fs = require('fs');
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 // mongoose.connect(URI)
 //     .then((result)=> console.log('connect successfully'))
 //     .catch((error) => console.log(error))
 
 // ADD PLANT
-router.post('/addPlant',function (req,res){
+router.post('/addPlant',upload.single('photo'),function (req,res){
+  let base64Image = '';
+  fs.readFile(req.file.path, (err, data) => {
+    base64Image = data.toString('base64');
+  });
+
   const plant = new PlantModel({
     date: new Date(),
     location: {
@@ -35,7 +44,7 @@ router.post('/addPlant',function (req,res){
         uri : req.body.id_info_uri,
       }
     },
-    photo : req.body.photo,
+    photo : base64Image,
     userNickname : req.body.userNickname
   });
 
