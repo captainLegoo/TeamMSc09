@@ -6,9 +6,9 @@ const PlantModel = require('../model/PlantModel');
 const {Double} = require("mongodb");
 const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const mongoose = require('mongoose');
-mongoose.connect(URI)
-    .then((result)=> console.log('connect successfully'))
-    .catch((error) => console.log(error))
+// mongoose.connect(URI)
+//     .then((result)=> console.log('connect successfully'))
+//     .catch((error) => console.log(error))
 
 // ADD PLANT
 router.post('/addPlant',function (req,res){
@@ -119,6 +119,18 @@ router.get('/singlePlant',async (req,res) => {
     console.error('Error fetching plant records:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
+})
+
+router.post('/add-comment', async (req,res) => {
+  const _id = req.body._id;
+  const _comment = req.body.comment;
+
+  const plant = await PlantModel.findById(_id);
+  plant.comment.push({msg:_comment});
+  await plant.save();
+  const allPlants = await PlantModel.findById(_id);
+
+  res.render('singlePlant',{data:allPlants,title:'randy'});
 })
 
 
