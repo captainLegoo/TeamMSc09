@@ -7,6 +7,19 @@ const {Double} = require("mongodb");
 const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const mongoose = require('mongoose');
 
+const SparqlEndpointFetcher = require('fetch-sparql-endpoint').SparqlEndpointFetcher;
+const DataFactory = require('rdf-data-factory').DataFactory;
+
+const fetcher = new SparqlEndpointFetcher({
+  method: 'POST',
+  additionalUrlParams: new URLSearchParams({ infer: 'true', sameAs: 'false' }),
+  defaultHeaders: new Headers({ 'Accept': 'application/sparql-results+json' }),
+  fetch,
+  dataFactory: new DataFactory(),
+  prefixVariableQuestionMark: false,
+  timeout: 5000,
+});
+
 const fs = require('fs');
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
@@ -122,8 +135,15 @@ router.get('/singlePlant',async (req,res) => {
     if (!plant) {
       return res.status(404).json({message: 'Plant not found'});
     }
+    //const query_name = plant.identification.dbpediaInfo.commonName
+    const query_name = ( plant.identification.dbpediaInfo.commonName==='')?plant.identification.dbpediaInfo.scientificName:plant.identification.dbpediaInfo.commonName
+    fetchData(query_name).then(results => {
+      res.render('edit',{title:'aaa',data:plant,url:results});
+    }).catch(error => {
+      console.error("Error fetching results:", error);
+    });
 
-    res.render('edit',{title:'aaa',data:plant});
+    //res.render('edit',{title:'aaa',data:plant,url:''});
   } catch (error) {
     console.error('Error fetching plant records:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -142,6 +162,37 @@ router.post('/add-comment', async (req,res) => {
   res.render('singlePlant',{data:allPlants,title:'randy'});
 })
 
+function fetchData(query_name) {
+  const endpointUrl = 'https://dbpedia.org/sparql';
+  const query = `SELECT * WHERE { ?athlete rdfs:label "${query_name}"@en } LIMIT 1`;
 
+  // Create a new promise that will handle the completion of the data collection
+  return new Promise(async (resolve, reject) => {
+    try {
+      const bindingsStream = await fetcher.fetchBindings(endpointUrl, query);
+      const results = []; // This array will collect all results
+
+      bindingsStream.on('data', (bindings) => {
+        // For each piece of data (bindings), collect all results
+        Object.keys(bindings).forEach(key => {
+          results.push(bindings[key].value);
+        });
+      });
+
+      bindingsStream.on('end', () => {
+        console.log('All data has been received.');
+        resolve(results); // Resolve the promise with all collected results once the stream ends
+      });
+
+      bindingsStream.on('error', (error) => {
+        console.error('Stream error:', error);
+        reject(error); // Reject the promise on stream error
+      });
+    } catch (error) {
+      console.error('Error fetching data from DBpedia:', error);
+      reject(error); // Reject the promise on fetching error
+    }
+  });
+}
 
 module.exports = router;
