@@ -62,9 +62,10 @@
     .card {
       border: 1px solid #ccc;
       padding: 20px;
-      margin: 0 10px;
+      margin: 75px;
       text-align: center;
       background-color: white;
+      border-radius: 10px;
     }
     .card img {
       width: 150px;
@@ -110,8 +111,8 @@
   <% plants.forEach(plant => { %>
     <div class="card">
       <img src="/images/plant_logo.png" alt="Placeholder image for plant sighting">
-      <p><%= plant.description %></p>
       <p><%= plant.identification.name %></p>
+      <p><%= plant.description %></p>
     </div>
   <% }) %>
 </div>
