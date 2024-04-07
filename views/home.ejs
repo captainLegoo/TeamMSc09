@@ -62,10 +62,9 @@
     .card {
       border: 1px solid #ccc;
       padding: 20px;
-      margin: 75px;
+      margin: 0 10px;
       text-align: center;
       background-color: white;
-      border-radius: 10px;
     }
     .card img {
       width: 150px;
@@ -89,12 +88,12 @@
 <div class="header">
   <!-- Navigation Bar -->
   <div class="navbar">
-    <div class="logo"><a href="/">Plant Sightings</a></div>
+    <div class="logo">Plant Sightings</div>
     <ul>
-      <li><a href="/home" class="nav-button">Home</a></li>
-      <li><a href="/overview" class="nav-button">Overview</a></li>
+      <li><a href="#" class="nav-button">Home</a></li>
+      <li><a href="#" class="nav-button">Overview</a></li>
       <li><a href="#" class="nav-button">Add</a></li>
-      <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
+      <li><a href="#" class="nav-button">Github</a></li>
     </ul>
   </div>
 
@@ -108,13 +107,12 @@
 
 <!-- Content Section -->
 <div class="content">
-  <% plants.forEach(plant => { %>
-    <div class="card">
-      <img src="/images/plant_logo.png" alt="Placeholder image for plant sighting">
-      <p><%= plant.identification.name %></p>
-      <p><%= plant.description %></p>
-    </div>
-  <% }) %>
+  <div class="card">
+    <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
+    <p>这里可以放置首页内容。</p> <!-- 内容可根据需要更改 -->
+  </div>
+  <!-- Repeat the card as needed -->
 </div>
+
 </body>
 </html>
