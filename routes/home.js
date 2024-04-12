@@ -11,7 +11,7 @@ function onDatabaseConnect() {
 function onDatabaseError() {
     console.error("Failed to connect to the database");
 }
-connectToDatabase(onDatabaseConnect, onDatabaseError);
+//connectToDatabase(onDatabaseConnect, onDatabaseError);
 
 
 router.get('/', async (req, res, next) => {
