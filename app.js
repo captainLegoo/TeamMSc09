@@ -8,7 +8,6 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var modifyRouter = require('./routes/modify');
 var overviewRouter = require('./routes/overview');
-var singlePlantRouter = require('./routes/singlePlant');
 
 var app = express();
 app.use(express.static('public'));
@@ -27,7 +26,6 @@ app.use('/', indexRouter);
 app.use('/modify', modifyRouter);
 app.use('/home', homeRouter);
 app.use('/overview', overviewRouter);
-app.use('/singlePlant', singlePlantRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
