@@ -26,29 +26,29 @@
         <!-- Title and Description -->
         <div class="title-section">
             <h2 class="title">Add/Edit</h2>
-            <p class="description">===========================Description===========================</p>
+            <p class="description">===========================<%=data.description%>===========================</p>
         </div>
 
         <!-- Details Section -->
         <div class="details">
             <div class="detail-half">
-                <label class="detail-label">Name</label>
-                <label>
-                    <input class="detail-value" type="text" name="name" value="<%=data.identification.name%>">
-                </label>
+                <div class="detail-label">Name</div>
+                <div class="detail-value">
+                    <input type="text" name="name" value="<%=data.identification.name%>">
+                </div>
 
-                <label class="detail-label">Description</label>
-                <label>
-                    <input class="detail-value" type="text" name="description" value="<%=data.description%>">
-                </label>
+                <div class="detail-label">Description</div>
+                <div class="detail-value">
+                    <input type="text" name="description" value="<%=data.description%>">
+                </div>
 
-                <label class="detail-label">Photo</label>
-                <div class="detail-photo">
+                <div class="detail-label">Photo</div>
+                <label class="detail-photo">
                     <!-- Assuming you have a URL for the photo -->
                     <label>
                         <input type="file" id="photoInput" name="photo" value="<%=data.photo%>">
                     </label>
-                </div>
+                </label>
                 <div class="detail-photo">
                     <img class="photoView" id="photoPreview" src="" alt="Photo preview" style="display: none;">
                 </div>

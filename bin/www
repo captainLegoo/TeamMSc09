@@ -88,3 +88,26 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+//create socket.io
+const io = require('socket.io')(http);
+var clients = 0;
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  clients++;
+  //send a welcome message
+  io.sockets.emit("welcome", {description: "Hello and Welcome to the Server"});
+  //send n. of clients connected
+  io.sockets.emit('n_clients',{description: clients + ' clients connected!'});
+  //handle disconnection event
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+    clients--;
+    io.sockets.emit('n_clients',{description: clients + ' clients connected!'});
+  });
+  socket.on('chat message', msg => {
+    io.emit('chat message', msg);
+    console.log('chat message', socket.id + msg);
+  });
+});
+
