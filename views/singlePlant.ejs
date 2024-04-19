@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Sightings</title>
     <link rel="stylesheet" href="stylesheets/singlePlant.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 
 <body>
@@ -31,17 +32,17 @@
     <!-- Details Section -->
     <div class="details">
         <div class="detail-half">
-            <label class="detail-label">Name</label>
+            <div class="detail-label">Name</div>
             <div class="detail-value"><%= data.identification.name %></div>
 
-            <label class="detail-label">Description</label>
+            <div class="detail-label">Description</div>
             <div class="detail-value"><%= data.description %></div>
 
-            <label class="detail-label">Photo</label>
-            <div class="detail-photo">
+            <div class="detail-label">Photo</div>
+            <label  class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
                 <img src="<%= data.photo %>" alt="Photo of <%= data.identification.name %>">
-            </div>
+            </label>
         </div>
         <div class="detail-half">
             <div class="attribute-grid">
@@ -76,16 +77,30 @@
 
     <!-- Discussion Section -->
     <div class="discussion">
-        <h3 class="discussion-title">DISCUSSION FORUM</h3>
-        <!-- Comments will go here -->
+        <div class="chat-container">
+            <h3 class="discussion-title">DISCUSSION FORUM</h3>
+            <form id="chat-history" class="comment-history-form"></form>
+            <form class="comment-form" action="/add-comment" method="POST">
+                <textarea type="text" id="chat-input" name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
+                <button onclick="sendMessage()">Send</button>
+            </form>
+        </div>
 
-        <div class="comment"></div>
+        <script>
+            var socket = io();  // Connect to the server through socket
 
-        <!-- Comment Form -->
-        <form class="comment-form" action="/add-comment" method="POST">
-            <textarea name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
-            <button type="submit">Submit</button>
-        </form>
+            socket.on('message', function(msg) {
+                var messageElement = document.createElement('div');
+                messageElement.textContent = msg;
+                document.getElementById('chat-history').appendChild(messageElement);
+            });
+
+            function sendMessage() {
+                var message = document.getElementById('chat-input').value;
+                socket.emit('message', message);
+                document.getElementById('chat-input').value = '';  // Clear input after sending
+            }
+        </script>
     </div>
 </div>
 </body>
