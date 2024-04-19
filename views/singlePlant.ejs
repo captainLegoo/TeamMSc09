@@ -95,12 +95,21 @@
                 document.getElementById('chat-history').appendChild(messageElement);
             });
 
+
             function sendMessage() {
                 var message = document.getElementById('chat-input').value;
                 socket.emit('message', message);
                 document.getElementById('chat-input').value = '';  // Clear input after sending
             }
         </script>
+
+        <!-- Comment Form -->
+        <form class="comment-form" action="modify/add-comment" method="POST">
+            <input type="hidden" name = "_id" value="<%=data._id%>">
+            <textarea name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+
     </div>
 </div>
 </body>

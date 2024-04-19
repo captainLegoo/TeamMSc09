@@ -1,3 +1,5 @@
+<link rel="manifest" href="/manifest.json">
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,9 +86,10 @@
         .card {
             border: 1px solid #ccc;
             padding: 20px;
-            margin: 0 10px;
+            margin: 75px;
             text-align: center;
             background-color: white;
+            border-radius: 10px;
         }
         .card img {
             width: 150px;
@@ -119,6 +122,10 @@
             width: 120px; /* 统一按钮宽度 */
             height: 40px;
         }
+        .clearfix {
+            clear: both;
+        }
+
     </style>
 </head>
 <body>
@@ -126,12 +133,12 @@
 <div class="header">
     <!-- Navigation Bar -->
     <div class="navbar">
-        <div class="logo">Plant Sightings</div>
+        <div class="logo"><a href="/">Plant Sightings</a></div>
         <ul>
-            <li><a href="#" class="nav-button">Home</a></li>
-            <li><a href="#" class="nav-button">Overview</a></li>
+            <li><a href="/home" class="nav-button">Home</a></li>
+            <li><a href="/overview" class="nav-button">Overview</a></li>
             <li><a href="#" class="nav-button">Add</a></li>
-            <li><a href="#" class="nav-button">Github</a></li>
+            <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
         </ul>
     </div>
 
@@ -145,23 +152,63 @@
 
 <!-- Filter Section -->
 <div class="filter-bar">
-    <button>All</button>
-    <button>B</button>
-    <select class="sort-dropdown" onchange="sortImages(this.value);">
-        <option value="default">默认排序</option>
+    <select class="sort-dropdown" id="sortDropdown">
         <option value="date">按日期排序</option>
         <option value="name">按名称排序</option>
+        <option value="distance">按距离排序</option>
     </select>
 </div>
 
+
 <!-- Content Section -->
-<div class="content">
-    <div class="card">
-        <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
-        <p>===描述===</p>
-    </div>
-    <!-- Repeat the card as needed -->
+<div class="content" style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
+    <% plants.forEach((plant, index) => { %>
+        <div class="card">
+            <img src="/images/plant_logo.png" alt="Placeholder image for plant sighting">
+            <p><%= plant.description %></p>
+            <p><%= plant.identification.name %></p>
+        </div>
+        <% if ((index + 1) % 4 === 0) { %>
+            <div style="flex-basis: 100%; height: 0;"></div>
+        <% } %>
+    <% }) %>
 </div>
 
+<script>
+    document.getElementById('sortDropdown').addEventListener('change', function() {
+        var sortValue = this.value;
+
+        if (sortValue === 'distance') {
+            // 使用HTML5 Geolocation API获取用户的当前位置
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    // 重定向到服务器并附加排序方式和位置信息
+                    window.location.href = `/overview?sort=${sortValue}&lat=${lat}&lng=${lng}`;
+                }, function() {
+                    alert('无法获取您的位置信息，请选择其他排序方式。');
+                });
+            } else {
+                alert('您的浏览器不支持地理定位，无法使用按距离排序。');
+            }
+        } else if (sortValue) {
+            // 对于非距离排序，只需重定向并附加排序方式
+            window.location.href = `/overview?sort=${sortValue}`;
+        }
+    });
+</script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+</script>
 </body>
 </html>

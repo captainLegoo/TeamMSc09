@@ -82,7 +82,17 @@ let PlantSchema = new mongoose.Schema({
     userNickname: {
         type: String,
         required: true
-    }
+    },
+    comment : [
+        {
+            data:{
+                type:Date,default:Date.now
+            },
+            msg:{
+                type:String
+            }
+        }
+    ]
 });
 
 let PlantModel = mongoose.model('plants', PlantSchema);
