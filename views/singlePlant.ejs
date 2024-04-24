@@ -41,7 +41,7 @@
             <div class="detail-label">Photo</div>
             <label  class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
-                <img src="<%= data.photo %>" alt="Photo of <%= data.identification.name %>">
+                <img src="data:image/png;base64, <%= data.photo %>" alt="Photo of <%= data.identification.name %>">
             </label>
         </div>
         <div class="detail-half">
