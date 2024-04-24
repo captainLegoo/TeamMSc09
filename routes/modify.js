@@ -23,9 +23,9 @@ const fetcher = new SparqlEndpointFetcher({
 const fs = require('fs');
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
-// mongoose.connect(URI)
-//     .then((result)=> console.log('connect successfully'))
-//     .catch((error) => console.log(error))
+mongoose.connect(URI)
+    .then((result)=> console.log('connect successfully'))
+    .catch((error) => console.log(error))
 
 // ADD PLANT
 router.post('/addPlant',upload.single('photo'),function (req,res){
@@ -131,6 +131,7 @@ router.get('/edit',async (req,res) => {
   const id = query._id;
   console.log(query._id);
   try {
+    //http://localhost:3000/modify/edit?_id=65ef932e7f392acbffefa873
     const plant = await PlantModel.findById('65ef932e7f392acbffefa873');
     if (!plant) {
       return res.status(404).json({message: 'Plant not found'});
@@ -139,7 +140,7 @@ router.get('/edit',async (req,res) => {
     //const query_name = plant.identification.dbpediaInfo.commonName
     const query_name = ( plant.identification.dbpediaInfo.commonName==='')?plant.identification.dbpediaInfo.scientificName:plant.identification.dbpediaInfo.commonName
     fetchData(query_name).then(results => {
-      res.render('edit',{title:'aaa',data:plant,url:results});
+      res.render('editPlant',{title:'aaa',data:plant,url:results});
     }).catch(error => {
       console.error("Error fetching results:", error);
     });
@@ -162,7 +163,7 @@ router.post('/add-comment', async (req,res) => {
   await plant.save();
   const allPlants = await PlantModel.findById(_id);
 
-  res.render('singlePlant',{data:allPlants,title:'randy'});
+  res.render('addPlant',{data:allPlants,title:'randy'});
 })
 
 function fetchData(query_name) {

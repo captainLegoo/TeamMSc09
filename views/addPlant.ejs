@@ -5,7 +5,7 @@
     <base href="http://localhost:3000/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Edit</title>
+    <title>Plant Add</title>
     <link rel="stylesheet" href="stylesheets/singlePlant.css">
 </head>
 
@@ -21,12 +21,12 @@
             <button class="header-button">Github</button>
         </div>
     </div>
-    <form action="/modify/updatePlant" method="POST">
+    <form action="/modify/addPlant" method="POST">
         <input type="hidden" name="_id" value="<%=data._id%>">
         <!-- Title and Description -->
         <div class="title-section">
-            <h2 class="title">Edit</h2>
-            <p class="description">===========================<%=data.description%>===========================</p>
+            <h2 class="title">Add</h2>
+            <p class="description">===========================Description===========================</p>
         </div>
 
         <!-- Details Section -->
@@ -34,19 +34,19 @@
             <div class="detail-half">
                 <div class="detail-label">Name</div>
                 <div class="detail-value">
-                    <input type="text" name="name" value="<%=data.identification.name%>">
+                    <input type="text" name="name" value="">
                 </div>
 
                 <div class="detail-label">Description</div>
                 <div class="detail-value">
-                    <input type="text" name="description" value="<%=data.description%>">
+                    <input type="text" name="description" value="">
                 </div>
 
                 <div class="detail-label">Photo</div>
                 <label class="detail-photo">
                     <!-- Assuming you have a URL for the photo -->
                     <label>
-                        <input type="file" id="photoInput" name="photo" value="<%=data.photo%>">
+                        <input type="file" id="photoInput" name="photo" value="">
                     </label>
                 </label>
                 <div class="detail-photo">
@@ -82,56 +82,56 @@
                     </div>
                     <div class="attribute-item">
                         <label class="detail-value-attribute-edit-boolean">
-                            True<input type="radio" name="haveFlower" value="true" <%=(data.haveFlower===true)?'checked':''%>>
-                            False<input type="radio" name="haveFlower" value="false" <%=(data.haveFlower===false)?'checked':''%>>
+                            True<input type="radio" name="haveFlower" value="true">
+                            False<input type="radio" name="haveFlower" value="false">
                         </label>
                         <label class="detail-value-attribute-edit-boolean">
-                            True<input type="radio" name="haveLeaves" value="true" <%=(data.haveLeaves===true)?'checked':''%>>
-                            False<input type="radio" name="haveLeaves" value="false" <%=(data.haveLeaves===false)?'checked':''%>>
+                            True<input type="radio" name="haveLeaves" value="true">
+                            False<input type="radio" name="haveLeaves" value="false">
                         </label>
                         <label class="detail-value-attribute-edit-boolean">
-                            True<input type="radio" name="haveSeeds" value="true" <%=(data.haveSeeds===true)?'checked':''%>>
-                            False<input type="radio" name="haveSeeds" value="false" <%=(data.haveSeeds===false)?'checked':''%>>
+                            True<input type="radio" name="haveSeeds" value="true">
+                            False<input type="radio" name="haveSeeds" value="false">
                         </label>
                         <label>
                             <select name="sunExposure" class="detail-value-attribute-edit">
-                                <option value="Full Sun" <%=(data.sunExposure==="Full Sun")?'selected':''%>>Full Sun</option>
-                                <option value="Partial Shade" <%=(data.sunExposure==="Partial Shade")?'selected':''%>>Partial Shade</option>
-                                <option value="Full Shade" <%=(data.sunExposure==="Full Shade")?'selected':''%>>Full Shade</option>
+                                <option value="Full Sun">Full Sun</option>
+                                <option value="Partial Shade">Partial Shade</option>
+                                <option value="Full Shade">Full Shade</option>
                             </select>
                         </label>
                         <label>
                             <select name="flowerColor" class="detail-value-attribute-edit">
-                                <option value="Red" <%=(data.flowerColor==="Red")?'selected':''%>>Red</option>
-                                <option value="Yellow" <%=(data.flowerColor==="Yellow")?'selected':''%>>Yellow</option>
-                                <option value="White" <%=(data.flowerColor==="White")?'selected':''%>>White</option>
-                                <option value="Purple" <%=(data.flowerColor==="Purple")?'selected':''%>>Purple</option>
-                                <option value="Orange" <%=(data.flowerColor==="Orange")?'selected':''%>>Orange</option>
-                                <option value="Green" <%=(data.flowerColor==="Green")?'selected':''%>>Green</option>
-                                <option value="Blue" <%=(data.flowerColor==="Blue")?'selected':''%>>Blue</option>
-                                <option value="Pink" <%=(data.flowerColor==="Pink")?'selected':''%>>Pink</option>
-                                <option value="Black" <%=(data.flowerColor==="Black")?'selected':''%>>Black</option>
-                                <option value="Other" <%=(data.flowerColor==="Other")?'selected':''%>>Other</option>
+                                <option value="Red">Red</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="White">White</option>
+                                <option value="Purple">Purple</option>
+                                <option value="Orange">Orange</option>
+                                <option value="Green">Green</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Pink">Pink</option>
+                                <option value="Black">Black</option>
+                                <option value="Other">Other</option>
                             </select>
                         </label>
                         <label>
-                            <input class="detail-value-attribute" type="text" name="plantSize" value="<%=data.plantSize%>">
+                            <input class="detail-value-attribute" type="text" name="plantSize" value="">
                         </label>
                         <label class = detail-value-attribute-edit-pos>
                             <label>latitude</label>
                             <label>
-                                <input class="detail-value-attribute-pos-input" type="text" name="latitude" value="<%=data.location.coordinates[0]%>">
+                                <input class="detail-value-attribute-pos-input" type="text" name="latitude" value="">
                             </label>
                             <label>longitude</label>
                             <label>
-                                <input class="detail-value-attribute-pos-input" type="text" name="longitude" value="<%=data.location.coordinates[1]%>">
+                                <input class="detail-value-attribute-pos-input" type="text" name="longitude" value="">
                             </label>
                         </label>
                         <label>
-                            <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= data.identification.dbpediaInfo.uri %>')">URL</button>
+                            <input class="detail-value-attribute" type="text" name="URL" value="">
                         </label>
                         <label>
-                            <input class="detail-value-attribute" type="text" name="nickName" value="<%=data.userNickname%>">
+                            <input class="detail-value-attribute" type="text" name="nickName" value="">
                         </label>
                     </div>
                     <!-- Repeat for each attribute -->
