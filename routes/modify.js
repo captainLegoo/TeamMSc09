@@ -170,7 +170,9 @@ router.get('/edit',async (req,res) => {
 router.post('/add-comment', async (req,res) => {
   const _id = req.body._id;
   const _comment = req.body.comment;
-
+  console.log(_id)
+  console.log(_comment)
+  console.log("ok")
   const plant = await PlantModel.findById(_id);
   plant.comment.push({msg:_comment});
   await plant.save();

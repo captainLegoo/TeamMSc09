@@ -84,7 +84,12 @@
         <div class="chat-container">
             <h3 class="discussion-title">DISCUSSION FORUM</h3>
             <form class="comment-history-form" action="">
-                <ul id="message"></ul>
+                <ul id="message">
+                    <% data.comment.forEach(function(msg) { %>
+                        <li><%= msg.msg %></li>
+                    <% }); %>
+                </ul>
+
             </form>
             <form id="chat-send" class="comment-form">
                 <textarea id="chat-input" name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
@@ -99,12 +104,16 @@
             var messageList = document.getElementById('message');
 
             form.addEventListener('submit', function(e) {
+
                 e.preventDefault();
                 if (input.value) {
+                    record2DB(input.value);
                     socket.emit('chat message', input.value);
                     input.value = '';
                 }
             });
+
+
 
             socket.on('chat message', function(msg) {
                 var messageElement = document.createElement('li');
@@ -116,5 +125,31 @@
     </div>
 </div>
 </body>
+<script>
+    function record2DB(msg){
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var params = new URLSearchParams(url.search);
+        var _id = params.get('_id');
+        data = {
+            _id:_id,
+            comment:msg
+        }
+        fetch('http://localhost:3000/modify/add-comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // 設置請求的 Content-Type
+            },
+            body: JSON.stringify(data), // 將數據轉換為 JSON 字符串並設置為請求的主體
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 </html>
