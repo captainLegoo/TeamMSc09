@@ -124,7 +124,8 @@ router.get('/plants', async (req, res) => {
 // /* GET home page. */
 router.get('/', async (req, res) => {
   try {
-    const allPlants = await PlantModel.findById('662928a624119266a5d177fd');
+    const plantId = req.query.id;
+    const allPlants = await PlantModel.findById(plantId);
     res.render('singlePlant',{data:allPlants,title:'randy'});
   } catch (error) {
     console.error('Error fetching plant records:', error);
