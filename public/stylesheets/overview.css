@@ -100,17 +100,17 @@ body {
     background-color: rgba(255, 255, 255, 0.2); /* 添加淡白色背景 */
     color: #ffffff; /* 文本颜色保持不变，即使在淡白色背景上也能看清 */
 }
-/* 排序下拉菜单样式 */
+
 .sort-dropdown {
     padding: 10px 20px;
-    margin-left: 10px; /* 与其他按钮保持一致的外边距 */
-    border: 2px solid #4CAF50; /* 边框颜色 */
-    border-radius: 5px; /* 圆角效果 */
+    margin-left: 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
     background-color: white;
     color: #4CAF50;
     cursor: pointer;
-    outline: none; /* 去掉点击时的轮廓 */
-    width: 120px; /* 统一按钮宽度 */
+    outline: none;
+    width: 200px;
     height: 40px;
 }
 .clearfix {
