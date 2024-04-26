@@ -104,7 +104,7 @@ router.post('/updatePlant', async (req, res)=>{
   plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
   //plant.photo = req.body.photo;
   plant.userNickname = req.body.userNickname;
-
+  plant.userId = req.cookies.userId;
   await plant.save();
   //res.redirect('home');
   res.render("home")
@@ -124,6 +124,11 @@ router.get('/plants', async (req, res) => {
 // /* GET home page. */
 router.get('/', async (req, res) => {
   try {
+    var userId = req.cookies.userId;
+    if (userId == null) {
+      res.redirect('/home');
+      return;
+    }
     const plantId = req.query.id;
     const allPlants = await PlantModel.findById(plantId);
     res.render('singlePlant',{data:allPlants,title:'randy'});
@@ -157,7 +162,7 @@ router.get('/edit',async (req,res) => {
 
     //res.render('edit',{title:'aaa',data:plant,url:''});
     //res.render('editPlant',{title:'aaa',data:plant});
-    
+
   } catch (error) {
     console.error('Error fetching plant records:', error);
     res.status(500).json({ message: 'Internal server error' });
