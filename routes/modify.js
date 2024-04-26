@@ -66,18 +66,14 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
     plant.save()
         .then(() => {
           console.log('New plant record created successfully!');
-          res.render('home',{title:'successfully added'})
+          res.render('success',{title:'successfully added'})
         })
         .catch((err) => {
           console.error('Error creating plant record:', err);
-          res.render('home',{title:'failed to add'});
+          res.render('success',{title:'failed to add'});
         });
   });
   // console.log(base64Image)
-
-
-
-
 })
 
 router.get('/addPlant',function (req,res){
