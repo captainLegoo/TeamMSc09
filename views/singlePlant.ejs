@@ -2,10 +2,13 @@
 <html lang="en">
 
 <head>
+    <base href="http://localhost:3000/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Sightings</title>
     <link rel="stylesheet" href="stylesheets/singlePlant.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <link rel="manifest" href="/public/manifest.json">
 </head>
 
 <body>
@@ -30,17 +33,17 @@
     <!-- Details Section -->
     <div class="details">
         <div class="detail-half">
-            <label class="detail-label">Name</label>
+            <div class="detail-label">Name</div>
             <div class="detail-value"><%= data.identification.name %></div>
 
-            <label class="detail-label">Description</label>
+            <div class="detail-label">Description</div>
             <div class="detail-value"><%= data.description %></div>
 
-            <label class="detail-label">Photo</label>
-            <div class="detail-photo">
+            <div class="detail-label">Photo</div>
+            <label  class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
-                <img src="<%= data.photo %>" alt="Photo of <%= data.identification.name %>">
-            </div>
+                <img src="data:image/png;base64, <%= data.photo %>" alt="Photo of <%= data.identification.name %>">
+            </label>
         </div>
         <div class="detail-half">
             <div class="attribute-grid">
@@ -51,8 +54,10 @@
                     <span class="detail-value-question">Has Gain?</span>
                     <span class="detail-value-question">Sun?</span>
                     <span class="detail-value-question">Color</span>
+                    <span class="detail-value-question">Plant Size</span>
                     <span class="detail-value-question">Position</span>
                     <span class="detail-value-question">DBPedia</span>
+                    <span class="detail-value-question">Your Nick Name</span>
                 </div>
                 <div class="attribute-item">
                     <div class="detail-value-attribute"><%= data.haveFlower ? 'Yes' : 'No' %></div>
@@ -60,8 +65,10 @@
                     <div class="detail-value-attribute"><%= data.haveSeeds ? 'Yes' : 'No' %></div>
                     <div class="detail-value-attribute"><%= data.sunExposure %></div>
                     <div class="detail-value-attribute"><%= data.flowerColor %></div>
+                    <div class="detail-value-attribute"><%= data.plantSize %></div>
                     <div class="detail-value-attribute"><%= data.location.coordinates[0] %><%= data.location.coordinates[1] %></div>
                     <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= data.identification.dbpediaInfo.uri %>')">URL</button>
+                    <div class="detail-value-attribute"><%= data.userNickname %></div>
                     <script>
                         function redirectToPlantPage(url) {
                             window.location.href = url;
@@ -75,18 +82,75 @@
 
     <!-- Discussion Section -->
     <div class="discussion">
-        <h3 class="discussion-title">DISCUSSION FORUM</h3>
-        <!-- Comments will go here -->
+        <div class="chat-container">
+            <h3 class="discussion-title">DISCUSSION FORUM</h3>
+            <form class="comment-history-form" action="">
+                <ul id="message">
+                    <% data.comment.forEach(function(msg) { %>
+                        <li><%= msg.msg %></li>
+                    <% }); %>
+                </ul>
 
-        <div class="comment"></div>
+            </form>
+            <form id="chat-send" class="comment-form">
+                <textarea id="chat-input" name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
 
-        <!-- Comment Form -->
-        <form class="comment-form" action="/add-comment" method="POST">
-            <textarea name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
-            <button type="submit">Submit</button>
-        </form>
+        <script>
+            var socket = io();
+            var form = document.getElementById('chat-send');
+            var input = document.getElementById('chat-input');
+            var messageList = document.getElementById('message');
+
+            form.addEventListener('submit', function(e) {
+
+                e.preventDefault();
+                if (input.value) {
+                    record2DB(input.value);
+                    socket.emit('chat message', input.value);
+                    input.value = '';
+                }
+            });
+
+
+
+            socket.on('chat message', function(msg) {
+                var messageElement = document.createElement('li');
+                messageElement.textContent = msg;
+                messageList.appendChild(messageElement);
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+        </script>
     </div>
 </div>
 </body>
+<script>
+    function record2DB(msg){
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var params = new URLSearchParams(url.search);
+        var _id = params.get('_id');
+        data = {
+            _id:_id,
+            comment:msg
+        }
+        fetch('http://localhost:3000/modify/add-comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // 設置請求的 Content-Type
+            },
+            body: JSON.stringify(data), // 將數據轉換為 JSON 字符串並設置為請求的主體
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 
 </html>

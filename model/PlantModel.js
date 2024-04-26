@@ -82,9 +82,23 @@ let PlantSchema = new mongoose.Schema({
     userNickname: {
         type: String,
         required: true
-    }
+    },
+    userId: {
+        type: String,
+        required: true
+    },
+    comment : [
+        {
+            data:{
+                type:Date,default:Date.now
+            },
+            msg:{
+                type:String
+            }
+        }
+    ]
 });
-
+// PlantSchema.index({ location: '2dsphere' });
 let PlantModel = mongoose.model('plants', PlantSchema);
 
 module.exports = PlantModel;

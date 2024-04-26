@@ -3,6 +3,7 @@
 <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="manifest" href="/public/manifest.json">
 </head>
 <body>
 <h1><%= title %></h1>
@@ -96,7 +97,7 @@
             <td><label>id_info_description</label></td>
             <td><input type="text" name="id_info_description" value="<%=data.identification.dbpediaInfo.description%>"></td>
             <td><label>id_info_uri</label></td>
-            <td><input type="text" name="id_info_uri" value="<%=data.identification.dbpediaInfo.uri%>"></td>
+            <td><input type="text" name="id_info_uri" value="<%=url%>"></td>
         </tr>
 
         <tr>

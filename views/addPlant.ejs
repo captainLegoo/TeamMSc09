@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="http://localhost:3000/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Add</title>
+    <link rel="stylesheet" href="stylesheets/singlePlant.css">
+</head>
+
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1 class="header-title">Plant Sightings</h1>
+        <div>
+            <button class="header-button">Home</button>
+            <button class="header-button">Overview</button>
+            <button class="header-button">Add</button>
+            <button class="header-button">Github</button>
+        </div>
+    </div>
+    <form action="/modify/addPlant" method="POST" enctype="multipart/form-data">
+        <!-- Title and Description -->
+        <div class="title-section">
+            <h2 class="title">Add</h2>
+            <p class="description">===========================Description===========================</p>
+        </div>
+
+        <!-- Details Section -->
+        <div class="details">
+            <div class="detail-half">
+                <div class="detail-label">Name</div>
+                <div class="detail-value">
+                    <input type="text" name="name" value="">
+                </div>
+
+                <div class="detail-label">Description</div>
+                <div class="detail-value">
+                    <input type="text" name="description" value="">
+                </div>
+
+                <div class="detail-label">Photo</div>
+                <label class="detail-photo">
+                    <!-- Assuming you have a URL for the photo -->
+                    <label>
+                        <input type="file" id="photo" name="photo" value="">
+                    </label>
+                </label>
+                <div class="detail-photo">
+                    <img class="photoView" id="photoPreview" src="" alt="Photo preview" style="display: none;">
+                </div>
+                <script>
+                    document.getElementById('photo').addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                            // Create a URL for the file
+                            const fileUrl = URL.createObjectURL(file);
+                            // Set the URL as the src of the <img> element
+                            document.getElementById('photoPreview').src = fileUrl;
+                            // Make sure the image is visible
+                            document.getElementById('photoPreview').style.display = 'block';
+                        }
+                    });
+                </script>
+            </div>
+            <div class="detail-half">
+                <div class="attribute-grid">
+                    <!-- Attributes -->
+                    <div class="attribute-item">
+                        <span class="detail-value-question">Has Flower?</span>
+                        <span class="detail-value-question">Has Leaf?</span>
+                        <span class="detail-value-question">Has Gain?</span>
+                        <span class="detail-value-question">Sun?</span>
+                        <span class="detail-value-question">Color</span>
+                        <span class="detail-value-question">Plant Size</span>
+                        <span class="detail-value-question">Position</span>
+                        <span class="detail-value-question">DBPedia</span>
+                        <span class="detail-value-question">Your Nick Name</span>
+                    </div>
+                    <div class="attribute-item">
+                        <label class="detail-value-attribute-edit-boolean">
+                            True<input type="radio" name="haveFlower" value="true">
+                            False<input type="radio" name="haveFlower" value="false">
+                        </label>
+                        <label class="detail-value-attribute-edit-boolean">
+                            True<input type="radio" name="haveLeaves" value="true">
+                            False<input type="radio" name="haveLeaves" value="false">
+                        </label>
+                        <label class="detail-value-attribute-edit-boolean">
+                            True<input type="radio" name="haveSeeds" value="true">
+                            False<input type="radio" name="haveSeeds" value="false">
+                        </label>
+                        <label>
+                            <select name="sunExposure" class="detail-value-attribute-edit">
+                                <option value="Full Sun">Full Sun</option>
+                                <option value="Partial Shade">Partial Shade</option>
+                                <option value="Full Shade">Full Shade</option>
+                            </select>
+                        </label>
+                        <label>
+                            <select name="flowerColor" class="detail-value-attribute-edit">
+                                <option value="Red">Red</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="White">White</option>
+                                <option value="Purple">Purple</option>
+                                <option value="Orange">Orange</option>
+                                <option value="Green">Green</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Pink">Pink</option>
+                                <option value="Black">Black</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </label>
+                        <label>
+                            <input class="detail-value-attribute" type="text" name="plantSize" value="">
+                        </label>
+                        <label class = detail-value-attribute-edit-pos>
+                            <label>latitude</label>
+                            <label>
+                                <input class="detail-value-attribute-pos-input" type="text" name="latitude" value="">
+                            </label>
+                            <label>longitude</label>
+                            <label>
+                                <input class="detail-value-attribute-pos-input" type="text" name="longitude" value="">
+                            </label>
+                        </label>
+                        <label>
+                            <input class="detail-value-attribute" type="text" name="URL" value="">
+                        </label>
+                        <label>
+                            <input class="detail-value-attribute" type="text" name="userNickname" value="">
+                        </label>
+                    </div>
+                    <!-- Repeat for each attribute -->
+                </div>
+            </div>
+        </div>
+        <button type="submit">submit</button>
+    </form>
+</div>
+</body>
+
+</html>
