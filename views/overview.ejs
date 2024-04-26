@@ -45,14 +45,14 @@
 <!-- Content Section -->
 <div class="content" style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
     <% plants.forEach((plant, index) => { %>
-    <div class="card">
-        <img src="<%= plant.photo %>" alt="Placeholder image for plant sighting">
-        <p><%= plant.description %></p>
-        <p><%= plant.identification.name %></p>
-    </div>
-    <% if ((index + 1) % 4 === 0) { %>
-        <div style="flex-basis: 100%; height: 0;"></div>
-    <% } %>
+        <div class="card">
+            <img src="<%= plant.photo %>" alt="Placeholder image for plant sighting">
+            <p><%= plant.description %></p>
+            <p><%= plant.identification.name %></p>
+        </div>
+        <% if ((index + 1) % 4 === 0) { %>
+            <div style="flex-basis: 100%; height: 0;"></div>
+        <% } %>
     <% }) %>
 </div>
 
@@ -62,21 +62,36 @@
 
         if (sortValue === 'distance') {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-                    console.log('1 --> lat:', lat, 'lng:', lng);
-                    window.location.href = `/overview?sort=${sortValue}&lat=${lat}&lng=${lng}`;
-                }, function(error) {
-                    console.log('2 --> lat:', lat, 'lng:', lng);
-                    console.error('getting location failed:', error.message);
-                    alert('Unable to retrieve your location information, please choose another sorting method.');
-                });
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
             } else {
-                alert('Your browser does not support geolocation and sorting by distance cannot be used.');
+                alert("Geolocation is not supported by this browser.");
             }
         } else {
             window.location.href = `/overview?sort=${sortValue}`;
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            window.location.href = `/overview?sort=${sortValue}&lat=${lat}&lng=${lng}`;
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
         }
     });
 
