@@ -6,12 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Sightings</title>
-    <link rel="stylesheet" href="stylesheets/singlePlant.css">
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/singlePlant.css">
+    <script type="text/javascript" src="/javascripts/commentArea.js"></script>
     <link rel="manifest" href="/public/manifest.json">
 </head>
 
-<body>
+<body onload="init('<%=data._id%>', '<%=data.userNickname%>')">
 <div class="container">
     <!-- Header -->
     <div class="header">
@@ -90,67 +91,13 @@
                         <li><%= msg.msg %></li>
                     <% }); %>
                 </ul>
-
             </form>
-            <form id="chat-send" class="comment-form">
+            <div id="chat-send" class="comment-form">
                 <textarea id="chat-input" name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
-                <button type="submit">Send</button>
-            </form>
+                <button onclick="sendChatText('<%= data._id %>')">Send</button>
+            </div>
         </div>
-
-        <script>
-            var socket = io();
-            var form = document.getElementById('chat-send');
-            var input = document.getElementById('chat-input');
-            var messageList = document.getElementById('message');
-
-            form.addEventListener('submit', function(e) {
-
-                e.preventDefault();
-                if (input.value) {
-                    record2DB(input.value);
-                    socket.emit('chat message', input.value);
-                    input.value = '';
-                }
-            });
-
-
-
-            socket.on('chat message', function(msg) {
-                var messageElement = document.createElement('li');
-                messageElement.textContent = msg;
-                messageList.appendChild(messageElement);
-                window.scrollTo(0, document.body.scrollHeight);
-            });
-        </script>
     </div>
 </div>
 </body>
-<script>
-    function record2DB(msg){
-        var urlString = window.location.href;
-        var url = new URL(urlString);
-        var params = new URLSearchParams(url.search);
-        var _id = params.get('_id');
-        data = {
-            _id:_id,
-            comment:msg
-        }
-        fetch('http://localhost:3000/modify/add-comment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', // 設置請求的 Content-Type
-            },
-            body: JSON.stringify(data), // 將數據轉換為 JSON 字符串並設置為請求的主體
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
-</script>
-
 </html>
