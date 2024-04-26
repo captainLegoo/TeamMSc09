@@ -31,14 +31,19 @@
 
 <!-- Content Section -->
 <div class="content">
-    <% plants.forEach(plant => { %>
-        <div class="card">
-            <img src="<%= plant.photo %>" alt="Placeholder image for plant sighting">
-            <p><%= plant.description %></p>
-            <p><%= plant.identification.name %></p>
-        </div>
-    <% }) %>
+    <% if (!plants || plants.length === 0) { %>
+        <h1>Plant list is empty</h1>
+    <% } else { %>
+        <% plants.forEach(plant => { %>
+            <div class="card">
+                <img src="data:image/png;base64,<%= plant.photo %>" alt="Placeholder image for plant sighting">
+                <p><%= plant.description %></p>
+                <p><%= plant.identification.name %></p>
+            </div>
+        <% }) %>
+    <% } %>
 </div>
+
 
 </body>
 </html>
