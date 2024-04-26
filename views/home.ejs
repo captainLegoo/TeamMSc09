@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <link type="text/css" rel="stylesheet" href="/stylesheets/home.css">
-  <link rel="manifest" href="/manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/home.css">
+    <script type="text/javascript" src="/javascripts/home.js"></script>
+    <title>Home</title>
 </head>
 <body>
 
 <div class="header">
-  <!-- Navigation Bar -->
-  <div class="navbar">
-    <div class="logo">Plant Sightings</div>
-    <ul>
-      <li><a href="#" class="nav-button">Home</a></li>
-      <li><a href="#" class="nav-button">Overview</a></li>
-      <li><a href="#" class="nav-button">Add</a></li>
-      <li><a href="#" class="nav-button">Github</a></li>
-    </ul>
-  </div>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">Plant Sightings</div>
+      <ul>
+        <li><a href="/home" class="nav-button">Home</a></li>
+        <li><a href="/overview?sort=default" class="nav-button">Overview</a></li>
+        <li><a href="#" class="nav-button">Add</a></li>
+        <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
+      </ul>
+    </div>
 
-  <!-- Title Section with Customizable Image and Text -->
-  <div class="title-section">
-    <img src="/images/plant_logo.png" alt="Customizable Image">
-    <h1>Home</h1>
-    <p>Welcome to the home page</p> <!-- 文本可根据需要更改 -->
-  </div>
+    <!-- Title Section with Customizable Image and Text -->
+    <div class="title-section">
+        <img src="/images/plant_logo.png" alt="Customizable Image">
+        <h1>Home</h1>
+        <p>Welcome to the home page</p>
+    </div>
 </div>
 
 <!-- Content Section -->
 <div class="content">
-  <div class="card">
-    <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
-    <p>这里可以放置首页内容。</p> <!-- 内容可根据需要更改 -->
-  </div>
-  <!-- Repeat the card as needed -->
+    <% plants.forEach(plant => { %>
+        <div class="card">
+            <img src="<%= plant.photo %>" alt="Placeholder image for plant sighting">
+            <p><%= plant.description %></p>
+            <p><%= plant.identification.name %></p>
+        </div>
+    <% }) %>
 </div>
 
 </body>
