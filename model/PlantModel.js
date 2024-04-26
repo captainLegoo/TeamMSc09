@@ -7,11 +7,11 @@ let PlantSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        // type: {
-        //     type: String,
-        //     enum: ['Point'],
-        //     required: true
-        // },
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
         coordinates: {
             type: [Number],
             required: true
@@ -94,7 +94,7 @@ let PlantSchema = new mongoose.Schema({
         }
     ]
 });
-
+// PlantSchema.index({ location: '2dsphere' });
 let PlantModel = mongoose.model('plants', PlantSchema);
 
 module.exports = PlantModel;

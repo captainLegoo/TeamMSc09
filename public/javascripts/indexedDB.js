@@ -1,99 +1,141 @@
-// Open or create an IndexedDB database named "plants"
-// const requestIDB = indexedDB.open("plants");
+// IndexedDB代码应该被定义在全局作用域或封装在一个模块中
 
-// Handling database upgrades
-// requestIDB.addEventListener("upgradeneeded", (event) => {
+// 处理数据库升级事件
 const handleUpgrade = (event) => {
     const db = event.target.result;
-    // Create an object store named "plants", specify the key path as "id", and automatically increment
-    db.createObjectStore("plants", { keyPath: "id", autoIncrement: true });
-};
-
-// Processing database opened successfully
-// requestIDB.addEventListener("success", () => {
-const handleSuccess = () => {
-    const db = requestIDB.result;
-
-    // Add plant data to IndexedDB
-    const addPlant = (plantData) => {
-        const transaction = db.transaction(["plants"], "readwrite");
-        const store = transaction.objectStore("plants");
-        const request = store.add(plantData);
-
-        request.addEventListener("success", () => {
-            console.log("Add plant data to IndexedDB");
-        });
-
-        request.addEventListener("error", (event) => {
-            console.error("Error adding plant data", event.target.error);
-        });
-    };
-
-    // Get all plant data
-    const getAllPlants = () => {
-        const transaction = db.transaction(["plants"], "readonly");
-        const store = transaction.objectStore("plants");
-        const request = store.getAll();
-
-        request.addEventListener("success", () => {
-            const plants = request.result;
-            // console.log("All plant data:", plants);
-            addMessage("Plants Data " + JSON.stringify(plants[0].description))
-            // return plants;
-        });
-
-        request.addEventListener("error", (event) => {
-            console.error("Error while getting plant data", event.target.error);
-        });
-    };
-
-    // Add sample plant data
-    const examplePlant = {
-        date: new Date(),
-        location: { coordinates: [0, 0] },
-        description: "Sample plant",
-        plantSize: "midium",
-        haveFlower: true,
-        haveLeaves: true,
-        haveSeeds: true,
-        sunExposure: "Partial Shade",
-        flowerColor: "Red",
-        identification: {
-            name: "Sample Plant",
-            status: "In-progress",
-            suggestedNames: [],
-            dbpediaInfo: {}
-        },
-        photo: "example.jpg",
-        userNickname: "user123"
-    };
-
-    // add sample plant data to IndexedDB
-    // addPlant(examplePlant);
-
-    // get all plant data
-    window.addEventListener("load", () => {
-        getAllPlants();
-    });
-};
-
-// Handle database open failure
-// requestIDB.addEventListener("error", (event) => {
-const handleError = (event) => {
-    console.error("Error opening IndexedDB database", event.target.error);
-};
-
-const addMessage = (txt, clear = false) => {
-    let message = document.getElementById("message")
-    let old_txt = ""
-    if (!clear) {
-        old_txt = message.innerHTML + "\n"
+    if (!db.objectStoreNames.contains('plants')) {
+        db.createObjectStore('plants', { keyPath: 'id', autoIncrement: true });
     }
-    message.innerHTML = old_txt + txt
-    console.log(txt)
+};
+
+// 处理数据库打开成功事件
+const handleSuccess = (event) => {
+    const db = event.target.result;
+    checkAndAddSamplePlant(db);
+    getAllPlants(db);
+};
+
+// 处理数据库打开失败事件
+const handleError = (event) => {
+    console.error('Error opening IndexedDB database', event.target.error);
+};
+
+
+// 通用函数：在页面中添加消息
+//const addMessage = (txt, clear = false) => {
+//    const message = document.getElementById('message');
+//    const oldTxt = clear ? '' : message.innerHTML + '\n';
+//    message.innerHTML = oldTxt + txt;
+//   console.log(txt);
+//};
+
+// 在数据库中添加植物数据
+const addPlant = (db, plantData) => {
+    const transaction = db.transaction(['plants'], 'readwrite');
+    transaction.oncomplete = () => {
+        console.log('Transaction completed: database modification finished.');
+    };
+    transaction.onerror = (event) => {
+        console.error('Transaction not opened due to error:', event.target.error);
+    };
+
+    const store = transaction.objectStore('plants');
+    store.add(plantData);
+};
+
+// 从数据库中获取所有植物数据
+const getAllPlants = (db) => {
+    const transaction = db.transaction(['plants'], 'readonly');
+    const store = transaction.objectStore('plants');
+    const request = store.getAll();
+
+    request.onsuccess = () => {
+        request.result.forEach(plant => addMessage(JSON.stringify(plant.description)));
+    };
+    request.onerror = (event) => {
+        console.error('Error while getting plant data:', event.target.error);
+    };
+};
+
+// 检查并添加样本植物数据（如果数据库为空）
+const checkAndAddSamplePlant = (db) => {
+    const transaction = db.transaction(['plants'], 'readonly');
+    const store = transaction.objectStore('plants');
+    const countRequest = store.count();
+
+    countRequest.onsuccess = () => {
+        if (countRequest.result === 0) {
+            addPlant(db, examplePlant);
+        }
+    };
+};
+
+// 定义样本植物数据
+const examplePlant = {
+    date: new Date(),
+    location: {coordinates: [0, 0]},
+    description: "Sample plant",
+    plantSize: "midium",
+    haveFlower: true,
+    haveLeaves: true,
+    haveSeeds: true,
+    sunExposure: "Partial Shade",
+    flowerColor: "Red",
+    identification: {
+        name: "Sample Plant",
+        status: "In-progress",
+        suggestedNames: [],
+        dbpediaInfo: {}
+    },
+    photo: "example.jpg",
+    userNickname: "user123"
+};
+
+// 打开IndexedDB数据库
+const requestIDB = indexedDB.open('plants');
+requestIDB.onupgradeneeded = handleUpgrade;
+requestIDB.onsuccess = handleSuccess;
+requestIDB.onerror = handleError;
+
+window.addEventListener('online', handleOnline);
+window.addEventListener('offline', handleOffline);
+
+function handleOnline() {
+    console.log("Device is online, syncing data...");
+    syncDataWithServer();  // 你的数据同步函数
 }
 
-const requestIDB = indexedDB.open("plants");
-requestIDB.addEventListener("upgradeneeded", handleUpgrade)
-requestIDB.addEventListener("success", handleSuccess)
-requestIDB.addEventListener("error", handleError)
+function handleOffline() {
+    console.log("Device is offline, using local data...");
+    // 这里可以添加用于通知用户离线状态的UI更新
+}
+
+
+function syncDataWithServer() {
+    // 获取所有未同步的数据
+    getAllPlants()
+        .then(plants => {
+            // 这里假设getAllPlants函数返回一个包含所有植物数据的Promise
+            // 发送这些数据到服务器
+            return fetch('/api/sync', {
+                method: 'POST',
+                body: JSON.stringify(plants),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            return response.json();
+        })
+        .then(dataFromServer => {
+            // 处理来自服务器的响应数据
+            // 比如更新本地数据库等
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}

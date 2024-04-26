@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var PlantModel = require('../model/PlantModel');
+const maxDistance = 10000; // 10 km
 
 router.get('/', async (req, res, next) => {
     var userId = req.cookies.userId;
@@ -10,27 +11,47 @@ router.get('/', async (req, res, next) => {
     }
 
     let query = PlantModel.find();
-    const sort = req.query.sort;
-    const { lat, lng } = req.query;
+    const {sort} = req.query;
+    const {lat, lng} = req.query;
+    console.log('sort = ' + sort)
+    console.log('lat = ' + lat + ' lng = ' + lng)
 
-    // 检查排序参数来决定使用哪种排序
-    if (sort === 'date') {
-        // 按日期排序
+    if (sort === 'date' || sort === 'default' || sort === null) {
         query = query.sort({date: -1});
     } else if (sort === 'name') {
-        // 按名称排序
         query = query.sort({'identification.name': 1});
     } else if (sort === 'distance' && lat && lng) {
-        // 按距离排序，前提是提供了经纬度
-        query = query.near({
-            center: {
-                type: 'Point',
-                coordinates: [parseFloat(lng), parseFloat(lat)]
-            },
-            spherical: true
-        });
+        const center = {
+            type: 'Point',
+            coordinates: [parseFloat(lng), parseFloat(lat)]
+        };
+
+        try {
+            const plants = await PlantModel.find({
+                location: {
+                    $nearSphere: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates: center.coordinates
+                        }
+                    },
+                    $maxDistance: maxDistance
+                }
+            }).exec();
+
+            plants.sort((a, b) => {
+                const distanceA = calculateDistance(a.location.coordinates, center.coordinates);
+                const distanceB = calculateDistance(b.location.coordinates, center.coordinates);
+                return distanceA - distanceB;
+            });
+
+            res.render('overview', {plants: plants});
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Read Data failed");
+        }
     }
-    // 移除默认排序的else部分
 
     try {
         const data = await query.exec();
@@ -41,7 +62,20 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+function calculateDistance(coord1, coord2) {
+    const R = 6371e3;
+    const phi1 = coord1[1] * Math.PI / 180;
+    const phi2 = coord2[1] * Math.PI / 180;
+    const deltaPhi = (coord2[1] - coord1[1]) * Math.PI / 180;
+    const deltaLambda = (coord2[0] - coord1[0]) * Math.PI / 180;
 
+    const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
+        Math.cos(phi1) * Math.cos(phi2) *
+        Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // meter
 
+    return distance;
+}
 
 module.exports = router;
