@@ -1,117 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <style>
-    /* 您的样式完全保持不变 */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-    }
-    .header {
-      background-color: #4CAF50;
-      color: white;
-      padding: 20px 0;
-    }
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 50px;
-      align-items: center;
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      padding: 5px 10px;
-    }
-    .navbar ul {
-      list-style-type: none;
-      display: flex;
-      gap: 10px;
-      padding: 0;
-      margin: 0;
-    }
-    .title-section {
-      text-align: center;
-      padding: 100px;
-    }
-    .title-section img {
-      width: 175px;
-      height: auto;
-      margin: 10px auto;
-    }
-    .title-section h1 {
-      margin: 10px 0;
-    }
-    .filter-bar {
-      text-align: center;
-      padding: 20px;
-    }
-    .content {
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    .card {
-      border: 1px solid #ccc;
-      padding: 20px;
-      margin: 0 10px;
-      text-align: center;
-      background-color: white;
-    }
-    .card img {
-      width: 150px;
-      height: 150px;
-      background-color: #ddd;
-    }
-    .nav-button {
-      padding: 5px 10px;
-      display: inline-block;
-      transition: background-color 0.3s, color 0.3s;
-      border-radius: 5px;
-    }
-    .nav-button:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/home.css">
+    <script type="text/javascript" src="/javascripts/home.js"></script>
+    <title>Home</title>
 </head>
 <body>
 
 <div class="header">
-  <!-- Navigation Bar -->
-  <div class="navbar">
-    <div class="logo">Plant Sightings</div>
-    <ul>
-      <li><a href="#" class="nav-button">Home</a></li>
-      <li><a href="#" class="nav-button">Overview</a></li>
-      <li><a href="#" class="nav-button">Add</a></li>
-      <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
-    </ul>
-  </div>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">Plant Sightings</div>
+      <ul>
+        <li><a href="/home" class="nav-button">Home</a></li>
+        <li><a href="/overview?sort=date" class="nav-button">Overview</a></li>
+        <li><a href="#" class="nav-button">Add</a></li>
+        <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
+      </ul>
+    </div>
 
-  <!-- Title Section with Customizable Image and Text -->
-  <div class="title-section">
-    <img src="/images/plant_logo.png" alt="Customizable Image">
-    <h1>Home</h1>
-    <p>Welcome to the home page</p> <!-- 文本可根据需要更改 -->
-  </div>
+    <!-- Title Section with Customizable Image and Text -->
+    <div class="title-section">
+        <img src="/images/plant_logo.png" alt="Customizable Image">
+        <h1>Home</h1>
+        <p>Welcome to the home page</p>
+    </div>
 </div>
 
 <!-- Content Section -->
 <div class="content">
-  <div class="card">
-    <img src="https://placehold.co/150" alt="Placeholder image for plant sighting">
-    <p>这里可以放置首页内容。</p> <!-- 内容可根据需要更改 -->
-  </div>
-  <!-- Repeat the card as needed -->
+    <% plants.forEach(plant => { %>
+        <div class="card">
+            <img src="<%= plant.photo %>" alt="Placeholder image for plant sighting">
+            <p><%= plant.description %></p>
+            <p><%= plant.identification.name %></p>
+        </div>
+    <% }) %>
 </div>
 
 </body>

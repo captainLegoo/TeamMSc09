@@ -1,0 +1,29 @@
+{
+  "short_name": "Plant Sightings",
+  "name": "Plant Sightings - Discover and Share",
+  "icons": [
+    {
+      "src": "images/plant_logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/plant_logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "images/github_log.png",
+      "type": "image/png",
+      "sizes": "auto"
+    }
+  ],
+  "start_url": ".",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4CAF50",
+  "background_color": "#ffffff",
+  "description": "Discover and share plant sightings around you. Explore nature with our community.",
+  "lang": "en"
+}

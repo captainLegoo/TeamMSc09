@@ -6,12 +6,34 @@ const PlantModel = require('../model/PlantModel');
 const {Double} = require("mongodb");
 const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const mongoose = require('mongoose');
-mongoose.connect(URI)
-    .then((result)=> console.log('connect successfully'))
-    .catch((error) => console.log(error))
+
+const SparqlEndpointFetcher = require('fetch-sparql-endpoint').SparqlEndpointFetcher;
+const DataFactory = require('rdf-data-factory').DataFactory;
+
+const fetcher = new SparqlEndpointFetcher({
+  method: 'POST',
+  additionalUrlParams: new URLSearchParams({ infer: 'true', sameAs: 'false' }),
+  defaultHeaders: new Headers({ 'Accept': 'application/sparql-results+json' }),
+  fetch,
+  dataFactory: new DataFactory(),
+  prefixVariableQuestionMark: false,
+  timeout: 5000,
+});
+
+const fs = require('fs');
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
+// mongoose.connect(URI)
+//     .then((result)=> console.log('connect successfully'))
+//     .catch((error) => console.log(error))
 
 // ADD PLANT
-router.post('/addPlant',function (req,res){
+router.post('/addPlant',upload.single('photo'),function (req,res){
+  let base64Image = '';
+  fs.readFile(req.file.path, (err, data) => {
+    base64Image = data.toString('base64');
+  });
+
   const plant = new PlantModel({
     date: new Date(),
     location: {
@@ -35,7 +57,7 @@ router.post('/addPlant',function (req,res){
         uri : req.body.id_info_uri,
       }
     },
-    photo : req.body.photo,
+    photo : base64Image,
     userNickname : req.body.userNickname
   });
 
@@ -102,25 +124,78 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/singlePlant',async (req,res) => {
+router.get('/edit',async (req,res) => {
   const _id = req.params._id;
   const urlObj = url.parse(req.url, true);
   const query = urlObj.query;
   const id = query._id;
   console.log(query._id);
   try {
-    const plant = await PlantModel.findById(id);
+    const plant = await PlantModel.findById('65ef932e7f392acbffefa873');
     if (!plant) {
       return res.status(404).json({message: 'Plant not found'});
     }
 
-    res.render('edit',{title:'aaa',data:plant});
+    //const query_name = plant.identification.dbpediaInfo.commonName
+    const query_name = ( plant.identification.dbpediaInfo.commonName==='')?plant.identification.dbpediaInfo.scientificName:plant.identification.dbpediaInfo.commonName
+    fetchData(query_name).then(results => {
+      res.render('edit',{title:'aaa',data:plant,url:results});
+    }).catch(error => {
+      console.error("Error fetching results:", error);
+    });
+
+    //res.render('edit',{title:'aaa',data:plant,url:''});
+    //res.render('editPlant',{title:'aaa',data:plant});
+    
   } catch (error) {
     console.error('Error fetching plant records:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 })
 
+router.post('/add-comment', async (req,res) => {
+  const _id = req.body._id;
+  const _comment = req.body.comment;
 
+  const plant = await PlantModel.findById(_id);
+  plant.comment.push({msg:_comment});
+  await plant.save();
+  const allPlants = await PlantModel.findById(_id);
+
+  res.render('singlePlant',{data:allPlants,title:'randy'});
+})
+
+function fetchData(query_name) {
+  const endpointUrl = 'https://dbpedia.org/sparql';
+  const query = `SELECT * WHERE { ?athlete rdfs:label "${query_name}"@en } LIMIT 1`;
+
+  // Create a new promise that will handle the completion of the data collection
+  return new Promise(async (resolve, reject) => {
+    try {
+      const bindingsStream = await fetcher.fetchBindings(endpointUrl, query);
+      const results = []; // This array will collect all results
+
+      bindingsStream.on('data', (bindings) => {
+        // For each piece of data (bindings), collect all results
+        Object.keys(bindings).forEach(key => {
+          results.push(bindings[key].value);
+        });
+      });
+
+      bindingsStream.on('end', () => {
+        console.log('All data has been received.');
+        resolve(results); // Resolve the promise with all collected results once the stream ends
+      });
+
+      bindingsStream.on('error', (error) => {
+        console.error('Stream error:', error);
+        reject(error); // Reject the promise on stream error
+      });
+    } catch (error) {
+      console.error('Error fetching data from DBpedia:', error);
+      reject(error); // Reject the promise on fetching error
+    }
+  });
+}
 
 module.exports = router;

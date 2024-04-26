@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
+    <base href="http://localhost:3000/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Sightings</title>
     <link rel="stylesheet" href="stylesheets/singlePlant.css">
+    <link rel="manifest" href="/public/manifest.json">
 </head>
 
 <body>
@@ -81,7 +83,8 @@
         <div class="comment"></div>
 
         <!-- Comment Form -->
-        <form class="comment-form" action="/add-comment" method="POST">
+        <form class="comment-form" action="modify/add-comment" method="POST">
+            <input type="hidden" name = "_id" value="<%=data._id%>">
             <textarea name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
             <button type="submit">Submit</button>
         </form>

@@ -1,0 +1,222 @@
+[{
+  "_id": {
+    "$oid": "65ef92c27f392acbffefa871"
+  },
+  "date": {
+    "$date": "2024-03-11T23:24:50.053Z"
+  },
+  "location": {
+    "coordinates": [
+      21,
+      22
+    ]
+  },
+  "description": "some description",
+  "plantSize": "10",
+  "haveFlower": false,
+  "haveLeaves": false,
+  "haveSeeds": false,
+  "sunExposure": "Full Sun",
+  "flowerColor": "Red",
+  "identification": {
+    "name": "id_name_tmp",
+    "status": "Completed",
+    "suggestedNames": [
+      "this is suggested name"
+    ],
+    "dbpediaInfo": {
+      "commonName": "this is id_info_commonName",
+      "scientificName": "this is id_info_scientificName",
+      "description": "this is id_info_description",
+      "uri": "this is id_info_uri"
+    }
+  },
+  "photo": "photo_url",
+  "userNickname": "randy_fake",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ef932e7f392acbffefa873"
+  },
+  "date": {
+    "$date": "2024-03-11T23:26:38.223Z"
+  },
+  "location": {
+    "coordinates": [
+      21,
+      22
+    ]
+  },
+  "description": "some description",
+  "plantSize": "10",
+  "haveFlower": true,
+  "haveLeaves": true,
+  "haveSeeds": true,
+  "sunExposure": "Full Sun",
+  "flowerColor": "Red",
+  "identification": {
+    "name": "id_name_tmp",
+    "status": "Completed",
+    "suggestedNames": [
+      "this is suggested name"
+    ],
+    "dbpediaInfo": {
+      "commonName": "this is id_info_commonName",
+      "scientificName": "this is id_info_scientificName",
+      "description": "this is id_info_description",
+      "uri": "this is id_info_uri"
+    }
+  },
+  "photo": "photo_url",
+  "userNickname": "randy_fake",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ef96ae8e24cc210e25fb77"
+  },
+  "date": {
+    "$date": "2024-03-11T23:41:34.595Z"
+  },
+  "location": {
+    "coordinates": [
+      21,
+      22
+    ]
+  },
+  "description": "some description",
+  "plantSize": "10",
+  "haveFlower": false,
+  "haveLeaves": false,
+  "haveSeeds": false,
+  "sunExposure": "Full Sun",
+  "flowerColor": "Red",
+  "identification": {
+    "name": "id_name_tmp",
+    "status": "Completed",
+    "suggestedNames": [
+      "this is suggested name"
+    ],
+    "dbpediaInfo": {
+      "commonName": "this is id_info_commonName",
+      "scientificName": "this is id_info_scientificName",
+      "description": "this is id_info_description",
+      "uri": "this is id_info_uri"
+    }
+  },
+  "photo": "photo_url",
+  "userNickname": "randy_fake",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65efad233c3f473b352cc688"
+  },
+  "date": {
+    "$date": "2024-03-12T01:17:23.242Z"
+  },
+  "location": {
+    "coordinates": [
+      21,
+      22
+    ]
+  },
+  "description": "some description",
+  "plantSize": "10",
+  "haveFlower": false,
+  "haveLeaves": false,
+  "haveSeeds": false,
+  "sunExposure": "Full Sun",
+  "flowerColor": "Red",
+  "identification": {
+    "name": "id_name_tmp",
+    "status": "Completed",
+    "suggestedNames": [
+      "this is suggested name"
+    ],
+    "dbpediaInfo": {
+      "commonName": "this is id_info_commonName",
+      "scientificName": "this is id_info_scientificName",
+      "description": "this is id_info_description",
+      "uri": "this is id_info_uri"
+    }
+  },
+  "photo": "photo_url",
+  "userNickname": "randy_fake2",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65efad273c3f473b352cc68a"
+  },
+  "date": {
+    "$date": "2024-03-12T01:17:27.754Z"
+  },
+  "location": {
+    "coordinates": [
+      21,
+      22
+    ]
+  },
+  "description": "some description",
+  "plantSize": "10",
+  "haveFlower": true,
+  "haveLeaves": false,
+  "haveSeeds": false,
+  "sunExposure": "Partial Shade",
+  "flowerColor": "Red",
+  "identification": {
+    "name": "id_name_tmp",
+    "status": "Completed",
+    "suggestedNames": [
+      "this is suggested name"
+    ],
+    "dbpediaInfo": {
+      "commonName": "this is id_info_commonName",
+      "scientificName": "this is id_info_scientificName",
+      "description": "this is id_info_description",
+      "uri": "this is id_info_uri"
+    }
+  },
+  "photo": "photo_url",
+  "userNickname": "randy_fake",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65efb55b820280939190a6f5"
+  },
+  "date": {
+    "$date": "2024-03-12T01:52:27.607Z"
+  },
+  "location": {
+    "coordinates": [
+      771,
+      221
+    ]
+  },
+  "description": "some description1",
+  "plantSize": "10",
+  "haveFlower": true,
+  "haveLeaves": true,
+  "haveSeeds": true,
+  "sunExposure": "Full Sun",
+  "flowerColor": "Yellow",
+  "identification": {
+    "name": "id_name_tmp1",
+    "status": "Completed",
+    "suggestedNames": [
+      "this is suggested name1"
+    ],
+    "dbpediaInfo": {
+      "commonName": "this is id_info_commonName1",
+      "scientificName": "this is id_info_scientificName1",
+      "description": "this is id_info_description1",
+      "uri": "this is id_info_uri"
+    }
+  },
+  "photo": "photo_urlbbb1",
+  "userNickname": "randy_fakeaaa1",
+  "__v": 4
+}]

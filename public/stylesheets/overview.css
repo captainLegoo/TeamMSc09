@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 0; /* Reduced padding at the top and bottom */
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    align-items: center;
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+.title-section {
+    text-align: center;
+    padding: 100px; /* Adjust this padding to control the space around the image and text */
+}
+.title-section img {
+    width: 175px; /* Set this to the width of your custom image */
+    height: auto; /* Maintain aspect ratio */
+    margin: 10px auto; /* Center the image */
+}
+.title-section h1 {
+    margin: 10px 0;
+}
+.filter-bar {
+    text-align: center;
+    padding: 20px;
+}
+/* 过滤条按钮的样式 */
+.filter-bar button {
+    background: #ffffff; /* 设置按钮背景为白色 */
+    border: 2px solid #4CAF50; /* 设置边框颜色为标题栏相同的绿色 */
+    color: #4CAF50; /* 设置文本颜色为绿色 */
+    padding: 10px 20px; /* 按钮内边距 */
+    margin: 0 10px; /* 按钮外边距 */
+    font-weight: bold; /* 文本加粗 */
+    border-radius: 5px; /* 边框圆角效果 */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* 过渡动画效果 */
+    width: 100px; /* 统一按钮宽度 */
+    height: 40px;
+    box-sizing: border-box; /* box-sizing 设置为 border-box 以包含边框和内边距 */
+    display: inline-block; /* 使按钮按内联块级元素渲染 */
+}
+
+/* 当鼠标悬浮在按钮上时的样式 */
+.filter-bar button:hover {
+    background: #4CAF50; /* 鼠标悬浮时背景颜色变为绿色 */
+    color: #ffffff; /* 鼠标悬浮时文本颜色变为白色 */
+    border: 2px solid #ffffff; /* 鼠标悬浮时边框颜色变为白色 */
+}
+.content {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 75px;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+}
+.card img {
+    width: 150px;
+    height: 150px;
+    background-color: #ddd;
+}
+/* 导航按钮的基础样式 */
+.nav-button {
+    padding: 5px 10px;
+    display: inline-block; /* 使链接像按钮一样显示 */
+    transition: background-color 0.3s, color 0.3s; /* 添加过渡动画效果 */
+    border-radius: 5px; /* 轻微的圆角效果 */
+}
+
+/* 鼠标悬浮在导航按钮上时的样式 */
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* 添加淡白色背景 */
+    color: #ffffff; /* 文本颜色保持不变，即使在淡白色背景上也能看清 */
+}
+
+.sort-dropdown {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    background-color: white;
+    color: #4CAF50;
+    cursor: pointer;
+    outline: none;
+    width: 200px;
+    height: 40px;
+}
+.clearfix {
+    clear: both;
+}

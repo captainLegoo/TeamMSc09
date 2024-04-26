@@ -14,7 +14,7 @@ function onDatabaseError() {
 connectToDatabase(onDatabaseConnect, onDatabaseError);
 
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
     var userId = req.cookies.userId;
     if (userId == null) {
         userId = generator.getId();
@@ -22,21 +22,18 @@ router.get('/', (req, res, next) => {
     }
     console.log("userId: " + userId);
 
-    // PlantModel.find()
-    //     .sort({date: -1})
-    //     .limit(3)
-    //     .then((data) => {
-    //         console.log(data);
-    //         // Response successful
-    //         // res.render('home', { })
-    //     }).catch(err => {
-    //     if (err) {
-    //         res.status(500).send("Read Data failed");
-    //         return;
-    //     }
-    // });
+    try {
+        const data = await PlantModel.find()
+            .sort({date: -1})
+            .limit(3);
 
-    res.render("home");
+        // console.log(data);
+        // Response successful
+        res.render('home', {plants: data});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Read Data failed");
+    }
 });
 
 module.exports = router;
