@@ -17,9 +17,10 @@
         <div class="logo"><a href="/">Plant Sightings</a></div>
         <ul>
             <li><a href="/home" class="nav-button">Home</a></li>
-            <li><a href="/overview" class="nav-button">Overview</a></li>
+            <li><a href="/overview?sort=date" class="nav-button">Overview</a></li>
             <li><a href="#" class="nav-button">Add</a></li>
-            <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
+            <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img
+                            style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
         </ul>
     </div>
 
@@ -34,9 +35,9 @@
 <!-- Filter Section -->
 <div class="filter-bar">
     <select class="sort-dropdown" id="sortDropdown">
-        <option value="date">按日期排序</option>
-        <option value="name">按名称排序</option>
-        <option value="distance">按距离排序</option>
+        <option value="date">Sort by Date</option>
+        <option value="name">Sort by Name</option>
+        <option value="distance">Sort by Distance</option>
     </select>
 </div>
 
@@ -44,43 +45,57 @@
 <!-- Content Section -->
 <div class="content" style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
     <% plants.forEach((plant, index) => { %>
-        <div class="card">
-            <img src="/images/plant_logo.png" alt="Placeholder image for plant sighting">
-            <p><%= plant.description %></p>
-            <p><%= plant.identification.name %></p>
-        </div>
-        <% if ((index + 1) % 4 === 0) { %>
-            <div style="flex-basis: 100%; height: 0;"></div>
-        <% } %>
+    <div class="card">
+        <img src="<%= plant.photo %>" alt="Placeholder image for plant sighting">
+        <p><%= plant.description %></p>
+        <p><%= plant.identification.name %></p>
+    </div>
+    <% if ((index + 1) % 4 === 0) { %>
+        <div style="flex-basis: 100%; height: 0;"></div>
+    <% } %>
     <% }) %>
 </div>
 
 <script>
-    document.getElementById('sortDropdown').addEventListener('change', function() {
+    document.getElementById('sortDropdown').addEventListener('change', function () {
         var sortValue = this.value;
 
         if (sortValue === 'distance') {
-            // 使用HTML5 Geolocation API获取用户的当前位置
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     var lat = position.coords.latitude;
                     var lng = position.coords.longitude;
-                    // 重定向到服务器并附加排序方式和位置信息
+                    console.log('1 --> lat:', lat, 'lng:', lng);
                     window.location.href = `/overview?sort=${sortValue}&lat=${lat}&lng=${lng}`;
-                }, function() {
-                    alert('无法获取您的位置信息，请选择其他排序方式。');
+                }, function(error) {
+                    console.log('2 --> lat:', lat, 'lng:', lng);
+                    console.error('getting location failed:', error.message);
+                    alert('Unable to retrieve your location information, please choose another sorting method.');
                 });
             } else {
-                alert('您的浏览器不支持地理定位，无法使用按距离排序。');
+                alert('Your browser does not support geolocation and sorting by distance cannot be used.');
             }
-        } else if (sortValue === "name" ) {
-            // 对于非距离排序，只需重定向并附加排序方式
+        } else {
             window.location.href = `/overview?sort=${sortValue}`;
         }
-        else {
-
-        }
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const sortDropdown = document.getElementById('sortDropdown');
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortParam = urlParams.get('sort');
+        if (sortParam) {
+            sortDropdown.value = sortParam;
+        }
+
+        sortDropdown.addEventListener('change', (event) => {
+            const selectedSort = event.target.value;
+            const url = new URL(window.location);
+            url.searchParams.set('sort', selectedSort);
+            window.location.href = url;
+        });
+    });
+
 </script>
 
 <script>
