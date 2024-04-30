@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="/stylesheets/overview.css">
+    <script type="text/javascript" src="/javascripts/overview.js"></script>
     <link rel="manifest" href="/manifest.json">
     <title>Plant Sightings</title>
     <style>
@@ -60,63 +61,6 @@
         <% }) %>
     <% } %>
 </div>
-
-<script>
-    document.getElementById('sortDropdown').addEventListener('change', function () {
-        var sortValue = this.value;
-
-        if (sortValue === 'distance') {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        } else {
-            window.location.href = `/overview?sort=${sortValue}`;
-        }
-
-        function showPosition(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-            window.location.href = `/overview?sort=${sortValue}&lat=${lat}&lng=${lng}`;
-        }
-
-        function showError(error) {
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    console.log("User denied the request for Geolocation.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    console.log("Location information is unavailable.");
-                    break;
-                case error.TIMEOUT:
-                    console.log("The request to get user location timed out.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    console.log("An unknown error occurred.");
-                    break;
-            }
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const sortDropdown = document.getElementById('sortDropdown');
-        const urlParams = new URLSearchParams(window.location.search);
-        const sortParam = urlParams.get('sort');
-        if (sortParam) {
-            sortDropdown.value = sortParam;
-        }
-
-        sortDropdown.addEventListener('change', (event) => {
-            const selectedSort = event.target.value;
-            const url = new URL(window.location);
-            url.searchParams.set('sort', selectedSort);
-            window.location.href = url;
-        });
-    });
-
-</script>
 
 <script>
     if ('serviceWorker' in navigator) {
