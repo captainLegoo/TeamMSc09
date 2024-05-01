@@ -21,36 +21,8 @@ router.get('/', async (req, res, next) => {
     } else if (sort === 'name') {
         query = query.sort({'identification.name': 1});
     } else if (sort === 'distance' && lat && lng) {
-        const center = {
-            type: 'Point',
-            coordinates: [parseFloat(lng), parseFloat(lat)]
-        };
+        console.log('lat = ' + lat + ' lng = ' + lng)
 
-        try {
-            const plants = await PlantModel.find({
-                location: {
-                    $nearSphere: {
-                        $geometry: {
-                            type: "Point",
-                            coordinates: center.coordinates
-                        }
-                    },
-                    $maxDistance: maxDistance
-                }
-            }).exec();
-
-            plants.sort((a, b) => {
-                const distanceA = calculateDistance(a.location.coordinates, center.coordinates);
-                const distanceB = calculateDistance(b.location.coordinates, center.coordinates);
-                return distanceA - distanceB;
-            });
-
-            res.render('overview', {plants: plants});
-
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("Read Data failed");
-        }
     }
 
     try {
