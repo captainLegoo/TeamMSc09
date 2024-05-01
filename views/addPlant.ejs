@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plant Add</title>
     <link rel="stylesheet" href="stylesheets/singlePlant.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -120,11 +122,11 @@
                         <label class = detail-value-attribute-edit-pos>
                             <label>latitude</label>
                             <label>
-                                <input class="detail-value-attribute-pos-input" type="text" name="latitude" value="">
+                                <input class="detail-value-attribute-pos-input" type="text" id ="latitude" name="latitude" value="">
                             </label>
                             <label>longitude</label>
                             <label>
-                                <input class="detail-value-attribute-pos-input" type="text" name="longitude" value="">
+                                <input class="detail-value-attribute-pos-input" type="text" id="longitude" name="longitude" value="">
                             </label>
                         </label>
                         <label>
@@ -138,9 +140,23 @@
                 </div>
             </div>
         </div>
+        <div id="map" style="width: 600px; height: 400px;"></div>
         <button type="submit">submit</button>
     </form>
 </div>
 </body>
+<script>
+    var map = L.map('map').setView([51.5072, 0.1276], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    map.on('click', function(e) {
+        document.getElementById("longitude").value = e.latlng.lng;
+        document.getElementById("latitude").value = e.latlng.lat
+    });
+</script>
 
 </html>
