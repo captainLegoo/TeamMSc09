@@ -5,13 +5,13 @@ const IdGenerator = require('../utils/IdGenerator');
 const generator = new IdGenerator(1, 1);
 const connectToDatabase = require('../db/db');
 
-function onDatabaseConnect() {
-    console.log("Successfully connected to the database");
-}
-function onDatabaseError() {
-    console.error("Failed to connect to the database");
-}
-connectToDatabase(onDatabaseConnect, onDatabaseError);
+// function onDatabaseConnect() {
+//     console.log("Successfully connected to the database");
+// }
+// function onDatabaseError() {
+//     console.error("Failed to connect to the database");
+// }
+// connectToDatabase(onDatabaseConnect, onDatabaseError);
 
 
 router.get('/', async (req, res, next) => {
