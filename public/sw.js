@@ -11,12 +11,15 @@ self.addEventListener('install', event => {
             const cache = await caches.open("static");
             cache.addAll([
                 '/',
-                '/insert',
+                '/overview',
                 '/manifest.json',
+                '/javascripts/overview.js',
+                '/javascripts/overviewOffline.js',
                 '/javascripts/idb-utility.js',
                 '/stylesheets/home.css',
                 '/stylesheets/overview.css',
                 '/stylesheets/singlePlant.css',
+                '/stylesheets/style.css',
                 '/images/daisy.jpg',
                 '/images/github_logo.jpg',
                 '/images/plant_logo.jpg',
@@ -63,7 +66,7 @@ self.addEventListener('fetch', event => {
 //Sync event to sync the todos
 self.addEventListener('sync', event => {
     if (event.tag === 'sync-plant') {
-        console.log('Service Worker: Syncing new Todos');
+        console.log('Service Worker: Syncing new Plants');
         openSyncPlantsIDB().then((syncPostDB) => {
             getAllSyncPlants(syncPostDB).then((syncPlants) => {
                 for (const syncPlant of syncPlants) {
@@ -76,21 +79,21 @@ self.addEventListener('sync', event => {
                     formData.append("text", syncPlant.text);
 
                     // TODO Fetch with FormData instead of JSON
-                    fetch('http://localhost:3000/add-todo', {
+                    fetch('http://localhost:3000/modify/addPlant', {
                         method: 'POST',
                         body: formData,
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
                     }).then(() => {
-                        console.log('Service Worker: Syncing new Todo: ', syncTodo, ' done');
+                        console.log('Service Worker: Syncing new Plant: ', syncPlant, ' done');
                         deleteSyncTodoFromIDB(syncPostDB,syncTodo.id);
                         // Send a notification
-                        self.registration.showNotification('Todo Synced', {
+                        self.registration.showNotification('Plant Synced', {
                             body: 'Plant synced successfully!',
                         });
                     }).catch((err) => {
-                        console.error('Service Worker: Syncing new Plant: ', syncTodo, ' failed');
+                        console.error('Service Worker: Syncing new Plant: ', syncPlant, ' failed');
                     });
                 }
             });
