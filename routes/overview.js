@@ -1,11 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var PlantModel = require('../model/PlantModel');
-const maxDistance = 10000; // 10 km
 const IdGenerator = require('../utils/IdGenerator');
 const generator = new IdGenerator(1, 1);
-const connectToDatabase = require('../db/db');
-var plantController = require("../controllers/plant");
+var plantController = require("../controllers/plant_controller");
 
 router.get('/', function (req, res, next) {
     var userId = req.cookies.userId;
