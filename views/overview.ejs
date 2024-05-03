@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="/stylesheets/overview.css">
-    <script type="text/javascript" src="/javascripts/overview.js"></script>
-    <link rel="manifest" href="/manifest.json">
     <title>Plant Sightings</title>
-    <style>
-    </style>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="/manifest.json">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/overview.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/javascripts/overview.js"></script>
+    <!--<script src="/javascripts/overviewOffline.js.js"></script>-->
+    <script src="/javascripts/idb-utility.js"></script>
 </head>
 <body>
 
@@ -17,8 +17,8 @@
     <div class="navbar">
         <div class="logo"><a href="/">Plant Sightings</a></div>
         <ul>
-            <li><a href="/home" class="nav-button">Home</a></li>
-            <li><a href="/overview?sort=date" class="nav-button">Overview</a></li>
+            <!--<li><a href="/home" class="nav-button">Home</a></li>-->
+            <li><a href="/overview" class="nav-button">Overview</a></li>
             <li><a href="/modify/addPlant" class="nav-button">Add</a></li>
             <li><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img
                             style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></li>
@@ -29,7 +29,7 @@
     <div class="title-section">
         <img src="/images/plant_logo.png" alt="Customizable Image">
         <h1>OverView</h1>
-        <p>Your customizable text here</p>
+        <p id="monogo_Status"></p>
     </div>
 </div>
 
@@ -42,36 +42,15 @@
     </select>
 </div>
 
+<!--显示当前的数据条数 用h4标签，居中-->
+<h2 id="plant_count" style="text-align: center"></h2>
 
-<!-- Content Section -->
-<div class="content">
-    <% if (!plants || plants.length === 0) { %>
-        <h1>Plant list is empty</h1>
-    <% } else { %>
-        <% plants.forEach((plant, index) => { %>
-            <div class="card">
-                <img src="data:image/png;base64,<%= plant.photo %>" alt="Placeholder image for plant sighting">
-                <p><%= plant.description %></p>
-                <p><%= plant.identification.name %></p>
-                <a href="/modify?id=<%= plant.id %>">View specific data</a>
-            </div>
-            <% if ((index + 1) % 4 === 0) { %>
-                <div style="flex-basis: 100%; height: 0;"></div>
-            <% } %>
-        <% }) %>
-    <% } %>
+<div id="plant_container">
+
 </div>
 
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js').then(registration => {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, err => {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }
-</script>
 </body>
+<!--<script src="/javascripts/overview.js"></script>-->
+<!--&lt;!&ndash;<script src="/javascripts/overviewOffline.js.js"></script>&ndash;&gt;-->
+<!--<script src="/javascripts/idb-utility.js"></script>-->
 </html>
