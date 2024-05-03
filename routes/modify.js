@@ -126,7 +126,7 @@ router.get('/plants', async (req, res) => {
 
 // /* GET home page. */
 router.get('/', async (req, res) => {
-  try {
+  //try {
     var userId = req.cookies.userId;
     if (userId == null) {
       res.redirect('/home');
@@ -134,11 +134,20 @@ router.get('/', async (req, res) => {
     }
     const plantId = req.query.id;
     const allPlants = await PlantModel.findById(plantId);
-    res.render('singlePlant',{data:allPlants,title:'randy'});
-  } catch (error) {
-    console.error('Error fetching plant records:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+    const query_name = ( allPlants.identification.dbpediaInfo.commonName==='')?allPlants.identification.dbpediaInfo.scientificName:allPlants.identification.dbpediaInfo.commonName
+    const query_name2 = allPlants.identification.name;
+
+    fetchData(query_name).then(results => {
+
+      res.render('singlePlant',{data:allPlants,title:'randy',url:results});
+    }).catch(error => {
+      res.render('singlePlant',{data:allPlants,title:'randy',url:''});
+    });
+
+  // } catch (error) {
+  //   console.error('Error fetching plant records:', error);
+  //   res.status(500).json({ message: 'Internal server error' });
+  // }
 });
 
 router.get('/edit',async (req,res) => {

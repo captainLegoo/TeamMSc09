@@ -68,11 +68,14 @@
                     <div class="detail-value-attribute"><%= data.flowerColor %></div>
                     <div class="detail-value-attribute"><%= data.plantSize %></div>
                     <div class="detail-value-attribute"><%= data.location.coordinates[0] %><%= data.location.coordinates[1] %></div>
-                    <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= data.identification.dbpediaInfo.uri %>')">URL</button>
+                    <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= url %>')">URL</button>
                     <div class="detail-value-attribute"><%= data.userNickname %></div>
                     <script>
                         function redirectToPlantPage(url) {
-                            window.location.href = url;
+                            if (url==='')
+                                alert("No url here")
+                            else
+                                window.location.href = url;
                         }
                     </script>
                 </div>
