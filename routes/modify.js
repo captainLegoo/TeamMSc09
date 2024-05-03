@@ -60,7 +60,8 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
         }
       },
       photo : base64Image,
-      userNickname : req.body.userNickname
+      userNickname : req.body.userNickname,
+      userId : req.cookies.userId
     });
 
     plant.save()
@@ -77,6 +78,8 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
 })
 
 router.get('/addPlant',function (req,res){
+  var userId = req.cookies.userId;
+  console.log("userId: " + userId);
   res.render('addPlant')
 })
 
@@ -104,10 +107,10 @@ router.post('/updatePlant', async (req, res)=>{
   plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
   //plant.photo = req.body.photo;
   plant.userNickname = req.body.userNickname;
-  plant.userId = req.cookies.userId;
+  await plant.save();
   await plant.save();
   //res.redirect('home');
-  res.render("home")
+  res.render("success", {title: "Add plant successful"})
 })
 
 router.get('/plants', async (req, res) => {

@@ -1,6 +1,6 @@
 // Function to handle adding a new todo
 const addNewPlantToSync = (syncPlantIDB, txt_val) => {
-    // Retrieve todo text and add it to the IndexedDB
+    // Retrieve plant text and add it to the IndexedDB
 
     if (txt_val !== "") {
         const transaction = syncPlantIDB.transaction(["sync-plant"], "readwrite")

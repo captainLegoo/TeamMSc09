@@ -13,12 +13,13 @@
 <div class="container">
     <!-- Header -->
     <div class="header">
-        <h1 class="header-title">Plant Sightings</h1>
+        <h1 class="header-title"><a href="/">Plant Sightings</a></h1>
         <div>
-            <button class="header-button">Home</button>
-            <button class="header-button">Overview</button>
-            <button class="header-button">Add</button>
-            <button class="header-button">Github</button>
+            <button class="header-button"><a href="/home">Home</a></button>
+            <button class="header-button"><a href="/overview?sort=date">Overview</a></button>
+            <button class="header-button"><a href="/modify/addPlant">Add</a></button>
+            <button class="header-button"><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img
+                            style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></button>
         </div>
     </div>
     <form action="/modify/addPlant" method="POST" enctype="multipart/form-data">
