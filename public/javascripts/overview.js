@@ -186,6 +186,8 @@ window.onload = function () {
         })
         .catch(err => console.error('Error fetching MongoDB status:', err));
 
+
+
     function online_mode() {
         console.log("Online mode")
         document.getElementById("monogo_Status").textContent = "Online mode";
@@ -233,6 +235,7 @@ window.onload = function () {
 
         // Iterate over plant data
         plants.forEach(plant => {
+            console.log(plant)
             const card = document.createElement('div');
             card.classList.add('card');
 
@@ -246,7 +249,8 @@ window.onload = function () {
                     <p>Seeds: ${plant.hasSeeds ? 'Yes' : 'No'}</p>
                     <p>Sun Exposure: ${plant.sunExposure}</p>
                     <p>Flower Color: ${plant.flowerColor}</p>
-                    <a href="/plant/${plant.id}">View specific data for ${plant.name}</a>
+                    <a href="/modify?_id=${plant._id}">View</a>
+                    <a href="/modify/edit?_id=${plant._id}">Edit</a>
                 `;
 
             plantContainer.appendChild(card);
