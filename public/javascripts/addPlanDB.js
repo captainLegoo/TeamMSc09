@@ -1,8 +1,8 @@
 const addNewTodoButtonEventListener = () => {
     // TODO modify to specific value name
     const txt_pant = document.getElementById("txt_in").value
-    openSyncTodosIDB().then((db) => {
-        addNewTodoToSync(db, txt_pant);
+    openSyncPlantsIDB().then((db) => {
+        addNewPlantToSync(db, txt_pant);
     });
     navigator.serviceWorker.ready
         .then(function (serviceWorkerRegistration) {
