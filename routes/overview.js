@@ -2,35 +2,34 @@ var express = require('express');
 var router = express.Router();
 var PlantModel = require('../model/PlantModel');
 const maxDistance = 10000; // 10 km
+const IdGenerator = require('../utils/IdGenerator');
+const generator = new IdGenerator(1, 1);
+const connectToDatabase = require('../db/db');
+var plantController = require("../controllers/plant");
 
-router.get('/', async (req, res, next) => {
+router.get('/', function (req, res, next) {
     var userId = req.cookies.userId;
     if (userId == null) {
-        res.redirect('/home');
-        return;
+        userId = generator.getId();
+        res.cookie("userId", userId, {maxAge: 365 * 24 * 60 * 60 * 1000});
     }
+    console.log("userId: " + userId);
+    res.render('overview');
+});
 
-    let query = PlantModel.find();
-    const {sort} = req.query;
-    const {lat, lng} = req.query;
+router.get('/all', async (req, res, next) => {
+
+    const {sort, lat, lng} = req.query;
     console.log('sort = ' + sort)
     console.log('lat = ' + lat + ' lng = ' + lng)
 
-    if (sort === 'date' || sort === 'default' || sort === null) {
-        query = query.sort({date: -1});
-    } else if (sort === 'name') {
-        query = query.sort({'identification.name': 1});
-    } else if (sort === 'distance' && lat && lng) {
-        console.log('lat = ' + lat + ' lng = ' + lng)
-
-    }
-
     try {
-        const data = await query.exec();
-        res.render('overview', {plants: data});
-    } catch (err) {
-        console.error(err);
-        res.status(500).send("Read Data failed");
+        const plants = await plantController.getAll(sort, lat, lng);
+        // res.render('overview', {plants: plants});
+        res.json(plants);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
     }
 });
 
