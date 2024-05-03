@@ -98,6 +98,11 @@ let PlantSchema = new mongoose.Schema({
         }
     ]
 });
+
+// Configure the 'toObject' option for the schema to include getters
+// and virtuals when converting to an object
+PlantSchema.set('toObject', { getters: true, virtuals: true });
+
 // PlantSchema.index({ location: '2dsphere' });
 let PlantModel = mongoose.model('plants', PlantSchema);
 
