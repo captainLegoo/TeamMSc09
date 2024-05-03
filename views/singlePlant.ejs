@@ -70,12 +70,20 @@
                     <div class="detail-value-attribute"><%= data.location.coordinates[0] %><%= data.location.coordinates[1] %></div>
                     <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= url %>')">URL</button>
                     <div class="detail-value-attribute"><%= data.userNickname %></div>
+                    <button class="detail-value-attribute" onclick="editThisPlant('<%= data._id %>')">EDIT</button>
                     <script>
                         function redirectToPlantPage(url) {
                             if (url==='')
                                 alert("No url here")
                             else
                                 window.location.href = url;
+                        }
+                        function editThisPlant(_id) {
+                            // if (url==='')
+                            //     alert("No url here")
+                            // else
+                            //     window.location.href = url;
+                            window.location.href = '/modify/edit?_id='+_id
                         }
                     </script>
                 </div>

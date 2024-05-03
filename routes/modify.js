@@ -30,12 +30,8 @@ mongoose.connect(URI)
 
 // ADD PLANT
 router.post('/addPlant',upload.single('photo'),function (req,res){
-  let base64Image = '';
-  //console.log("222")
-  // console.log(req.file);
-  console.log(req.file)
   fs.readFile(req.file.path, (err, data) => {
-    base64Image = data.toString('base64');
+    let base64Image = data.toString('base64');
     const plant = new PlantModel({
       date: new Date(),
       location: {
@@ -66,20 +62,17 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
 
     plant.save()
         .then(() => {
-          console.log('New plant record created successfully!');
+          console.log('new plant add successfully!');
           res.render('success',{title:'successfully added'})
         })
         .catch((err) => {
-          console.error('Error creating plant record:', err);
+          console.error('failed to add new plant', err);
           res.render('success',{title:'failed to add'});
         });
   });
-  // console.log(base64Image)
 })
 
 router.get('/addPlant',function (req,res){
-  var userId = req.cookies.userId;
-  console.log("userId: " + userId);
   res.render('addPlant')
 })
 
@@ -105,28 +98,26 @@ router.post('/updatePlant', async (req, res)=>{
   plant.identification.dbpediaInfo.scientificName = req.body.id_info_scientificName;
   plant.identification.dbpediaInfo.description = req.body.id_info_description;
   plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
-  //plant.photo = req.body.photo;
+
   plant.userNickname = req.body.userNickname;
   await plant.save();
-  await plant.save();
-  //res.redirect('home');
-  res.render("success", {title: "Add plant successful"})
+
+  res.render("success", {title: "update plant successfully"})
 })
 
-router.get('/plants', async (req, res) => {
-  try {
-    const allPlants = await PlantModel.find({});
-    res.send(allPlants);
-    //res.status(200).json(allPlants);
-  } catch (error) {
-    console.error('Error fetching plant records:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
+// router.get('/plants', async (req, res) => {
+//   try {
+//     const allPlants = await PlantModel.find({});
+//     res.send(allPlants);
+//     //res.status(200).json(allPlants);
+//   } catch (error) {
+//     console.error('Error fetching plant records:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
 
 // /* GET home page. */
 router.get('/', async (req, res) => {
-  //try {
     var userId = req.cookies.userId;
     if (userId == null) {
       res.redirect('/home');
@@ -137,43 +128,28 @@ router.get('/', async (req, res) => {
     const query_name = ( allPlants.identification.dbpediaInfo.commonName==='')?allPlants.identification.dbpediaInfo.scientificName:allPlants.identification.dbpediaInfo.commonName
     const query_name2 = allPlants.identification.name;
 
-    fetchData(query_name).then(results => {
-
-      res.render('singlePlant',{data:allPlants,title:'randy',url:results});
+    fetchData(query_name2).then(results => {
+      res.render('singlePlant',{data:allPlants,url:results});
     }).catch(error => {
-      res.render('singlePlant',{data:allPlants,title:'randy',url:''});
+      res.render('singlePlant',{data:allPlants,url:''});
     });
-
-  // } catch (error) {
-  //   console.error('Error fetching plant records:', error);
-  //   res.status(500).json({ message: 'Internal server error' });
-  // }
 });
 
 router.get('/edit',async (req,res) => {
   const _id = req.params._id;
-  console.log("id is"+_id)
   const urlObj = url.parse(req.url, true);
   const query = urlObj.query;
-  const id = query._id;
-  console.log(query._id);
   try {
-    //http://localhost:3000/modify/edit?_id=65ef932e7f392acbffefa873
     const plant = await PlantModel.findById(query._id);
     if (!plant) {
       return res.status(404).json({message: 'Plant not found'});
     }
-
-    //const query_name = plant.identification.dbpediaInfo.commonName
     const query_name = ( plant.identification.dbpediaInfo.commonName==='')?plant.identification.dbpediaInfo.scientificName:plant.identification.dbpediaInfo.commonName
     fetchData(query_name).then(results => {
-      res.render('editPlant',{title:'aaa',data:plant,url:results});
+      res.render('editPlant',{data:plant,url:results});
     }).catch(error => {
-      console.error("Error fetching results:", error);
+      res.render('editPlant',{data:plant,url:''});
     });
-
-    //res.render('edit',{title:'aaa',data:plant,url:''});
-    //res.render('editPlant',{title:'aaa',data:plant});
 
   } catch (error) {
     console.error('Error fetching plant records:', error);
@@ -184,46 +160,42 @@ router.get('/edit',async (req,res) => {
 router.post('/add-comment', async (req,res) => {
   const _id = req.body._id;
   const _comment = req.body.comment;
-  console.log(_id)
-  console.log(_comment)
-  console.log("ok")
+
   const plant = await PlantModel.findById(_id);
   plant.comment.push({msg:_comment});
   await plant.save();
   const allPlants = await PlantModel.findById(_id);
 
-  res.render('addPlant',{data:allPlants,title:'randy'});
+  res.render('addPlant',{data:allPlants});
 })
 
 function fetchData(query_name) {
   const endpointUrl = 'https://dbpedia.org/sparql';
   const query = `SELECT * WHERE { ?athlete rdfs:label "${query_name}"@en } LIMIT 1`;
 
-  // Create a new promise that will handle the completion of the data collection
   return new Promise(async (resolve, reject) => {
     try {
       const bindingsStream = await fetcher.fetchBindings(endpointUrl, query);
       const results = []; // This array will collect all results
 
       bindingsStream.on('data', (bindings) => {
-        // For each piece of data (bindings), collect all results
         Object.keys(bindings).forEach(key => {
           results.push(bindings[key].value);
         });
       });
 
       bindingsStream.on('end', () => {
-        console.log('All data has been received.');
-        resolve(results); // Resolve the promise with all collected results once the stream ends
+        console.log('finish loading data.');
+        resolve(results);
       });
 
       bindingsStream.on('error', (error) => {
-        console.error('Stream error:', error);
-        reject(error); // Reject the promise on stream error
+        console.error('stream err:', error);
+        reject(error);
       });
     } catch (error) {
-      console.error('Error fetching data from DBpedia:', error);
-      reject(error); // Reject the promise on fetching error
+      console.error('fetching err', error);
+      reject(error);
     }
   });
 }
