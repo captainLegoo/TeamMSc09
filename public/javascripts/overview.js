@@ -1,6 +1,6 @@
 let lat = 0;
 let lon = 0;
-
+let selectedSort = null;
 document.addEventListener("DOMContentLoaded", () => {
     const sortDropdown = document.getElementById('sortDropdown');
     const urlParams = new URLSearchParams(window.location.search);
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     sortDropdown.addEventListener('change', (event) => {
-        const selectedSort = event.target.value;
+        selectedSort = event.target.value;
         if (selectedSort === 'distance') {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Geolocation is not supported by this browser.");
             }
         } else {
-            const url = new URL(window.location);
+            const url = new URL("http://localhost:3000/overview/all");
             url.searchParams.set('sort', selectedSort);
-            window.location.href = url;
+            sendRequest();
         }
     });
 
@@ -32,12 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const longitude = position.coords.longitude;
         lat = latitude;
         lon = longitude;
-        const selectedSort = sortDropdown.value;
-        const url = new URL(window.location);
+        // const selectedSort = sortDropdown.value;
+        const url = new URL("http://localhost:3000/overview/all");
         url.searchParams.set('sort', selectedSort);
         url.searchParams.set('lat', lat);
         url.searchParams.set('lng', lon);
-        window.location.href = url;
+        sendRequest();
     }
 
     function showError(error) {
@@ -56,32 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
     }
-
-    // Fetch data and insert into DOM
-    const fetchData = async () => {
-        const response = await fetch(`/overview/all?sort=${sortParam}&lat=${lat}&lng=${lng}`);
-        const data = await response.json();
-        const plantList = document.getElementById("plant_list");
-
-        plantList.innerHTML = ""; // Clear previous plant list
-
-        data.forEach(plant => {
-            const plantTemplate = document.getElementById("plant_template").cloneNode(true);
-            plantTemplate.removeAttribute("id");
-            plantTemplate.querySelector("img").src = plant.photo;
-            plantTemplate.querySelector("p:nth-of-type(1)").textContent = `Description: ${plant.description}`;
-            plantTemplate.querySelector("p:nth-of-type(2)").textContent = `Plant Name: ${plant.identification.name}`;
-            plantTemplate.querySelector("p:nth-of-type(3)").textContent = `Plant Size: ${plant.plantSize}`;
-            plantTemplate.querySelector("p:nth-of-type(4)").textContent = `Flower: ${plant.haveFlower ? 'Yes' : 'No'}`;
-            plantTemplate.querySelector("p:nth-of-type(5)").textContent = `Leaves: ${plant.haveLeaves ? 'Yes' : 'No'}`;
-            plantTemplate.querySelector("p:nth-of-type(6)").textContent = `Seeds: ${plant.haveSeeds ? 'Yes' : 'No'}`;
-            plantTemplate.querySelector("p:nth-of-type(7)").textContent = `Sun Exposure: ${plant.sunExposure}`;
-            plantTemplate.querySelector("p:nth-of-type(8)").textContent = `Flower Color: ${plant.flowerColor}`;
-            plantList.appendChild(plantTemplate);
-        });
-    };
-
-    fetchData(); // Fetch data and insert into DOM
 });
 
 const insertPlantInList = (plant) => {
@@ -167,6 +141,7 @@ window.onload = function () {
             });
         }
     }
+
     let monogo_Status;
     fetch('/mongo/mongoStatus')
         .then(response => response.json())
@@ -176,29 +151,18 @@ window.onload = function () {
                 monogo_Status = true;
                 online_mode();
                 console.log('MongoDB is connected!');
-                // 在这里添加你的代码以渲染植物数据
             } else {
                 monogo_Status = false;
                 offline_mode();
                 console.log('MongoDB is not connected!');
-                // 在这里添加你的代码以从 IndexedDB 获取数据并渲染到页面上
             }
         })
         .catch(err => console.error('Error fetching MongoDB status:', err));
 
-
-
     function online_mode() {
         console.log("Online mode")
         document.getElementById("monogo_Status").textContent = "Online mode";
-        fetch('http://localhost:3000/overview/all')
-            .then(response => response.json()) // Parse response into JSON format
-            .then(plants => {
-                showPlantData(plants)
-            })
-            .catch(function (err) {
-                console.error('Error fetching plants from server:', err);
-            });
+        sendRequest();
     }
 
     function offline_mode() {
@@ -214,32 +178,43 @@ window.onload = function () {
             });
         });
     }
+}
 
-    function showPlantData(plants) {
-        // console.log('Plant data:', plants)
-        const plantContainer = document.getElementById('plant_container');
-        if (!plantContainer) {
-            console.error('Plant container not found in the DOM.');
-            return;
-        }
+function sendRequest() {
+    fetch(`http://localhost:3000/overview/all?sort=${selectedSort}&lat=${lat}&lng=${lon}`)
+        .then(response => response.json())
+        .then(plants => {
+            // console.log('Received plants data:', plants);
+            showPlantData(plants);
+        })
+        .catch(error => {
+            console.error('Error fetching plants from server:', error);
+        });
+}
 
-        // Clear original content
-        plantContainer.innerHTML = '';
+function showPlantData(plants) {
+    const plantContainer = document.getElementById('plant_container');
+    if (!plantContainer) {
+        console.error('Plant container not found in the DOM.');
+        return;
+    }
 
-        const plant_count = document.getElementById('plant_count');
-        if (plants === null || plants.length === 0) {
-            plant_count.textContent = 'No data for plants';
-        } else {
-            plant_count.textContent = `There are ${plants.length} plant data`;
-        }
+    // Clear original content
+    plantContainer.innerHTML = '';
 
-        // Iterate over plant data
-        plants.forEach(plant => {
-            console.log(plant)
-            const card = document.createElement('div');
-            card.classList.add('card');
+    const plant_count = document.getElementById('plant_count');
+    if (plants === null || plants.length === 0) {
+        plant_count.textContent = 'No data for plants';
+    } else {
+        plant_count.textContent = `There are ${plants.length} plant data`;
+    }
 
-            card.innerHTML = `
+    // Iterate over plant data
+    plants.forEach((plant, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        card.innerHTML = `
                     <img src="data:image/png;base64,${plant.photo}" alt="Plant image">
                     <p>Plant Name: ${plant.identification.name}</p>
                     <p>Description: ${plant.description}</p>
@@ -253,7 +228,11 @@ window.onload = function () {
                     <a href="/modify/edit?_id=${plant._id}">Edit</a>
                 `;
 
-            plantContainer.appendChild(card);
-        });
-    }
+        plantContainer.appendChild(card);
+
+        // Add margin-right to the last card in each row
+        if ((index + 1) % 3 === 0) {
+            card.style.marginRight = '0';
+        }
+    });
 }
