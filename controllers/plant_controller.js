@@ -1,6 +1,24 @@
 // Import the plant model
 const plantModel = require('../model/PlantModel');
 
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1); // deg2rad below
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    ;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    return d;
+};
+
+const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
+};
+
 // Function to create new plants
 exports.create = function (plantData) {
     console.log(plantData)
@@ -22,6 +40,17 @@ exports.create = function (plantData) {
 
 // Function to get all plants
 exports.getAll = function (sort, lat, lng) {
+    // console.log("sort => ", sort)
+    if (sort === 'distance' && lat && lng) {
+        return plantModel.find({}).then(plants => {
+            return plants.sort((a, b) => {
+                const distanceA = calculateDistance(lat, lng, a.location.coordinates[1], a.location.coordinates[0]);
+                const distanceB = calculateDistance(lat, lng, b.location.coordinates[1], b.location.coordinates[0]);
+                return distanceA - distanceB;
+            });
+        });
+    }
+
 
     let sortQuery = {date: -1}; // Default sorting by date
 
@@ -29,8 +58,6 @@ exports.getAll = function (sort, lat, lng) {
         sortQuery = ({date: -1});
     } else if (sort === 'name') {
         sortQuery = ({'identification.name': 1});
-    } else if (sort === 'distance' && lat && lng) {
-        
     }
 
     // Retrieve all plants from the database
