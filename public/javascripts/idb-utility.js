@@ -1,67 +1,3 @@
-// Function to handle adding a new todo
-const addNewPlantToSync = (syncPlantIDB, txt_val) => {
-    // Retrieve plant text and add it to the IndexedDB
-
-    if (txt_val !== "") {
-        const transaction = syncPlantIDB.transaction(["sync-plant"], "readwrite")
-        const plantStore = transaction.objectStore("sync-plant")
-        const addRequest = plantStore.add({text: txt_val})
-        addRequest.addEventListener("success", () => {
-            console.log("Added " + "#" + addRequest.result + ": " + txt_val)
-            const getRequest = plantStore.get(addRequest.result)
-            getRequest.addEventListener("success", () => {
-                console.log("Found " + JSON.stringify(getRequest.result))
-                // Send a sync message to the service worker
-                navigator.serviceWorker.ready.then((sw) => {
-                    sw.sync.register("sync-plant")
-                }).then(() => {
-                    console.log("Sync registered");
-                }).catch((err) => {
-                    console.log("Sync registration failed: " + JSON.stringify(err))
-                })
-            })
-        })
-    }
-}
-
-// Function to add new plants to IndexedDB and return a promise
-const addNewPlantsToIDB = (plantIDB, plants) => {
-    return new Promise((resolve, reject) => {
-        const transaction = plantIDB.transaction(["plants"], "readwrite");
-        const plantStore = transaction.objectStore("plants");
-
-        const addPromises = plants.map(todo => {
-            return new Promise((resolveAdd, rejectAdd) => {
-                const addRequest = plantStore.add(todo);
-                addRequest.addEventListener("success", () => {
-                    console.log("Added " + "#" + addRequest.result + ": " + todo.text);
-                    const getRequest = plantStore.get(addRequest.result);
-                    getRequest.addEventListener("success", () => {
-                        console.log("Found " + JSON.stringify(getRequest.result));
-                        // Assume insertTodoInList is defined elsewhere
-                        insertTodoInList(getRequest.result);
-                        resolveAdd(); // Resolve the add promise
-                    });
-                    getRequest.addEventListener("error", (event) => {
-                        rejectAdd(event.target.error); // Reject the add promise if there's an error
-                    });
-                });
-                addRequest.addEventListener("error", (event) => {
-                    rejectAdd(event.target.error); // Reject the add promise if there's an error
-                });
-            });
-        });
-
-        // Resolve the main promise when all add operations are completed
-        Promise.all(addPromises).then(() => {
-            resolve();
-        }).catch((error) => {
-            reject(error);
-        });
-    });
-};
-
-
 // Function to remove all plants from idb
 const deleteAllExistingPlantsFromIDB = (plantIDB) => {
         const transaction = plantIDB.transaction(["plants"], "readwrite");
@@ -79,10 +15,48 @@ const deleteAllExistingPlantsFromIDB = (plantIDB) => {
         });
 };
 
+/**
+ * Adds a plant to the indexedDB
+ * @param plantData
+ * @returns {Promise<unknown>}
+ */
+const addPlant = (plantData) => {
+    return new Promise((resolve, reject) => {
+        const transaction = indexedDB.open("plants", 1);
 
+        transaction.onerror = function(event) {
+            console.error("Error opening database:", event.target.error);
+            reject(event.target.error);
+        };
 
+        transaction.onsuccess = function(event) {
+            const db = event.target.result;
+            const store = db.transaction(["plants"], "readwrite").objectStore("plants");
+            const request = store.add(plantData);
 
-// Function to get the todo list from the IndexedDB
+            request.onsuccess = function(event) {
+                console.log("Plant data added to IndexedDB:", plantData);
+                resolve();
+            };
+
+            request.onerror = function(event) {
+                console.error("Error adding plant data to IndexedDB", event.target.error);
+                reject(event.target.error);
+            };
+        };
+
+        transaction.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            db.createObjectStore("plants", { keyPath: "_id", autoIncrement:true });
+        };
+    });
+};
+
+/**
+ * Get all plants from the IndexedDB
+ * @param plantIDB
+ * @returns {Promise<unknown>}
+ */
 const getAllPlants = (plantIDB) => {
     return new Promise((resolve, reject) => {
         const transaction = plantIDB.transaction(["plants"]);
@@ -91,7 +65,36 @@ const getAllPlants = (plantIDB) => {
 
         // Handle success event
         getAllRequest.addEventListener("success", (event) => {
-            resolve(event.target.result); // Use event.target.result to get the result
+            const plants = event.target.result.map(plant => ({
+                _id: plant._id,
+                date: plant.date,
+                location: {
+                    coordinates: plant.location.coordinates
+                },
+                description: plant.description,
+                plantSize: plant.plantSize,
+                hasFlower: plant.haveFlower,
+                hasLeaves: plant.haveLeaves,
+                hasSeeds: plant.haveSeeds,
+                sunExposure: plant.sunExposure,
+                flowerColor: plant.flowerColor,
+                identification: {
+                    name: plant.identification.name,
+                    status: plant.identification.status,
+                    suggestedNames: plant.identification.suggestedNames,
+                    dbpediaInfo: {
+                        commonName: plant.identification.dbpediaInfo.commonName,
+                        scientificName: plant.identification.dbpediaInfo.scientificName,
+                        description: plant.identification.dbpediaInfo.description,
+                        uri: plant.identification.dbpediaInfo.uri
+                    }
+                },
+                photo: plant.photo,
+                userNickname: plant.userNickname,
+                userId: plant.userId,
+                comment: plant.comment
+            }));
+            resolve(plants); // Use event.target.result to get the result
         });
 
         // Handle error event
@@ -102,7 +105,8 @@ const getAllPlants = (plantIDB) => {
 }
 
 
-// Function to get the todo list from the IndexedDB
+
+// Function to get the plant list from the IndexedDB
 const getAllSyncPlants = (syncplantIDB) => {
     return new Promise((resolve, reject) => {
         const transaction = syncplantIDB.transaction(["sync-plants"]);
