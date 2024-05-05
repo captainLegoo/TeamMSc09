@@ -58,40 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-const insertPlantInList = (plant) => {
-    const template = document.getElementById("plant_template");
-    const copy = template.content.cloneNode(true);
-    copy.querySelector("img").src = plant.photo;
-    copy.querySelector("img").alt = "Plant image";
-    copy.querySelector("p:nth-of-type(1)").textContent = `Description: ${plant.description}`;
-    copy.querySelector("p:nth-of-type(2)").textContent = `Plant Name: ${plant.identification.name}`;
-    copy.querySelector("p:nth-of-type(3)").textContent = `Plant Size: ${plant.plantSize}`;
-    copy.querySelector("p:nth-of-type(4)").textContent = `Flower: ${plant.haveFlower ? 'Yes' : 'No'}`;
-    copy.querySelector("p:nth-of-type(5)").textContent = `Leaves: ${plant.haveLeaves ? 'Yes' : 'No'}`;
-    copy.querySelector("p:nth-of-type(6)").textContent = `Seeds: ${plant.haveSeeds ? 'Yes' : 'No'}`;
-    copy.querySelector("p:nth-of-type(7)").textContent = `Sun Exposure: ${plant.sunExposure}`;
-    copy.querySelector("p:nth-of-type(8)").textContent = `Flower Color: ${plant.flowerColor}`;
-    copy.querySelector("a").href = `/modify?id=${plant._id}`;
-
-    // Insert sorted on string text order - ignoring case
-    const plantlist = document.querySelector(".content");
-    const children = plantlist.querySelectorAll(".card");
-    let inserted = false;
-    for (let i = 0; (i < children.length) && !inserted; i++) {
-        const child = children[i];
-        const child_text = child.querySelector("p:nth-of-type(2)").textContent.toUpperCase();
-        const copy_text = plant.identification.name.toUpperCase();
-        if (copy_text < child_text) {
-            plantlist.insertBefore(copy, child);
-            inserted = true;
-        }
-    }
-    if (!inserted) { // Append child
-        plantlist.appendChild(copy);
-    }
-};
-
-
 // Register service worker to control making site work offline
 window.onload = function () {
     const plantTemplateContainer = document.querySelector('#plant_template'); // 选择模板容器
@@ -173,7 +139,7 @@ window.onload = function () {
             getAllPlants(db).then((plants) => {
                 // 从 IndexedDB 获取数据后，调用 insertPlantInList 函数
                 plants.forEach(plant => {
-                    insertPlantInList(plant);
+                    showPlantData(plant);
                 });
             });
         });
