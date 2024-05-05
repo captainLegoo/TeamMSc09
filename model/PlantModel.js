@@ -87,6 +87,20 @@ let PlantSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
+    plantId: {
+        type: String,
+        // require: true
+    },
+    isInMongoDB: {
+        type: Boolean,
+        default: false,
+        // required: true
+    },
+    isInIndexedDB: {
+        type: Boolean,
+        default: false,
+        // required: true
+    },
     comment : [
         {
             data:{
