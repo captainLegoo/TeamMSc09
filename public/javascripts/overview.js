@@ -108,22 +108,22 @@ window.onload = function () {
         }
     }
 
-    let monogo_Status;
-    fetch('/mongo/mongoStatus')
-        .then(response => response.json())
-        .then(data => {
-            const { status } = data;
-            if (status === 1) {
-                monogo_Status = true;
+    getMongoStatus()
+        .then(status => {
+            console.log("MongoDB status:", status);
+
+            // Example data for plant
+            // addPlant(examplePlant)
+            //     .then(() => console.log("Sample plant data added successfully"))
+            //     .catch((error) => console.error("Error adding sample plant data:", error));
+
+            if (status) {
+                // TODO IndexedDB => MongoDB
                 online_mode();
-                console.log('MongoDB is connected!');
             } else {
-                monogo_Status = false;
                 offline_mode();
-                console.log('MongoDB is not connected!');
             }
-        })
-        .catch(err => console.error('Error fetching MongoDB status:', err));
+        });
 
     function online_mode() {
         console.log("Online mode")
@@ -137,15 +137,63 @@ window.onload = function () {
         // 如果不在线，从 IndexedDB 获取数据
         openPlantsIDB().then((db) => {
             getAllPlants(db).then((plants) => {
-                // 从 IndexedDB 获取数据后，调用 insertPlantInList 函数
-                plants.forEach(plant => {
-                    showPlantData(plant);
-                });
+                console.log('Plants from IndexedDB:', plants.length);
+                showPlantData(plants);
             });
         });
     }
 }
 
+// Add sample plant data to IndexedDB
+const examplePlant = {
+    // _id: "1",
+    date: new Date(),
+    location: { coordinates: [0, 0] },
+    description: "Sample plant",
+    plantSize: "medium",
+    haveFlower: true,
+    haveLeaves: true,
+    haveSeeds: true,
+    sunExposure: "Partial Shade",
+    flowerColor: "Red",
+    identification: {
+        name: "Sample Plant",
+        status: "In-progress",
+        suggestedNames: [],
+        dbpediaInfo: {}
+    },
+    photo: "example.jpg",
+    userNickname: "user123",
+    userId: "1",
+    comment: [],
+    isInMongoDB: false,
+    isInIndexedDB: true,
+    plantId: (new Date().getTime() * 1000 + Math.floor(Math.random() * 1000)).toString()
+};
+
+/**
+ * Get the status of MongoDB
+ * @returns {Promise<boolean | void>}
+ */
+function getMongoStatus() {
+    return fetch('/mongo/mongoStatus')
+        .then(response => response.json())
+        .then(data => {
+            const {status} = data;
+            if (status === 1) {
+                console.log('MongoDB is connected!');
+                return true;
+            } else {
+                console.log('MongoDB is not connected!');
+                return false;
+            }
+        })
+        .catch(err => console.error('Error fetching MongoDB status:', err));
+}
+
+/**
+ * Send a request to the server to fetch plants data
+ */
 function sendRequest() {
     fetch(`http://localhost:3000/overview/all?sort=${selectedSort}&lat=${lat}&lng=${lon}`)
         .then(response => response.json())
@@ -155,9 +203,14 @@ function sendRequest() {
         })
         .catch(error => {
             console.error('Error fetching plants from server:', error);
+            return null;
         });
 }
 
+/**
+ * Show plant data in the DOM
+ * @param plants
+ */
 function showPlantData(plants) {
     const plantContainer = document.getElementById('plant_container');
     if (!plantContainer) {
