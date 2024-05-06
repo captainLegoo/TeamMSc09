@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var modifyRouter = require('./routes/modify');
 var overviewRouter = require('./routes/overview');
-var detectMongoDBRouter = require('./routes/detect_mongo');
+var detectMongoDBRouter = require('./routes/mongo');
 
 var app = express();
 // app.use(express.static('public'));
