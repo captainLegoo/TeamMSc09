@@ -103,7 +103,7 @@ body {
 .detail-value-attribute-edit-boolean {
     text-align: center;
     border-radius: 10px;
-    width: 120px;
+    width: 130px;
     background-color: #ffffff;
     padding: 4px;
 }
@@ -206,3 +206,10 @@ body {
     display: block;
 }
 
+.button-class {
+    margin-top: 30px;
+}
+
+.map {
+    transform: translateX(50px); /* 向右移动50像素 */
+}

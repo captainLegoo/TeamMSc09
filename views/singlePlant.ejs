@@ -8,11 +8,12 @@
     <title>Plant Sightings</title>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <link rel="stylesheet" href="stylesheets/singlePlant.css">
+    <script type="text/javascript" src="/javascripts/offline_singlePlant.js"></script>
     <script type="text/javascript" src="/javascripts/commentArea.js"></script>
     <link rel="manifest" href="/public/manifest.json">
 </head>
 
-<body onload="init('<%=data._id%>', '<%=data.userNickname%>')">
+<body>
 <div class="container">
     <!-- Header -->
     <div class="header">
@@ -27,23 +28,23 @@
 
     <!-- Title and Description -->
     <div class="title-section">
-        <h2 class="title"><%= data.identification.name %></h2>
-        <p class="description">===========================<%= data.description %>===========================</p>
+        <h2 class="title" id="plantName"></h2>
+        <p class="description" id="plantDescription"></p>
     </div>
 
     <!-- Details Section -->
     <div class="details">
         <div class="detail-half">
             <div class="detail-label">Name</div>
-            <div class="detail-value"><%= data.identification.name %></div>
+            <div class="detail-value" id="name"></div>
 
             <div class="detail-label">Description</div>
-            <div class="detail-value"><%= data.description %></div>
+            <div class="detail-value" id="description"></div>
 
             <div class="detail-label">Photo</div>
             <label  class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
-                <img src="data:image/png;base64, <%= data.photo %>" alt="Photo of <%= data.identification.name %>">
+                <img class="plantPhoto" src="" alt="" >
             </label>
         </div>
         <div class="detail-half">
@@ -56,39 +57,39 @@
                     <span class="detail-value-question">Sun?</span>
                     <span class="detail-value-question">Color</span>
                     <span class="detail-value-question">Plant Size</span>
-                    <span class="detail-value-question">Position</span>
                     <span class="detail-value-question">DBPedia</span>
                     <span class="detail-value-question">Your Nick Name</span>
+                    <span class="detail-value-question">Position</span>
                 </div>
                 <div class="attribute-item">
-                    <div class="detail-value-attribute"><%= data.haveFlower ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= data.haveLeaves ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= data.haveSeeds ? 'Yes' : 'No' %></div>
-                    <div class="detail-value-attribute"><%= data.sunExposure %></div>
-                    <div class="detail-value-attribute"><%= data.flowerColor %></div>
-                    <div class="detail-value-attribute"><%= data.plantSize %></div>
-                    <div class="detail-value-attribute"><%= data.location.coordinates[0] %><%= data.location.coordinates[1] %></div>
+                    <div class="detail-value-attribute" id="flower"></div>
+                    <div class="detail-value-attribute" id="leaves"></div>
+                    <div class="detail-value-attribute" id="seeds"></div>
+                    <div class="detail-value-attribute" id="sun"></div>
+                    <div class="detail-value-attribute" id="color"></div>
+                    <div class="detail-value-attribute" id="size"></div>
                     <button class="detail-value-attribute" onclick="redirectToPlantPage('<%= url %>')">URL</button>
-                    <div class="detail-value-attribute"><%= data.userNickname %></div>
-                    <button class="detail-value-attribute" onclick="editThisPlant('<%= data._id %>')">EDIT</button>
-                    <script>
-                        function redirectToPlantPage(url) {
-                            if (url==='')
-                                alert("No url here")
-                            else
-                                window.location.href = url;
-                        }
-                        function editThisPlant(_id) {
-                            // if (url==='')
-                            //     alert("No url here")
-                            // else
-                            //     window.location.href = url;
-                            window.location.href = '/modify/edit?_id='+_id
-                        }
-                    </script>
+                    <div class="detail-value-attribute" id="nickName"></div>
+                    <div class="detail-value-attribute" id="location"></div>
                 </div>
                 <!-- Repeat for each attribute -->
             </div>
+            <button class="detail-value-attribute" id="editButton">EDIT</button>
+<!--            <script>-->
+<!--                function redirectToPlantPage(url) {-->
+<!--                    if (url==='')-->
+<!--                        alert("No url here")-->
+<!--                    else-->
+<!--                        window.location.href = url;-->
+<!--                }-->
+<!--                function editThisPlant(_id) {-->
+<!--                    // if (url==='')-->
+<!--                    //     alert("No url here")-->
+<!--                    // else-->
+<!--                    //     window.location.href = url;-->
+<!--                    window.location.href = '/modify/edit?_id='+_id-->
+<!--                }-->
+<!--            </script>-->
         </div>
     </div>
 
@@ -98,17 +99,16 @@
             <h3 class="discussion-title">DISCUSSION FORUM</h3>
             <form class="comment-history-form" action="">
                 <ul id="message">
-                    <% data.comment.forEach(function(msg) { %>
-                        <li><%= msg.msg %></li>
-                    <% }); %>
+                    <!-- Comments will be added here dynamically -->
                 </ul>
             </form>
             <div id="chat-send" class="comment-form">
                 <textarea id="chat-input" name="comment" rows="4" placeholder="LEAVE A COMMENT"></textarea>
-                <button onclick="sendChatText('<%= data._id %>')">Send</button>
+                <button id="sendButton">Send</button>
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

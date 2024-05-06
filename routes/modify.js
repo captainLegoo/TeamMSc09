@@ -4,7 +4,7 @@ var router = express.Router();
 const url = require('url');
 const PlantModel = require('../model/PlantModel');
 const {Double} = require("mongodb");
-const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const URI = "mongodb+srv://lhuang50:huang123_@cluster0.ihtm3iq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -24,9 +24,9 @@ const fetcher = new SparqlEndpointFetcher({
 const fs = require('fs');
 const multer  = require('multer');
 const upload = multer({ dest: 'uploads/' });
-mongoose.connect(URI)
-    .then((result)=> console.log('connect successfully'))
-    .catch((error) => console.log(error))
+// mongoose.connect(URI)
+//     .then((result)=> console.log('connect successfully'))
+//     .catch((error) => console.log(error))
 
 // ADD PLANT
 router.post('/addPlant',upload.single('photo'),function (req,res){
