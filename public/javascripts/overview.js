@@ -119,6 +119,7 @@ window.onload = function () {
 
             if (status) {
                 // TODO IndexedDB => MongoDB
+                updateIndexedDBData();
                 online_mode();
             } else {
                 offline_mode();
@@ -222,7 +223,7 @@ function showPlantData(plants) {
     plantContainer.innerHTML = '';
 
     const plant_count = document.getElementById('plant_count');
-    if (plants === null || plants.length === 0) {
+    if (plants.length === 0) {
         plant_count.textContent = 'No data for plants';
     } else {
         plant_count.textContent = `There are ${plants.length} plant data`;
