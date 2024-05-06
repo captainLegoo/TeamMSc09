@@ -29,8 +29,6 @@ app.use('/modify', modifyRouter);
 app.use('/overview', overviewRouter);
 app.use('/mongo', detectMongoDBRouter);
 
-app.use('/views', express.static(path.join(__dirname, 'views')));
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

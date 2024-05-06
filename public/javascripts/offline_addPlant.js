@@ -109,7 +109,7 @@ function updateIndexedDB(plantData) {
         .then(() => {
             console.log("Sample plant data added successfully");
             // Redirect to the success page
-            window.location.href = '/views/addPlantSuccess.html';
+            window.location.href = 'http://localhost:3000/overview';
         })
         .catch((error) => {
             console.error("Error adding sample plant data:", error);
@@ -185,10 +185,11 @@ function getRadioValue(name) {
     const radios = document.getElementsByName(name);
     for (let radio of radios) {
         if (radio.checked) {
-            return radio.value;
+            // Convert the radio value directly to a boolean
+            return radio.value === 'true';  // This will return true if the value is 'true', otherwise false
         }
     }
-    return null;  // Or a default value if needed
+    return false;  // Default return false if none is selected
 }
 
 function getPhotoFileData(inputId) {
