@@ -1,20 +1,3 @@
-// Function to remove all plants from idb
-const deleteAllExistingPlantsFromIDB = (plantIDB) => {
-        const transaction = plantIDB.transaction(["plants"], "readwrite");
-        const plantStore = transaction.objectStore("plants");
-        const clearRequest = plantStore.clear();
-
-        return new Promise((resolve, reject) => {
-            clearRequest.addEventListener("success", () => {
-                resolve();
-            });
-
-            clearRequest.addEventListener("error", (event) => {
-                reject(event.target.error);
-            });
-        });
-};
-
 /**
  * Adds a plant to the indexedDB
  * @param plantData
@@ -24,30 +7,30 @@ const addPlant = (plantData) => {
     return new Promise((resolve, reject) => {
         const transaction = indexedDB.open("plants", 1);
 
-        transaction.onerror = function(event) {
+        transaction.onerror = function (event) {
             console.error("Error opening database:", event.target.error);
             reject(event.target.error);
         };
 
-        transaction.onsuccess = function(event) {
+        transaction.onsuccess = function (event) {
             const db = event.target.result;
             const store = db.transaction(["plants"], "readwrite").objectStore("plants");
             const request = store.add(plantData);
 
-            request.onsuccess = function(event) {
-                console.log("Plant data added to IndexedDB:", plantData);
+            request.onsuccess = function (event) {
+                // console.log("Plant data added to IndexedDB:", plantData);
                 resolve();
             };
 
-            request.onerror = function(event) {
+            request.onerror = function (event) {
                 console.error("Error adding plant data to IndexedDB", event.target.error);
                 reject(event.target.error);
             };
         };
 
-        transaction.onupgradeneeded = function(event) {
+        transaction.onupgradeneeded = function (event) {
             const db = event.target.result;
-            db.createObjectStore("plants", { keyPath: "_id", autoIncrement:true });
+            db.createObjectStore("plants", {keyPath: "_id", autoIncrement: true});
         };
     });
 };
@@ -92,7 +75,10 @@ const getAllPlants = (plantIDB) => {
                 photo: plant.photo,
                 userNickname: plant.userNickname,
                 userId: plant.userId,
-                comment: plant.comment
+                comment: plant.comment,
+                isInMongoDB: plant.isInMongoDB,
+                isInIndexedDB: plant.isInIndexedDB,
+                plantId: plant.plantId
             }));
             resolve(plants); // Use event.target.result to get the result
         });
@@ -102,6 +88,73 @@ const getAllPlants = (plantIDB) => {
             reject(event.target.error);
         });
     });
+}
+
+const updateIndexedDBData = async () => {
+    const request = indexedDB.open("plants");
+
+    request.onsuccess = async function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction(["plants"], "readwrite");
+        const store = transaction.objectStore("plants");
+        const request = store.getAll();
+
+        request.onsuccess = async function (event) {
+            const plants = event.target.result;
+            await updatePlants(plants, store, db);
+        };
+
+        request.onerror = function (event) {
+            console.error("Error fetching plant data from IndexedDB", event.target.error);
+        };
+    };
+};
+
+async function updatePlants(plants, store, db) {
+    for (const plant of plants) {
+        if (plant.isInMongoDB === false) {
+            plant.isInMongoDB = true;
+            const updateRequest = store.put(plant);
+
+            await new Promise((resolve, reject) => {
+                updateRequest.onsuccess = function (event) {
+                    console.log("Plant data updated in IndexedDB");
+                    // Send hold request to route
+                    fetch('/mongo/saveOfflineData', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ plant })
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                console.log("Plant data saved successfully!");
+                                resolve();
+                            } else {
+                                console.error("Failed to save plant data!");
+                                reject();
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error saving plant data:", error);
+                            reject(error);
+                        });
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error("Error updating plant data in IndexedDB", event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        }
+    }
+
+    // end transaction
+    store.transaction.oncomplete = function(event) {
+        db.close();
+        console.log("IndexedDB transaction completed");
+    };
 }
 
 
