@@ -71,6 +71,16 @@ exports.getAll = function (sort, lat, lng) {
         // Return null in case of an error
         return null;
     });
-}
-;
+};
 
+exports.saveOfflineData = async function (plant) {
+    try {
+        // 创建新的植物数据并保存到数据库
+        const newPlant = new plantModel(plant);
+        await newPlant.save();
+        return { success: true, message: 'Plant data saved successfully!' };
+    } catch (error) {
+        console.error("Error saving plant data:", error);
+        return { success: false, error: 'Failed to save plant data!' };
+    }
+};
