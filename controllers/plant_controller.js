@@ -84,3 +84,13 @@ exports.saveOfflineData = async function (plant) {
         return { success: false, error: 'Failed to save plant data!' };
     }
 };
+
+exports.getAllNotInIndexedDB = async function () {
+    try {
+        const plants = await plantModel.find({ isInIndexedDB: false });
+        return { success: true, data: plants };
+    } catch (error) {
+        console.error("Error saving plant data:", error);
+        return { success: false, error: 'Failed to save plant data!' };
+    }
+};
