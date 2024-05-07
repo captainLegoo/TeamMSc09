@@ -91,32 +91,40 @@ const getAllPlants = (plantIDB) => {
 }
 
 const updateIndexedDBData = async () => {
-    const request = indexedDB.open("plants");
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("plants");
 
-    request.onsuccess = async function (event) {
-        const db = event.target.result;
-        const transaction = db.transaction(["plants"], "readwrite");
-        const store = transaction.objectStore("plants");
-        const request = store.getAll();
+        request.onsuccess = function (event) {
+            const db = event.target.result;
+            const transaction = db.transaction(["plants"], "readwrite");
+            const store = transaction.objectStore("plants");
+            const request = store.getAll();
 
-        request.onsuccess = async function (event) {
-            const plants = event.target.result;
-            await updatePlants(plants, store, db);
+            request.onsuccess = async function (event) {
+                const plants = event.target.result;
+                try {
+                    await updatePlants(plants, store, db);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            request.onerror = function (event) {
+                console.error("Error fetching plant data from IndexedDB", event.target.error);
+                reject(event.target.error);
+            };
         };
-
-        request.onerror = function (event) {
-            console.error("Error fetching plant data from IndexedDB", event.target.error);
-        };
-    };
+    });
 };
 
 async function updatePlants(plants, store, db) {
-    for (const plant of plants) {
-        if (plant.isInMongoDB === false) {
-            plant.isInMongoDB = true;
-            const updateRequest = store.put(plant);
+    const promises = plants.map(plant => {
+        if (!plant.isInMongoDB) {
+            return new Promise((resolve, reject) => {
+                plant.isInMongoDB = true;
+                const updateRequest = store.put(plant);
 
-            await new Promise((resolve, reject) => {
                 updateRequest.onsuccess = function (event) {
                     console.log("Plant data updated in IndexedDB");
                     // Send hold request to route
@@ -148,10 +156,12 @@ async function updatePlants(plants, store, db) {
                 };
             });
         }
-    }
+    });
+
+    await Promise.all(promises);
 
     // end transaction
-    store.transaction.oncomplete = function(event) {
+    store.transaction.oncomplete = function (event) {
         db.close();
         console.log("IndexedDB transaction completed");
     };
