@@ -109,17 +109,17 @@ window.onload = function () {
     }
 
     getMongoStatus()
-        .then(status => {
+        .then(async status => {
             console.log("MongoDB status:", status);
 
             // Example data for plant
-            // addPlant(examplePlant)
-            //     .then(() => console.log("Sample plant data added successfully"))
-            //     .catch((error) => console.error("Error adding sample plant data:", error));
+            addPlant(examplePlant)
+                .then(() => console.log("Sample plant data added successfully"))
+                .catch((error) => console.error("Error adding sample plant data:", error));
 
             if (status) {
                 // TODO IndexedDB => MongoDB
-                updateIndexedDBData();
+                await updateIndexedDBData();
                 online_mode();
             } else {
                 offline_mode();
