@@ -244,8 +244,8 @@ function showPlantData(plants) {
                     <p>Seeds: ${plant.hasSeeds ? 'Yes' : 'No'}</p>
                     <p>Sun Exposure: ${plant.sunExposure}</p>
                     <p>Flower Color: ${plant.flowerColor}</p>
-                    <a href="/modify?_id=${plant._id}">View</a>
-                    <a href="/modify/edit?_id=${plant._id}">Edit</a>
+                    <a href="/modify?plantId=${plant.plantId}">View</a>
+                    <a href="/modify/editPlant?plantId=${plant.plantId}">Edit</a>
                 `;
 
         plantContainer.appendChild(card);

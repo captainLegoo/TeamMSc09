@@ -73,6 +73,10 @@ exports.getAll = function (sort, lat, lng) {
     });
 };
 
+exports.getSinglePlant = function (plantId) {
+    return plantModel.find({plantId: plantId});
+}
+
 exports.saveOfflineData = async function (plant) {
     try {
         // 创建新的植物数据并保存到数据库

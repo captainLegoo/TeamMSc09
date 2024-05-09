@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function getPlantIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('_id');
+    return urlParams.get('plantId');
 }
 
 function fetchPlantDataFromServer(plantId) {
-    fetch(`/modify?_id=${plantId}`)
+    fetch(`/modify/singlePlantData?plantId=${plantId}`)
         .then(response => response.json())
         .then(data => {
             displayPlantData(data);

@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function getPlantIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('_id');
+    return urlParams.get('plantId');
 }
 
 function fetchPlantDataFromServer(plantId) {
-    fetch(`/modify?_id=${plantId}`)
+    fetch(`/modify/singlePlantData?plantId=${plantId}`)
         .then(response => response.json())
         .then(data => {
             displayPlantData(data);
@@ -52,7 +52,7 @@ function fetchPlantDataFromIndexedDB(plantId) {
 }
 
 function updatePlantData(plantId, updatedData) {
-    fetch(`/modify/updatePlant/${plantId}`, {
+    fetch(`/modify/updatePlant?plantId=${plantId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -71,6 +71,7 @@ function updatePlantData(plantId, updatedData) {
 
 function displayPlantData(plantData) {
     document.querySelector('#_id').value = plantData._id;
+    document.querySelector('#plantId').value = plantData.plantId;
 
     document.querySelector('#plantDescription').textContent = '===========================' + plantData.description + '===========================';
     document.querySelector('#name').value = plantData.identification.name;
