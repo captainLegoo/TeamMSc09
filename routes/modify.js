@@ -39,7 +39,7 @@ router.get('/singlePlantData', async (req, res) => {
   const result = await plantController.getSinglePlant(plantId);
   const plant = result[0];
 
-  fetchData('Peony').then(results => {
+  fetchData(plant.identification.name).then(results => {
     plant.identification.dbpediaInfo.uri = results[0].uri;
     plant.identification.dbpediaInfo.description = results[0].abstract;
     res.json(plant)
@@ -161,6 +161,7 @@ function fetchData(query_name) {
           uri: bindings.plant.value,
           abstract: bindings.abstract.value
         })
+
       });
 
       bindingsStream.on('end', () => {
