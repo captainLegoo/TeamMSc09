@@ -30,7 +30,8 @@ function writeOnHistory(text) {
 function record2DB(_id, msg){
     data = {
         _id:_id,
-        comment:msg
+        comment:msg,
+        name:name
     }
     fetch('http://localhost:3000/modify/add-comment', {
         method: 'POST',

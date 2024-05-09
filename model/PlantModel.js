@@ -108,6 +108,9 @@ let PlantSchema = new mongoose.Schema({
             },
             msg:{
                 type:String
+            },
+            name:{
+                type:String
             }
         }
     ]

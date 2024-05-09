@@ -126,7 +126,7 @@ function updateCommentList(comments) {
     messageList.innerHTML = ''; // Clear existing comments
 
     comments.forEach(comment => {
-        writeOnHistory(`<b>${comment.userId === name ? 'Me' : comment.userId}:</b> ${comment.msg}`);
+        writeOnHistory(`<b>${comment.name === name ? 'Me' : comment.name}:</b> ${comment.msg}`);
     });
 }
 

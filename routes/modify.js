@@ -134,10 +134,11 @@ router.post('/updatePlant', async (req, res)=>{
 router.post('/add-comment', async (req,res) => {
   const plantId = req.body._id;
   const comment = req.body.comment;
+  const name = req.body.name;
   const result = await plantController.getSinglePlant(plantId);
   const plant = result[0]
   console.log(plant)
-  plant.comment.push({msg:comment});
+  plant.comment.push({msg:comment,name:name});
   await plant.save();
   res.json({})
 })
