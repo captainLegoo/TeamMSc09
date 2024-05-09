@@ -36,8 +36,17 @@ router.get('/addPlant',function (req,res){
 router.get('/singlePlantData', async (req, res) => {
   const querySegment = req.url.split('?')[1];
   const plantId = querySegment.split('=')[1];
-  const plant = await plantController.getSinglePlant(plantId);
-  res.json(plant[0]);
+  const result = await plantController.getSinglePlant(plantId);
+  const plant = result[0];
+
+  fetchData('Peony').then(results => {
+    plant.identification.dbpediaInfo.uri = results[0].uri;
+    plant.identification.dbpediaInfo.description = results[0].abstract;
+    res.json(plant)
+  }).catch(error => {
+    console.log("fetch dbpedia error: "+error)
+    res.json(plant)
+  });
 });
 
 router.post('/addPlant',upload.single('photo'),function (req,res){
@@ -103,23 +112,72 @@ router.post('/updatePlant', async (req, res)=>{
   plant.identification.name = req.body.name;
   plant.identification.status = req.body.id_status;
   plant.identification.suggestedNames = req.body.id_suggestedNames;
-  plant.identification.dbpediaInfo.commonName = req.body.id_info_commonName;
-  plant.identification.dbpediaInfo.scientificName = req.body.id_info_scientificName;
-  plant.identification.dbpediaInfo.description = req.body.id_info_description;
-  plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
+  //plant.identification.dbpediaInfo.commonName = req.body.id_info_commonName;
+  //plant.identification.dbpediaInfo.scientificName = req.body.id_info_scientificName;
+  //plant.identification.dbpediaInfo.description = req.body.id_info_description;
+  //plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
 
   plant.userNickname = req.body.userNickname;
   plant.save()
     .then(() => {
       console.log('update successfully!');
-      res.json({})
+      // res.json({})
+      res.redirect('editPlant?plantId='+plantId)
     })
     .catch((err) => {
       console.error('failed to update plant', err);
-      res.json({})
+      // res.json({})
+      res.redirect('editPlant?plantId='+plantId)
     });
 })
 
+router.post('/add-comment', async (req,res) => {
+  const plantId = req.body._id;
+  const comment = req.body.comment;
+  const result = await plantController.getSinglePlant(plantId);
+  const plant = result[0]
+  console.log(plant)
+  plant.comment.push({msg:comment});
+  await plant.save();
+  res.json({})
+})
+
+function fetchData(query_name) {
+  const endpointUrl = 'https://dbpedia.org/sparql';
+  const query = `SELECT ?plant ?abstract WHERE {
+  ?plant rdfs:label "${query_name}"@en;
+         a dbo:Plant;
+         dbo:abstract ?abstract.
+  FILTER (lang(?abstract) = 'en')
+} LIMIT 1`;
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const bindingsStream = await fetcher.fetchBindings(endpointUrl, query);
+      const results = [];
+
+      bindingsStream.on('data', (bindings) => {
+        results.push({
+          uri: bindings.plant.value,
+          abstract: bindings.abstract.value
+        })
+      });
+
+      bindingsStream.on('end', () => {
+        console.log('finish loading data.');
+        resolve(results);
+      });
+
+      bindingsStream.on('error', (error) => {
+        console.error('stream err:', error);
+        reject(error);
+      });
+    } catch (error) {
+      console.error('fetching err', error);
+      reject(error);
+    }
+  });
+}
 
 // ADD PLANT
 // router.post('/addPlant',upload.single('photo'),function (req,res){
@@ -267,7 +325,7 @@ router.post('/updatePlant', async (req, res)=>{
 //   return new Promise(async (resolve, reject) => {
 //     try {
 //       const bindingsStream = await fetcher.fetchBindings(endpointUrl, query);
-//       const results = []; // This array will collect all results
+//       const results = [];
 //
 //       bindingsStream.on('data', (bindings) => {
 //         Object.keys(bindings).forEach(key => {

@@ -88,10 +88,15 @@ function displayPlantData(plantData) {
     const seedsElement = document.querySelector('#seeds');
     seedsElement.textContent = plantData.haveSeeds ? 'Yes' : 'No';
 
-    document.querySelector('.sun').textContent = plantData.identification.sunExposure;
-    document.querySelector('.color').textContent = plantData.identification.flowerColor;
-    document.querySelector('.size').textContent = plantData.identification.plantSize;
-    document.querySelector('.nickName').textContent = plantData.identification.userNickname;
+    document.querySelector('#sun').textContent = plantData.sunExposure;
+    document.querySelector('#color').textContent = plantData.flowerColor;
+    document.querySelector('#size').textContent = plantData.plantSize;
+    document.querySelector('#nickName').textContent = plantData.userNickname;
+
+    document.querySelector('#uri').onclick = function() {
+        window.open(plantData.identification.dbpediaInfo.uri, '_blank');
+    };
+    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
 
     const locationElement = document.querySelector('#location');
     locationElement.textContent = `${plantData.location.coordinates[0]}, ${plantData.location.coordinates[1]}`;
@@ -108,7 +113,7 @@ function displayPlantData(plantData) {
     updateCommentList(plantData.comment);
     const sendButton = document.querySelector('#sendButton');
     sendButton.onclick = function() {
-        sendChatText(plantData._id);
+        sendChatText(plantData.plantId);
     };
 }
 
