@@ -1,38 +1,3 @@
-// module.exports = function (success, error) {
-//     // Determine error and set default value
-//     if (typeof error !== "function") {
-//         error = () => {
-//             console.log("Connection failed");
-//         }
-//     }
-//
-//     // import mongoose
-//     const mongoose = require("mongoose");
-//     // Import configuration file
-//
-//
-//     mongoose.set('strictQuery', false);
-//
-//     mongoose.Promise = global.Promise
-//
-//     // connect mongodb
-//     mongoose.connect(`mongodb://${DBHOST}:${DBPORT}/${DBNAME}`);
-//
-//     mongoose.connection.once("open", () => {
-//         success();
-//     });
-//
-//     mongoose.connection.on("error", () => {
-//         error();
-//         // Set callback for connection errors
-//         console.log("Connection failed");
-//     });
-//     mongoose.connection.on("close", () => {
-//         // Set callback for connection close
-//         console.log("connection closed");
-//     });
-// }
-
 const mongoose = require('mongoose');
 
 const {DBHOST, DBPORT, DBNAME} = require("../config/config");
