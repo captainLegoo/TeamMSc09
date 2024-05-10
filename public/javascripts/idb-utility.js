@@ -56,9 +56,9 @@ const getAllPlants = (plantIDB) => {
                 },
                 description: plant.description,
                 plantSize: plant.plantSize,
-                hasFlower: plant.haveFlower,
-                hasLeaves: plant.haveLeaves,
-                hasSeeds: plant.haveSeeds,
+                haveFlower: plant.haveFlower,
+                haveLeaves: plant.haveLeaves,
+                haveSeeds: plant.haveSeeds,
                 sunExposure: plant.sunExposure,
                 flowerColor: plant.flowerColor,
                 identification: {
