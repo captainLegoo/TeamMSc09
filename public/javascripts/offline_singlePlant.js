@@ -1,13 +1,38 @@
 document.addEventListener("DOMContentLoaded", function () {
     const plantId = getPlantIdFromURL();
 
-    if (navigator.onLine) {
-        fetchPlantDataFromServer(plantId);
-    } else {
-        fetchPlantDataFromIndexedDB(plantId);
-    }
+    getMongoStatus().then(status => {
+        if (status) {
+            fetchPlantDataFromServer(plantId);
+        } else {
+            fetchPlantDataFromIndexedDB(plantId);
+        }
+    })
+    // if (navigator.onLine) {
+    //     fetchPlantDataFromServer(plantId);
+    // } else {
+    //     fetchPlantDataFromIndexedDB(plantId);
+    // }
 });
-
+/**
+ * Get the status of MongoDB
+ * @returns {Promise<boolean | void>}
+ */
+function getMongoStatus() {
+    return fetch('/mongo/mongoStatus')
+        .then(response => response.json())
+        .then(data => {
+            const {status} = data;
+            if (status === 1) {
+                console.log('MongoDB is connected!');
+                return true;
+            } else {
+                console.log('MongoDB is not connected!');
+                return false;
+            }
+        })
+        .catch(err => console.error('Error fetching MongoDB status:', err));
+}
 function getPlantIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('plantId');
