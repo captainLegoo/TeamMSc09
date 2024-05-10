@@ -94,6 +94,12 @@ const updateIndexedDBData = async () => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants");
 
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            const store = db.createObjectStore("plants", { keyPath: "_id" });
+            store.createIndex("isInMongoDB", "isInMongoDB");
+        };
+
         request.onsuccess = function (event) {
             const db = event.target.result;
             const transaction = db.transaction(["plants"], "readwrite");
