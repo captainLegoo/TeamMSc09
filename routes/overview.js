@@ -21,7 +21,12 @@ router.get('/all', async (req, res, next) => {
     console.log('lat = ' + lat + ' lng = ' + lng)
 
     try {
-        const plants = await plantController.getAll(sort, lat, lng);
+        let plants = null;
+        if (sort === "only") {
+            plants = await plantController.getPlantsByUserId(req.cookies.userId);
+        } else {
+            plants = await plantController.getAll(sort, lat, lng);
+        }
         // res.render('overview', {plants: plants});
         res.json(plants);
     } catch (error) {
