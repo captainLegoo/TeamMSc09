@@ -1,6 +1,19 @@
 let lat = 0;
 let lon = 0;
 let selectedSort = null;
+let userId = null;
+
+const getCookieValue = (name) => {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const sortDropdown = document.getElementById('sortDropdown');
     const urlParams = new URLSearchParams(window.location.search);
@@ -29,27 +42,37 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (status) {
                         sendRequest();
                     } else {
-                        openPlantsIDB().then((db) => {
-                            getAllPlants(db).then((plants) => {
-                                if (selectedSort === 'date') {
-                                    plants.sort((a, b) => new Date(b.date) - new Date(a.date));
-                                } else if (selectedSort === 'name') {
-                                    plants.sort((a, b) => {
-                                        const nameA = a.identification.name.toUpperCase();
-                                        const nameB = b.identification.name.toUpperCase();
-                                        if (nameA < nameB) {
-                                            return -1;
-                                        }
-                                        if (nameA > nameB) {
-                                            return 1;
-                                        }
-                                        return 0;
+                        if (selectedSort === 'only') {
+                            openPlantsIDB().then((db) => {
+                                getAllPlants(db).then((plants) => {
+                                    getAllPlantsByUserId(db, userId).then((plants) => {
+                                        showPlantData(plants);
                                     });
-                                }
-
-                                showPlantData(plants);
+                                });
                             });
-                        });
+                        } else {
+                            openPlantsIDB().then((db) => {
+                                getAllPlants(db).then((plants) => {
+                                    if (selectedSort === 'date') {
+                                        plants.sort((a, b) => new Date(b.date) - new Date(a.date));
+                                    } else if (selectedSort === 'name') {
+                                        plants.sort((a, b) => {
+                                            const nameA = a.identification.name.toUpperCase();
+                                            const nameB = b.identification.name.toUpperCase();
+                                            if (nameA < nameB) {
+                                                return -1;
+                                            }
+                                            if (nameA > nameB) {
+                                                return 1;
+                                            }
+                                            return 0;
+                                        });
+                                    }
+
+                                    showPlantData(plants);
+                                });
+                            });
+                        }
                     }
                 });
         }
@@ -126,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Register service worker to control making site work offline
 window.onload = function () {
+    userId = getCookieValue('userId');
     const plantTemplateContainer = document.querySelector('#plant_template'); // 选择模板容器
     if (plantTemplateContainer) {
         const cardTemplate = plantTemplateContainer.querySelector('.card'); // 从模板容器中选择第一个.card元素
@@ -231,7 +255,7 @@ const examplePlant = {
     },
     photo: "example.jpg",
     userNickname: "user123",
-    userId: "1",
+    userId: "222",
     comment: [],
     isInMongoDB: false,
     isInIndexedDB: true,
@@ -301,18 +325,18 @@ function showPlantData(plants) {
         card.classList.add('card');
 
         card.innerHTML = `
-                    <img src="data:image/png;base64,${plant.photo}" alt="Plant image">
-                    <p>Plant Name: ${plant.identification.name}</p>
-                    <p>Description: ${plant.description}</p>
-                    <p>Plant Size: ${plant.plantSize}</p>
-                    <p>Flower: ${plant.hasFlower ? 'Yes' : 'No'}</p>
-                    <p>Leaves: ${plant.hasLeaves ? 'Yes' : 'No'}</p>
-                    <p>Seeds: ${plant.hasSeeds ? 'Yes' : 'No'}</p>
-                    <p>Sun Exposure: ${plant.sunExposure}</p>
-                    <p>Flower Color: ${plant.flowerColor}</p>
-                    <a href="/modify?plantId=${plant.plantId}">View</a>
-                    <a href="/modify/editPlant?plantId=${plant.plantId}">Edit</a>
-                `;
+        <img src="data:image/png;base64,${plant.photo}" alt="Plant image">
+        <p>Plant Name: ${plant.identification.name}</p>
+        <p>Description: ${plant.description}</p>
+        <p>Plant Size: ${plant.plantSize}</p>
+        <p>Flower: ${plant.hasFlower ? 'Yes' : 'No'}</p>
+        <p>Leaves: ${plant.hasLeaves ? 'Yes' : 'No'}</p>
+        <p>Seeds: ${plant.hasSeeds ? 'Yes' : 'No'}</p>
+        <p>Sun Exposure: ${plant.sunExposure}</p>
+        <p>Flower Color: ${plant.flowerColor}</p>
+        <a href="/modify?plantId=${plant.plantId}">View</a>
+        ${plant.userId === userId ? `<a href="/modify/editPlant?plantId=${plant.plantId}">Edit</a>` : ''}
+    `;
 
         plantContainer.appendChild(card);
 
