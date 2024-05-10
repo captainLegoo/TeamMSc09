@@ -223,7 +223,16 @@ function getMongoStatus() {
         })
         .catch(err => console.error('Error fetching MongoDB status:', err));
 }
-
+const getCookieValue = (name) => {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null;
+};
 function gatherPlantData() {
     return {
         date: new Date(),
@@ -248,7 +257,7 @@ function gatherPlantData() {
             suggestedNames: [],
             dbpediaInfo: {}
         },
-        userId: "1",
+        userId: getCookieValue("userId"),
         comment: [],
         isInMongoDB: false,
         isInIndexedDB: true,
