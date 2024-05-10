@@ -173,7 +173,25 @@ async function updatePlants(plants, store, db) {
     };
 }
 
+const getAllPlantsByUserId = (plantIDB, userId) => {
+    return new Promise((resolve, reject) => {
+        const transaction = plantIDB.transaction(["plants"]);
+        const plantStore = transaction.objectStore("plants");
+        const getAllRequest = plantStore.getAll();
 
+        // Handle success event
+        getAllRequest.addEventListener("success", (event) => {
+            const plants = event.target.result.filter(plant => plant.userId === userId);
+            console.log(plants);
+            resolve(plants);
+        });
+
+        // Handle error event
+        getAllRequest.addEventListener("error", (event) => {
+            reject(event.target.error);
+        });
+    });
+};
 
 // Function to get the plant list from the IndexedDB
 const getAllSyncPlants = (syncplantIDB) => {
