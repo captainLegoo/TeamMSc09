@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var homeRouter = require('./routes/home');
 var modifyRouter = require('./routes/modify');
 var overviewRouter = require('./routes/overview');
+var successRouter = require('./routes/success');
 var detectMongoDBRouter = require('./routes/mongo');
 
 var app = express();
@@ -25,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/modify', modifyRouter);
-// app.use('/home', homeRouter);
+app.use('/success', successRouter);
 app.use('/overview', overviewRouter);
 app.use('/mongo', detectMongoDBRouter);
 
