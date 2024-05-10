@@ -54,10 +54,11 @@ window.onload = function () {
         if (validationResult.allFieldsFilled) {
             const plant= gatherPlantData()
             getMongoStatus()
-                .then(status => {
+                .then(async status => {
                     console.log("MongoDB status:", status);
                     if (status) {
                         // TODO IndexedDB => MongoDB
+                        await updateIndexedDBData();
                         online_mode();
                     } else {
                         offline_mode(plant);
@@ -98,8 +99,10 @@ function updateMongoDB() {
     }).then(data => {
         console.log('Success:', data);
         // Additional code to handle successful submission
+        window.location.href = '/success?code=1';
     }).catch(error => {
         console.error('Error:', error);
+        window.location.href = '/success?code=2';
     });
 }
 function updateIndexedDB(plantData) {
