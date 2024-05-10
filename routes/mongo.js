@@ -31,4 +31,18 @@ router.post('/saveOfflineData', async (req, res, next) => {
     }
 });
 
+router.get('/saveOnlineData', async (req, res, next) => {
+    try {
+        const result = await plantController.getAllNotInIndexedDB()
+        if (result.success) {
+            return res.status(200).json({ message: result.data });
+        } else {
+            return res.status(500).json({ error: result.error });
+        }
+    } catch (error) {
+        console.error("Error saving plant data:", error);
+        return res.status(500).json({ error: 'Failed to save plant data!' });
+    }
+});
+
 module.exports = router;

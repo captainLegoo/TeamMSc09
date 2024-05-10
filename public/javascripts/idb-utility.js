@@ -90,6 +90,20 @@ const getAllPlants = (plantIDB) => {
     });
 }
 
+const updateMongoDBDataToIndexedDB = async (plants) => {
+    if (plants instanceof Array) {
+        plants.forEach(plant => {
+            addPlant(plant);
+        });
+    } else {
+        const plantsArray = Object.values(plants);
+        console.log("plantsArray => ", plantsArray);
+        plantsArray.forEach(plant => {
+            addPlant(plant);
+        });
+    }
+};
+
 const updateIndexedDBData = async () => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants");
@@ -97,7 +111,7 @@ const updateIndexedDBData = async () => {
         request.onupgradeneeded = function (event) {
             const db = event.target.result;
             const store = db.createObjectStore("plants", { keyPath: "_id" });
-            store.createIndex("isInMongoDB", "isInMongoDB");
+            // store.createIndex("isInMongoDB", "isInMongoDB");
         };
 
         request.onsuccess = function (event) {

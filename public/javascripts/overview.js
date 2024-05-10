@@ -208,8 +208,10 @@ window.onload = function () {
             //     .catch((error) => console.error("Error adding sample plant data:", error));
 
             if (status) {
-                // TODO IndexedDB => MongoDB
+                // IndexedDB => MongoDB
                 await updateIndexedDBData();
+                // MongoDB => IndexedDB
+                // await updateMongoDBData();
                 online_mode();
             } else {
                 offline_mode();
@@ -231,6 +233,21 @@ window.onload = function () {
                 // console.log('Plants from IndexedDB:', plants.length);
                 showPlantData(plants);
             });
+        });
+    }
+
+    function updateMongoDBData() {
+        return new Promise((resolve, reject) => {
+            fetch(`http://localhost:3000/mongo/saveOnlineData`)
+                .then(response => response.json())
+                .then(plants => {
+                    updateMongoDBDataToIndexedDB(plants);
+                    resolve();
+                })
+                .catch(error => {
+                    console.error('Error fetching plants from server:', error);
+                    reject(error);
+                });
         });
     }
 }
