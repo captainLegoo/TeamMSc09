@@ -75,11 +75,14 @@ function displayPlantData(plantData) {
 
     document.querySelector('#plantDescription').textContent = '===========================' + plantData.description + '===========================';
     document.querySelector('#name').value = plantData.identification.name;
-    document.querySelector('#description').value = plantData.identification.description;
+    document.querySelector('#description').value = plantData.description;
 
     const imageElement = document.querySelector('.plantPhoto');
     imageElement.src = `data:image/png;base64,${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
+
+    document.querySelector('#haveFlowerTrue').checked = plantData.haveFlower === true;
+    document.querySelector('#haveFlowerFalse').checked = plantData.haveFlower === false;
 
     document.querySelector('#haveLeavesTrue').checked = plantData.haveFlower === true;
     document.querySelector('#haveLeavesFalse').checked = plantData.haveFlower === false;
