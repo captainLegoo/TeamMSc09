@@ -131,8 +131,8 @@ function displayPlantData(plantData) {
         editThisPlant(plantData._id);
     };
 
-    const plantId = plantData._id;
-    const userNickname = plantData.userNickname;
+    const plantId = plantData.plantId;
+    const userNickname = getCookieValue('userNickName');
     init(plantId, userNickname);
 
     updateCommentList(plantData.comment);
@@ -158,3 +158,14 @@ function updateCommentList(comments) {
 function refreshComments(plantId) {
     fetchPlantDataFromServer(plantId);
 }
+
+const getCookieValue = (name) => {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null;
+};
