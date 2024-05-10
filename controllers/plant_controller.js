@@ -98,3 +98,12 @@ exports.getAllNotInIndexedDB = async function () {
         return { success: false, error: 'Failed to save plant data!' };
     }
 };
+
+exports.getPlantsByUserId = async (userId) => {
+    try {
+        return await plantModel.find({userId});
+    } catch (error) {
+        console.error("Error getting plants by userId:", error);
+        return { success: false, error: error.message };
+    }
+};
