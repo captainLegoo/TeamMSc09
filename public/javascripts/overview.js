@@ -23,7 +23,35 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             const url = new URL("http://localhost:3000/overview/all");
             url.searchParams.set('sort', selectedSort);
-            sendRequest();
+            getMongoStatus()
+                .then(async status => {
+                    // console.log("MongoDB status:", status);
+                    if (status) {
+                        sendRequest();
+                    } else {
+                        openPlantsIDB().then((db) => {
+                            getAllPlants(db).then((plants) => {
+                                if (selectedSort === 'date') {
+                                    plants.sort((a, b) => new Date(b.date) - new Date(a.date));
+                                } else if (selectedSort === 'name') {
+                                    plants.sort((a, b) => {
+                                        const nameA = a.identification.name.toUpperCase();
+                                        const nameB = b.identification.name.toUpperCase();
+                                        if (nameA < nameB) {
+                                            return -1;
+                                        }
+                                        if (nameA > nameB) {
+                                            return 1;
+                                        }
+                                        return 0;
+                                    });
+                                }
+
+                                showPlantData(plants);
+                            });
+                        });
+                    }
+                });
         }
     });
 
@@ -37,8 +65,46 @@ document.addEventListener("DOMContentLoaded", () => {
         url.searchParams.set('sort', selectedSort);
         url.searchParams.set('lat', lat);
         url.searchParams.set('lng', lon);
-        sendRequest();
+
+        getMongoStatus()
+            .then(async status => {
+                // console.log("MongoDB status:", status);
+                if (status) {
+                    sendRequest();
+                } else {
+                    openPlantsIDB().then((db) => {
+                        getAllPlants(db).then((plants) => {
+                            plants = plants.sort((a, b) => {
+                                const distanceA = calculateDistance(lat, lon, a.location.coordinates[1], a.location.coordinates[0]);
+                                const distanceB = calculateDistance(lat, lon, b.location.coordinates[1], b.location.coordinates[0]);
+                                return distanceA - distanceB;
+                            });
+
+                            showPlantData(plants);
+                        });
+                    });
+                }
+            });
+
     }
+
+    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371; // Radius of the earth in km
+        const dLat = deg2rad(lat2 - lat1); // deg2rad below
+        const dLon = deg2rad(lon2 - lon1);
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        ;
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const d = R * c; // Distance in km
+        return d;
+    };
+
+    const deg2rad = (deg) => {
+        return deg * (Math.PI / 180);
+    };
 
     function showError(error) {
         switch (error.code) {
@@ -113,9 +179,9 @@ window.onload = function () {
             console.log("MongoDB status:", status);
 
             // Example data for plant
-            addPlant(examplePlant)
-                .then(() => console.log("Sample plant data added successfully"))
-                .catch((error) => console.error("Error adding sample plant data:", error));
+            // addPlant(examplePlant)
+            //     .then(() => console.log("Sample plant data added successfully"))
+            //     .catch((error) => console.error("Error adding sample plant data:", error));
 
             if (status) {
                 // TODO IndexedDB => MongoDB
@@ -138,7 +204,7 @@ window.onload = function () {
         // 如果不在线，从 IndexedDB 获取数据
         openPlantsIDB().then((db) => {
             getAllPlants(db).then((plants) => {
-                console.log('Plants from IndexedDB:', plants.length);
+                // console.log('Plants from IndexedDB:', plants.length);
                 showPlantData(plants);
             });
         });
@@ -149,7 +215,7 @@ window.onload = function () {
 const examplePlant = {
     // _id: "1",
     date: new Date(),
-    location: { coordinates: [0, 0] },
+    location: {coordinates: [0, 0]},
     description: "Sample plant",
     plantSize: "medium",
     haveFlower: true,
@@ -158,7 +224,7 @@ const examplePlant = {
     sunExposure: "Partial Shade",
     flowerColor: "Red",
     identification: {
-        name: "Sample Plant",
+        name: "zzz",
         status: "In-progress",
         suggestedNames: [],
         dbpediaInfo: {}
