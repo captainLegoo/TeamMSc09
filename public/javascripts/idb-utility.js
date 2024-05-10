@@ -30,7 +30,7 @@ const addPlant = (plantData) => {
 
         transaction.onupgradeneeded = function (event) {
             const db = event.target.result;
-            db.createObjectStore("plants", {keyPath: "_id", autoIncrement: true});
+            db.createObjectStore("plants", { autoIncrement: true });
         };
     });
 };

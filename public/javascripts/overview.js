@@ -346,9 +346,9 @@ function showPlantData(plants) {
         <p>Plant Name: ${plant.identification.name}</p>
         <p>Description: ${plant.description}</p>
         <p>Plant Size: ${plant.plantSize}</p>
-        <p>Flower: ${plant.hasFlower ? 'Yes' : 'No'}</p>
-        <p>Leaves: ${plant.hasLeaves ? 'Yes' : 'No'}</p>
-        <p>Seeds: ${plant.hasSeeds ? 'Yes' : 'No'}</p>
+        <p>Flower: ${plant.haveFlower ? 'Yes' : 'No'}</p>
+        <p>Leaves: ${plant.haveLeaves ? 'Yes' : 'No'}</p>
+        <p>Seeds: ${plant.haveSeeds ? 'Yes' : 'No'}</p>
         <p>Sun Exposure: ${plant.sunExposure}</p>
         <p>Flower Color: ${plant.flowerColor}</p>
         <a href="/modify?plantId=${plant.plantId}">View</a>
