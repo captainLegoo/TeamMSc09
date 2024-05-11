@@ -236,6 +236,26 @@ window.onload = function () {
         });
     }
 
+    function openPlantsIDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open("plants", 1);
+
+            request.onerror = function (event) {
+                reject(new Error(`Database error: ${event.target}`));
+            };
+
+            request.onupgradeneeded = function (event) {
+                const db = event.target.result;
+                db.createObjectStore('plants', {keyPath: 'plantId'});
+            };
+
+            request.onsuccess = function (event) {
+                const db = event.target.result;
+                resolve(db);
+            };
+        });
+    }
+
     function updateMongoDBData() {
         return new Promise((resolve, reject) => {
             fetch(`http://localhost:3000/mongo/saveOnlineData`)
