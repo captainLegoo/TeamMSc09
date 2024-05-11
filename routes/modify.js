@@ -21,7 +21,10 @@ const fetcher = new SparqlEndpointFetcher({
 
 const fs = require('fs');
 const multer  = require('multer');
-const upload = multer({ dest: 'uploads/' });
+// const upload = multer({ dest: 'uploads/' });
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
+
 
 router.get('/',function (req, res){
   res.render('singlePlant')
@@ -50,8 +53,9 @@ router.get('/singlePlantData', async (req, res) => {
 });
 
 router.post('/addPlant',upload.single('photo'),function (req,res){
-  fs.readFile(req.file.path, (err, data) => {
-    let base64Image = data.toString('base64');
+  //fs.readFile(req.file.path, (err, data) => {
+    //let base64Image = 'data:image/png;base64,'+data.toString('base64');
+    const base64Image = 'data:image/png;base64,'+req.file.buffer.toString('base64');
     const plant = new PlantModel({
       date: new Date(),
       location: {
@@ -92,7 +96,7 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
           console.error('failed to add new plant', err);
           res.json({})
         });
-  });
+  //});
 })
 
 router.post('/updatePlant', async (req, res)=>{
