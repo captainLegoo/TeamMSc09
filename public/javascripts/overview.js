@@ -14,12 +14,22 @@ const getCookieValue = (name) => {
     return null;
 };
 
+const setCookie = (name, value) => {
+    document.cookie = encodeURIComponent(name)+"="+encodeURIComponent(value)+";max-age="+(365 * 24 * 60 * 60 * 1000)+"; path=/";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const sortDropdown = document.getElementById('sortDropdown');
     const urlParams = new URLSearchParams(window.location.search);
     const sortParam = urlParams.get('sort');
     // lat = urlParams.get('lat');
     // lng = urlParams.get('lng');
+
+    // set user's nickname
+    if (getCookieValue('userNickName')===null){
+        var userNickName = prompt("Enter your nickname:");
+        setCookie('userNickName',userNickName)
+    }
 
     if (sortParam) {
         sortDropdown.value = sortParam;
