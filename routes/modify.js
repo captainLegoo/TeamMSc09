@@ -72,20 +72,21 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
         name : req.body.name,
         status : req.body.id_status,
         suggestedNames : req.body.id_suggestedNames,
-        dbpediaInfo : {
-          commonName : req.body.id_info_commonName,
-          scientificName : req.body.id_info_scientificName,
-          description : req.body.id_info_description,
-          uri : req.body.id_info_uri,
-        }
+        // dbpediaInfo : {
+        //   commonName : req.body.id_info_commonName,
+        //   scientificName : req.body.id_info_scientificName,
+        //   description : req.body.id_info_description,
+        //   uri : req.body.id_info_uri,
+        // }
       },
       photo : base64Image,
-      userNickname : req.body.userNickname,
+      userNickname : req.cookies.userNickname,
       userId : req.cookies.userId,
       isInMongoDB: true,
       isInIndexedDB: true,
       plantId: (new Date().getTime() * 1000 + Math.floor(Math.random() * 1000)).toString()
     });
+    // console.log(req.cookies.userNickname);
 
     plant.save()
         .then(() => {
