@@ -45,7 +45,7 @@
             <div class="detail-label">Photo</div>
             <label  class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
-                <img class="plantPhoto" src="" alt="" >
+                <img class="photoView" id="plantPhoto" src="" alt="" >
             </label>
         </div>
         <div class="detail-half">
@@ -71,7 +71,16 @@
                     <div class="detail-value-attribute" id="size"></div>
                     <button class="detail-value-attribute" id="uri" onclick="">URI</button>
                     <div class="detail-value-attribute" id="nickName"></div>
-                    <div class="detail-value-attribute" id="location"></div>
+                    <div class = detail-value-attribute-edit-pos>
+                        <label>latitude</label>
+                        <label>
+                            <input class="detail-value-attribute-pos-input" type="text" name="latitude" id="latitude" disabled>
+                        </label>
+                        <label>longitude</label>
+                        <label>
+                            <input class="detail-value-attribute-pos-input" type="text" name="longitude" id="longitude" disabled>
+                        </label>
+                    </div>
                 </div>
                 <!-- Repeat for each attribute -->
             </div>

@@ -50,31 +50,63 @@ function fetchPlantDataFromServer(plantId) {
 }
 
 function fetchPlantDataFromIndexedDB(plantId) {
-    const dbRequest = indexedDB.open('PlantDatabase', 1);
+    return new Promise((resolve, reject) => {
+        const openRequest = indexedDB.open("plants", 1);
 
-    dbRequest.onerror = function (event) {
-        console.error("Database error: " + event.target.errorCode);
-    };
-
-    dbRequest.onsuccess = function (event) {
-        const db = event.target.result;
-        const transaction = db.transaction(['plants'], 'readonly');
-        const store = transaction.objectStore('plants');
-        const request = store.get(plantId);
-
-        request.onerror = function (event) {
-            console.error('Error fetching plant from IndexedDB:', event.target.errorCode);
+        openRequest.onerror = function(event) {
+            console.error("Error opening database:", event.target.error);
+            reject(event.target.error);
         };
 
-        request.onsuccess = function (event) {
-            if (request.result) {
-                displayPlantData(request.result);
-            } else {
-                console.log('No plant data found in IndexedDB');
-            }
+        // openRequest.onsuccess = function(event) {
+        //     const db = event.target.result;
+        //     const transaction = db.transaction(["plants"], "readonly");
+        //     const objectStore = transaction.objectStore("plants");
+        //     const getAllRequest = objectStore.getAll();
+        //
+        //     getAllRequest.onerror = function(event) {
+        //         console.error("Error fetching data:", event.target.error);
+        //         reject(event.target.error);
+        //     };
+        //
+        //     getAllRequest.onsuccess = function(event) {
+        //         const allPlants = getAllRequest.result;
+        //         const specificPlant = allPlants.find(plant => plant.plantId === plantId);
+        //         if (specificPlant) {
+        //             displayPlantData(specificPlant)
+        //             resolve(specificPlant);
+        //         } else {
+        //             console.log("No plant found with that ID.");
+        //             reject("No plant found with that ID.");
+        //         }
+        //     };
+        // };
+        openRequest.onsuccess = function(event) {
+            const db = event.target.result;
+            const transaction = db.transaction(["plants"], "readonly");
+            const objectStore = transaction.objectStore("plants");
+            const getAllRequest = objectStore.get(plantId);
+
+            getAllRequest.onerror = function(event) {
+                console.error("Error fetching data:", event.target.error);
+                reject(event.target.error);
+            };
+
+            getAllRequest.onsuccess = function(event) {
+                const plants = getAllRequest.result;
+                if (plants) {
+                    displayPlantData(plants)
+                    resolve(plants);
+                } else {
+                    console.log("No plant found with that ID.");
+                    reject("No plant found with that ID.");
+                }
+            };
         };
-    };
+    });
 }
+
+
 function addComment(plantId, comment) {
     fetch(`/modify/add-comment`, {
         method: 'POST',
@@ -100,7 +132,7 @@ function displayPlantData(plantData) {
     document.querySelector('#name').textContent = plantData.identification.name;
     document.querySelector('#description').textContent = plantData.description;
 
-    const imageElement = document.querySelector('.plantPhoto');
+    const imageElement = document.querySelector('#plantPhoto');
     imageElement.src = `data:image/png;base64,${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
 
@@ -123,8 +155,14 @@ function displayPlantData(plantData) {
     };
     document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
 
-    const locationElement = document.querySelector('#location');
-    locationElement.textContent = `${plantData.location.coordinates[0]}, ${plantData.location.coordinates[1]}`;
+    const latitudeInput = document.querySelector('#latitude');
+    const longitudeInput = document.querySelector('#longitude');
+
+    if (plantData && plantData.location && plantData.location.coordinates.length >= 2) {
+        latitudeInput.value = plantData.location.coordinates[0];
+        longitudeInput.value = plantData.location.coordinates[1];
+    }
+
 
     const editButton = document.querySelector('#editButton');
     editButton.onclick = function() {

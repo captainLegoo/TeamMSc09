@@ -110,7 +110,7 @@ const updateIndexedDBData = async () => {
 
         request.onupgradeneeded = function (event) {
             const db = event.target.result;
-            const store = db.createObjectStore("plants", { keyPath: "_id" });
+            const store = db.createObjectStore("plants", { keyPath: "plantId" });
             // store.createIndex("isInMongoDB", "isInMongoDB");
         };
 
@@ -244,7 +244,7 @@ function openPlantsIDB() {
 
         request.onupgradeneeded = function (event) {
             const db = event.target.result;
-            db.createObjectStore('plants', {keyPath: '_id'});
+            db.createObjectStore('plants', {keyPath: 'plantId'});
         };
 
         request.onsuccess = function (event) {
@@ -264,7 +264,7 @@ function openSyncPlantsIDB() {
 
         request.onupgradeneeded = function (event) {
             const db = event.target.result;
-            db.createObjectStore('sync-plants', {keyPath: 'id', autoIncrement: true});
+            db.createObjectStore('sync-plants', {keyPath: 'plantId', autoIncrement: true});
         };
 
         request.onsuccess = function (event) {

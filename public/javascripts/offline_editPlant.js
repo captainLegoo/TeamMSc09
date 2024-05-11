@@ -1,13 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
     const plantId = getPlantIdFromURL();
 
-    if (navigator.onLine) {
-        fetchPlantDataFromServer(plantId);
-    } else {
-        fetchPlantDataFromIndexedDB(plantId);
-    }
+    getMongoStatus().then(status => {
+        if (status) {
+            fetchPlantDataFromServer(plantId);
+        } else {
+            fetchPlantDataFromIndexedDB(plantId);
+        }
+    })
 });
-
+/**
+ * Get the status of MongoDB
+ * @returns {Promise<boolean | void>}
+ */
+function getMongoStatus() {
+    return fetch('/mongo/mongoStatus')
+        .then(response => response.json())
+        .then(data => {
+            const {status} = data;
+            if (status === 1) {
+                console.log('MongoDB is connected!');
+                return true;
+            } else {
+                console.log('MongoDB is not connected!');
+                return false;
+            }
+        })
+        .catch(err => console.error('Error fetching MongoDB status:', err));
+}
 function getPlantIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('plantId');
@@ -33,8 +53,8 @@ function fetchPlantDataFromIndexedDB(plantId) {
 
     dbRequest.onsuccess = function (event) {
         const db = event.target.result;
-        const transaction = db.transaction(['plants'], 'readonly');
-        const store = transaction.objectStore('plants');
+        const transaction = db.transaction(['plants']);
+        const store = transaction.objectStore("plants");
         const request = store.get(plantId);
 
         request.onerror = function (event) {
@@ -77,7 +97,7 @@ function displayPlantData(plantData) {
     document.querySelector('#name').value = plantData.identification.name;
     document.querySelector('#description').value = plantData.description;
 
-    const imageElement = document.querySelector('.plantPhoto');
+    const imageElement = document.querySelector('#plantPhoto');
     imageElement.src = `data:image/png;base64,${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
 
