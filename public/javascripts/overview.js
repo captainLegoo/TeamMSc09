@@ -342,7 +342,7 @@ function showPlantData(plants) {
         card.classList.add('card');
 
         card.innerHTML = `
-        <img src="data:image/png;base64,${plant.photo}" alt="Plant image">
+        <img src=${plant.photo} alt="Plant image">
         <p>Plant Name: ${plant.identification.name}</p>
         <p>Description: ${plant.description}</p>
         <p>Plant Size: ${plant.plantSize}</p>

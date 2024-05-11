@@ -220,28 +220,8 @@ const getCookieValue = (name) => {
     }
     return null;
 };
-// function convertToBase64(inputFile) {
-//     if (inputFile.files && inputFile.files[0]) {
-//         var reader = new FileReader();
-//
-//         reader.readAsDataURL(inputFile.files[0]); // Convert the image to Base64 string
-//
-//
-//         reader.onload = function(e) {
-//             return e.target.result
-//         };
-//
-//         reader.onerror = function(e) {
-//         };
-//
-//     } else {
-//         throw new Error('Please select an image.');
-//     }
-// }
-
 
 function gatherPlantData() {
-    // const photoBase64 = await convertToBase64(document.getElementById('photo'));
     return {
         date: new Date(),
         location: {
@@ -257,7 +237,7 @@ function gatherPlantData() {
         haveSeeds: getRadioValue('haveSeeds'),
         sunExposure: document.getElementById('sunExposure').value,
         flowerColor: document.getElementById('flowerColor').value,
-        photo: document.getElementById('flowerColor').value,
+        photo: document.getElementById('base64_code').value,
         userNickname: document.getElementById('userNickname').value,
         identification: {
             name: document.getElementById('name').value,

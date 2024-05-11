@@ -54,9 +54,11 @@
                 </label>
                 <div class="detail-photo">
                     <img class="photoView" id="photoPreview" src="" alt="Photo preview" style="display: none;">
+                    <label for="base64_code"></label><textarea id="base64_code" rows="30" cols="360" style="display: none"></textarea>
                 </div>
                 <button class="button-class" type="submit">submit</button>
                 <script>
+                    const base64_code = document.getElementById("base64_code");
                     document.getElementById('photo').addEventListener('change', function(event) {
                         const file = event.target.files[0];
                         if (file) {
@@ -66,6 +68,11 @@
                             document.getElementById('photoPreview').src = fileUrl;
                             // Make sure the image is visible
                             document.getElementById('photoPreview').style.display = 'block';
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file)
+                            reader.onload = function (){
+                                base64_code.innerHTML = this.result;
+                            }
                         }
                     });
                 </script>

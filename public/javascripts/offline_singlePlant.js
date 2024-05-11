@@ -133,7 +133,8 @@ function displayPlantData(plantData) {
     document.querySelector('#description').textContent = plantData.description;
 
     const imageElement = document.querySelector('#plantPhoto');
-    imageElement.src = `data:image/png;base64,${plantData.photo}`;
+    // imageElement.src = `data:image/png;base64,${plantData.photo}`;
+    imageElement.src = `${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
 
     const flowerElement = document.querySelector('#flower');
