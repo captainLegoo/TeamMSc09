@@ -82,11 +82,11 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
         // }
       },
       photo : base64Image,
-      userNickname : req.cookies.userNickname,
+      userNickname : req.body.userNickname,
       userId : req.cookies.userId,
       isInMongoDB: true,
       isInIndexedDB: true,
-      plantId: (new Date().getTime() * 1000 + Math.floor(Math.random() * 1000)).toString()
+      plantId: req.body.plantId
     });
 
     plant.save()

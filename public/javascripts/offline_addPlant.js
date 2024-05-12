@@ -52,14 +52,15 @@ window.onload = function () {
         event.preventDefault(); // Prevent the form from submitting in the traditional way
         const validationResult = emptyOrNot();
         if (validationResult.allFieldsFilled) {
-            const plant= gatherPlantData()
+            const plantId = new Date().getTime() * 1000 + Math.floor(Math.random() * 1000).toString()
+            const plant= gatherPlantData(plantId)
             getMongoStatus()
                 .then(async status => {
                     console.log("MongoDB status:", status);
                     if (status) {
                         // TODO IndexedDB => MongoDB
                         await updateIndexedDBData();
-                        online_mode();
+                        online_mode(plantId);
                     } else {
                         offline_mode(plant);
                     }
@@ -70,9 +71,9 @@ window.onload = function () {
         }
     });
 }
-function online_mode() {
+function online_mode(plantId) {
     console.log("Online mode - Updating MongoDB");
-    updateMongoDB();
+    updateMongoDB(plantId);
 }
 
 function offline_mode(plant) {
@@ -85,11 +86,16 @@ function alertEmptyFields(emptyFields) {
         alert("The following fields cannot be empty: " + emptyFields.join(", "));
     }
 }
-function updateMongoDB() {
+function updateMongoDB(plantId) {
+
+    let form = new FormData(document.getElementById('plantForm'));
+    form.append('plantId', plantId);
+    form.append('userNickname', localStorage.getItem('userNickname'))
+
     // Use Fetch API to send data to your server
     fetch('/modify/addPlant', {
         method: 'POST',
-        body: new FormData(document.getElementById('plantForm')),
+        body: form,
         headers: {
             'Accept': 'application/json',
         },
@@ -127,7 +133,7 @@ function emptyOrNot() {
     const description = getValue('description');
     const plantSize = getValue('plantSize');
     const photo = getValue('photo');
-    const userNickname = getValue('userNickname');
+    // const userNickname = getValue('userNickname');
     const latitude = getValue('latitude');
     const longitude = getValue('longitude');
 
@@ -135,7 +141,7 @@ function emptyOrNot() {
     if (!description) emptyFields.push('description');
     if (!plantSize) emptyFields.push('plantSize');
     if (!photo) emptyFields.push('photo');
-    if (!userNickname) emptyFields.push('userNickname');
+    //if (!userNickname) emptyFields.push('userNickname');
     if (!latitude) emptyFields.push('latitude');
     if (!longitude) emptyFields.push('longitude');
 
@@ -221,7 +227,7 @@ const getCookieValue = (name) => {
     return null;
 };
 
-function gatherPlantData() {
+function gatherPlantData(plantId) {
     return {
         date: new Date(),
         location: {
@@ -238,7 +244,7 @@ function gatherPlantData() {
         sunExposure: document.getElementById('sunExposure').value,
         flowerColor: document.getElementById('flowerColor').value,
         photo: document.getElementById('base64_code').value,
-        userNickname: document.getElementById('userNickname').value,
+        //userNickname: document.getElementById('userNickname').value,
         identification: {
             name: document.getElementById('name').value,
             status: "In-progress",
@@ -249,6 +255,6 @@ function gatherPlantData() {
         comment: [],
         isInMongoDB: false,
         isInIndexedDB: true,
-        plantId: new Date().getTime() * 1000 + Math.floor(Math.random() * 1000).toString()
+        plantId: plantId
     };
 }

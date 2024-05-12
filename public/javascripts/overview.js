@@ -26,9 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // lng = urlParams.get('lng');
 
     // set user's nickname
-    if (getCookieValue('userNickname')===null){
+    // if (getCookieValue('userNickname')===null){
+    //     var userNickName = prompt("Enter your nickname:");
+    //     setCookie('userNickname',userNickName)
+    // }
+    if (localStorage.getItem('userNickname')===null) {
         var userNickName = prompt("Enter your nickname:");
-        setCookie('userNickname',userNickName)
+        localStorage.setItem('userNickname',userNickName)
     }
 
     if (sortParam) {
