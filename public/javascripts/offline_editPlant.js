@@ -156,4 +156,20 @@ function displayPlantData(plantData) {
     document.getElementById('latitude').value = plantData.location.coordinates[0];
     document.getElementById('longitude').value = plantData.location.coordinates[1];
 
+    showMap(plantData.location.coordinates[0], plantData.location.coordinates[1])
+
+}
+
+function showMap(lat, lon) {
+    var map = L.map('map').setView([lat, lon], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    map.on('click', function(e) {
+        document.getElementById("longitude").value = e.latlng.lng;
+        document.getElementById("latitude").value = e.latlng.lat
+    });
 }

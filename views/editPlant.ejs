@@ -134,18 +134,4 @@
     </form>
 </div>
 </body>
-<script>
-    var map = L.map('map').setView([51.5072, 0.1276], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    map.on('click', function(e) {
-        document.getElementById("longitude").value = e.latlng.lng;
-        document.getElementById("latitude").value = e.latlng.lat
-    });
-</script>
-
 </html>
