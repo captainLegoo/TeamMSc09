@@ -171,7 +171,7 @@ function displayPlantData(plantData) {
     };
 
     const plantId = plantData.plantId;
-    const userNickname = getCookieValue('userNickName');
+    const userNickname = localStorage.getItem('userNickname')
     init(plantId, userNickname);
 
     updateCommentList(plantData.comment);
