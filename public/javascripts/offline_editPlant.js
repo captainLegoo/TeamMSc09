@@ -4,14 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); // Prevent the form from submitting in the traditional way
         const validationResult = emptyOrNot();
         if (validationResult.allFieldsFilled) {
-            const plantId = document.getElementById('plantId').value
-            const plant= gatherPlantData(plantId)
+
             getMongoStatus()
                 .then(async status => {
                     console.log("MongoDB status:", status);
+                    const plantId = document.getElementById('plantId').value;
+                    const plant= gatherPlantData(plantId, status);
                     if (status) {
                         // TODO IndexedDB => MongoDB
-                        await updateIndexedDBData();
+                        // await updateIndexedDBData();
                         updateMongoDB(plantId,plant);
                         updateIndexDB(plantId,plant);
                     } else {
@@ -202,7 +203,9 @@ function showMap(lat, lon) {
     });
 }
 
-function gatherPlantData(plantId) {
+function gatherPlantData(plantId, status) {
+    var isInMongoDB = !!status;
+
     return {
         date: new Date(),
         location: {
@@ -227,7 +230,7 @@ function gatherPlantData(plantId) {
             dbpediaInfo: {}
         },
         // userId: localStorage.getItem("userId"),
-        isInMongoDB: false,
+        isInMongoDB: isInMongoDB,
         isInIndexedDB: true,
         // plantId: plantId
     };
