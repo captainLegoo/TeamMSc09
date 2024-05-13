@@ -24,12 +24,12 @@ router.get('/singlePlantData', async (req, res) => {
   const plantId = querySegment.split('=')[1];
   const result = await plantController.getSinglePlant(plantId);
   const plant = result[0];
+  const queryPlantName = retrievePlantName(plant.identification.name)
 
   const endpointUrl = 'https://dbpedia.org/sparql';
   const sparqlQuery = `
    SELECT ?plant ?abstract WHERE {
-   ?plant rdfs:label "${plant.identification.name}"@en;
-         a dbo:Plant;
+   ?plant rdfs:label "${queryPlantName}"@en;
          dbo:abstract ?abstract.
   FILTER (lang(?abstract) = 'en')
   } LIMIT 1`;
@@ -148,5 +148,12 @@ router.post('/add-comment', async (req,res) => {
   await plant.save();
   res.json({})
 })
+
+function retrievePlantName(plantName){
+
+  plantName = plantName.replace(/_/g, ' ')
+  plantName = plantName.replace(/\s+/g, ' ')
+  return plantName
+}
 
 module.exports = router;
