@@ -13,6 +13,7 @@ self.addEventListener('install', event => {
                 '/',
                 '/overview',
                 '/manifest.json',
+                '/javascripts/idGenerate.js',
                 '/javascripts/overview.js',
                 '/javascripts/overviewOffline.js',
                 '/javascripts/idb-utility.js',

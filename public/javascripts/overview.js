@@ -1,22 +1,9 @@
+// const idUtil = require('./idGenerate');
+const idGenerator = new IdGenerator(1, 1);
 let lat = 0;
 let lon = 0;
 let selectedSort = null;
 let userId = null;
-
-const getCookieValue = (name) => {
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-        const [cookieName, cookieValue] = cookie.trim().split('=');
-        if (cookieName === name) {
-            return decodeURIComponent(cookieValue);
-        }
-    }
-    return null;
-};
-
-const setCookie = (name, value) => {
-    document.cookie = encodeURIComponent(name)+"="+encodeURIComponent(value)+";max-age="+(365 * 24 * 60 * 60 * 1000)+"; path=/";
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     const sortDropdown = document.getElementById('sortDropdown');
@@ -163,7 +150,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Register service worker to control making site work offline
 window.onload = function () {
-    userId = getCookieValue('userId');
+    // if (localStorage.getItem('userNickname')===null) {
+    //     var userNickName = prompt("Enter your nickname:");
+    //     localStorage.setItem('userNickname',userNickName)
+    // }
+
+    if (localStorage.getItem('userId')===null) {
+        const id = idGenerator.getId();
+        console.log('userId:', id)
+        localStorage.setItem('userId',id)
+    }
+
     const plantTemplateContainer = document.querySelector('#plant_template'); // 选择模板容器
     if (plantTemplateContainer) {
         const cardTemplate = plantTemplateContainer.querySelector('.card'); // 从模板容器中选择第一个.card元素
