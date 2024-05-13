@@ -85,7 +85,7 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
       },
       photo : base64Image,
       userNickname : req.body.userNickname,
-      userId : req.cookies.userId,
+      userId : req.body.userId,
       isInMongoDB: true,
       isInIndexedDB: true,
       plantId: req.body.plantId
