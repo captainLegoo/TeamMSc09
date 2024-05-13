@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     //     var userNickName = prompt("Enter your nickname:");
     //     setCookie('userNickname',userNickName)
     // }
-    if (localStorage.getItem('userNickname')===null) {
-        var userNickName = prompt("Enter your nickname:");
-        localStorage.setItem('userNickname',userNickName)
-    }
+    // if (localStorage.getItem('userNickname')===null) {
+    //     var userNickName = prompt("Enter your nickname:");
+    //     localStorage.setItem('userNickname',userNickName)
+    // }
 
     if (sortParam) {
         sortDropdown.value = sortParam;
@@ -154,6 +154,10 @@ window.onload = function () {
     //     var userNickName = prompt("Enter your nickname:");
     //     localStorage.setItem('userNickname',userNickName)
     // }
+    if (localStorage.getItem('userNickname')===null) {
+        var userNickName = prompt("Enter your nickname:");
+        localStorage.setItem('userNickname',userNickName)
+    }
 
     if (localStorage.getItem('userId')===null) {
         const id = idGenerator.getId();
