@@ -160,6 +160,8 @@ window.onload = function () {
         userId = id;
         console.log('userId:', id)
         localStorage.setItem('userId',id)
+    } else {
+        userId = localStorage.getItem('userId');
     }
 
     const plantTemplateContainer = document.querySelector('#plant_template'); // 选择模板容器
@@ -335,7 +337,7 @@ function getMongoStatus() {
  * Send a request to the server to fetch plants data
  */
 function sendRequest() {
-    fetch(`http://localhost:3000/overview/all?sort=${selectedSort}&lat=${lat}&lng=${lon}`)
+    fetch(`http://localhost:3000/overview/all?sort=${selectedSort}&lat=${lat}&lng=${lon}&userId=${userId}`)
         .then(response => response.json())
         .then(plants => {
             // console.log('Received plants data:', plants);

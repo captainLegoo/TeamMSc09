@@ -8,14 +8,15 @@ router.get('/', function (req, res, next) {
 
 router.get('/all', async (req, res, next) => {
 
-    const {sort, lat, lng} = req.query;
+    const {sort, lat, lng, userId} = req.query;
     console.log('sort = ' + sort)
+    console.log('userId = ' + userId)
     console.log('lat = ' + lat + ' lng = ' + lng)
 
     try {
         let plants = null;
         if (sort === "only") {
-            plants = await plantController.getPlantsByUserId(req.cookies.userId);
+            plants = await plantController.getPlantsByUserId(userId);
         } else {
             plants = await plantController.getAll(sort, lat, lng);
         }
