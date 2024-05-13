@@ -91,7 +91,8 @@ function updateMongoDB(plantId) {
 
     let form = new FormData(document.getElementById('plantForm'));
     form.append('plantId', plantId);
-    form.append('userNickname', localStorage.getItem('userNickname'))
+    form.append('userId', localStorage.getItem('userId'));
+    form.append('userNickname', localStorage.getItem('userNickname'));
 
     // Use Fetch API to send data to your server
     fetch('/modify/addPlant', {
@@ -260,7 +261,7 @@ function gatherPlantData(plantId) {
             dbpediaInfo: {}
         },
         userId: userId,
-        comment: [],
+        // comment: [],
         isInMongoDB: false,
         isInIndexedDB: true,
         plantId: plantId
