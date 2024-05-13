@@ -12,8 +12,11 @@ self.addEventListener('install', event => {
             cache.addAll([
                 '/javascripts/idGenerate.js',
                 '/',
+                // '/modify?plantId=171563220356400070',
+                // '/modify/singlePlantData?plantId=171563220356400070',
                 '/overview',
                 '/modify/addPlant',
+                '/modify/editPlant',
                 '/manifest.json',
                 '/javascripts/overview.js',
                 '/javascripts/idb-utility.js',
