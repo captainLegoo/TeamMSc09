@@ -226,7 +226,7 @@ function gatherPlantData(plantId) {
             suggestedNames: [],
             dbpediaInfo: {}
         },
-        userId: getCookieValue("userId"),
+        // userId: localStorage.getItem("userId"),
         isInMongoDB: false,
         isInIndexedDB: true,
         // plantId: plantId
