@@ -20,8 +20,7 @@ router.get('/addPlant',function (req,res){
 })
 
 router.get('/singlePlantData', async (req, res) => {
-  const querySegment = req.url.split('?')[1];
-  const plantId = querySegment.split('=')[1];
+  const plantId = req.query.plantId;
   const result = await plantController.getSinglePlant(plantId);
   const plant = result[0];
   const queryPlantName = retrievePlantName(plant.identification.name)
