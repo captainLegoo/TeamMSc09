@@ -15,7 +15,6 @@ self.addEventListener('install', event => {
                 '/manifest.json',
                 '/javascripts/idGenerate.js',
                 '/javascripts/overview.js',
-                '/javascripts/overviewOffline.js',
                 '/javascripts/idb-utility.js',
                 '/javascripts/offline_singlePlant.js',
                 '/javascripts/offline_editPlant.js',
