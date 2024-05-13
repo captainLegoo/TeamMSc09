@@ -10,13 +10,15 @@ self.addEventListener('install', event => {
         try {
             const cache = await caches.open("static");
             cache.addAll([
+                '/javascripts/idGenerate.js',
                 '/',
                 '/overview',
+                '/modify/addPlant',
                 '/manifest.json',
-                '/javascripts/idGenerate.js',
                 '/javascripts/overview.js',
                 '/javascripts/idb-utility.js',
                 '/javascripts/offline_singlePlant.js',
+                '/javascripts/commentArea.js',
                 '/javascripts/offline_editPlant.js',
                 '/javascripts/offline_addPlant.js',
                 '/stylesheets/home.css',
