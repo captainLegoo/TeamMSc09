@@ -160,78 +160,74 @@ function displayPlantData(plantData) {
 
     document.querySelector('#plantDescription').textContent = '===========================' + plantData.description + '===========================';
     document.querySelector('#name').value = plantData.identification.name;
-    document.querySelector('#description').value = plantData.description;
+    document.querySelector('#description').textContent = plantData.description;
 
     const imageElement = document.querySelector('#plantPhoto');
     imageElement.src = `${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
 
-    document.querySelector('#haveFlowerTrue').checked = plantData.haveFlower === true;
-    document.querySelector('#haveFlowerFalse').checked = plantData.haveFlower === false;
+    const flowerElement = document.querySelector('#flower');
+    flowerElement.textContent = plantData.haveFlower ? 'Yes' : 'No';
 
-    document.querySelector('#haveLeavesTrue').checked = plantData.haveFlower === true;
-    document.querySelector('#haveLeavesFalse').checked = plantData.haveFlower === false;
+    const leavesElement = document.querySelector('#leaves');
+    leavesElement.textContent = plantData.haveLeaves ? 'Yes' : 'No';
 
-    document.querySelector('#haveLeavesTrue').checked = plantData.haveLeaves === true;
-    document.querySelector('#haveLeavesFalse').checked = plantData.haveLeaves === false;
+    const seedsElement = document.querySelector('#seeds');
+    seedsElement.textContent = plantData.haveSeeds ? 'Yes' : 'No';
 
-    document.querySelector('#haveSeedsTrue').checked = plantData.haveSeeds === true;
-    document.querySelector('#haveSeedsFalse').checked = plantData.haveSeeds === false;
-
-    document.querySelector('#sunExposure').value = plantData.sunExposure;
-
-    document.querySelector('#flowerColor').value = plantData.flowerColor;
-
-    document.querySelector('#plantSize').value = plantData.plantSize;
+    document.querySelector('#sun').textContent = plantData.sunExposure;
+    document.querySelector('#color').textContent = plantData.flowerColor;
+    document.querySelector('#size').textContent = plantData.plantSize;
     document.querySelector('#status').value = plantData.identification.status;
+    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo;
 
     // document.getElementById('urlButton').onclick = function() {
     //     window.location.href = plantData.identification.dbpediaInfo.uri;
     // };
     //
-    // document.getElementById('userNickname').value = plantData.userNickname;
+    document.getElementById('userNickname').value = plantData.userNickname;
 
     document.getElementById('latitude').value = plantData.location.coordinates[0];
     document.getElementById('longitude').value = plantData.location.coordinates[1];
 
-    showMap(plantData.location.coordinates[0], plantData.location.coordinates[1])
+    // showMap(plantData.location.coordinates[0], plantData.location.coordinates[1])
 
 }
 
-function showMap(lat, lon) {
-    var map = L.map('map').setView([lat, lon], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    map.on('click', function(e) {
-        document.getElementById("longitude").value = e.latlng.lng;
-        document.getElementById("latitude").value = e.latlng.lat
-    });
-}
+// function showMap(lat, lon) {
+//     var map = L.map('map').setView([lat, lon], 13);
+//
+//     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//         maxZoom: 19,
+//         attribution: '© OpenStreetMap'
+//     }).addTo(map);
+//
+//     map.on('click', function(e) {
+//         document.getElementById("longitude").value = e.latlng.lng;
+//         document.getElementById("latitude").value = e.latlng.lat
+//     });
+// }
 
 function gatherPlantData(plantId, status) {
     var isInMongoDB = !!status;
 
     return {
-        date: new Date(),
-        location: {
-            coordinates: [
-                document.getElementById('latitude').value,
-                document.getElementById('longitude').value
-            ]
-        },
-        description: document.getElementById('description').value,
-        plantSize: document.getElementById('plantSize').value,
-        haveFlower: getRadioValue('haveFlower'),
-        haveLeaves: getRadioValue('haveLeaves'),
-        haveSeeds: getRadioValue('haveSeeds'),
-        sunExposure: document.getElementById('sunExposure').value,
-        flowerColor: document.getElementById('flowerColor').value,
-        // photo: document.getElementById('base64_code').value,
-        // userNickname: localStorage.getItem('userNickname'),
+        // date: new Date(),
+        // location: {
+        //     coordinates: [
+        //         document.getElementById('latitude').value,
+        //         document.getElementById('longitude').value
+        //     ]
+        // },
+        // description: document.getElementById('description').value,
+        // plantSize: document.getElementById('plantSize').value,
+        // haveFlower: getRadioValue('haveFlower'),
+        // haveLeaves: getRadioValue('haveLeaves'),
+        // haveSeeds: getRadioValue('haveSeeds'),
+        // sunExposure: document.getElementById('sunExposure').value,
+        // flowerColor: document.getElementById('flowerColor').value,
+        // // photo: document.getElementById('base64_code').value,
+        userNickname: document.getElementById('userNickname').value,
         identification: {
             name: document.getElementById('name').value,
             status: document.getElementById('status').value,
@@ -249,20 +245,22 @@ function emptyOrNot() {
     let allFieldsFilled = true;
 
     // Retrieve values from input fields
-    const description = getValue('description');
-    const plantSize = getValue('plantSize');
+    // const description = getValue('description');
+    // const plantSize = getValue('plantSize');
     // const photo = getValue('photo');
     // const userNickname = getValue('userNickname');
-    const latitude = getValue('latitude');
-    const longitude = getValue('longitude');
+    // const latitude = getValue('latitude');
+    // const longitude = getValue('longitude');
+    const name = getValue('name');
 
     // Check text inputs for emptiness
-    if (!description) emptyFields.push('description');
-    if (!plantSize) emptyFields.push('plantSize');
+    // if (!description) emptyFields.push('description');
+    // if (!plantSize) emptyFields.push('plantSize');
     // if (!photo) emptyFields.push('photo');
-    //if (!userNickname) emptyFields.push('userNickname');
-    if (!latitude) emptyFields.push('latitude');
-    if (!longitude) emptyFields.push('longitude');
+    if (!name) emptyFields.push('Plant Name');
+    if (!userNickname) emptyFields.push('Your Nick Name');
+    // if (!latitude) emptyFields.push('latitude');
+    // if (!longitude) emptyFields.push('longitude');
 
     // Function to check if any radio group is selected and report if not
     function checkRadios(radioName, radios) {
@@ -273,27 +271,27 @@ function emptyOrNot() {
         return selected;
     }
 
-    // Retrieve radio button groups
-    const haveFlower = document.getElementsByName('haveFlower');
-    const haveLeaves = document.getElementsByName('haveLeaves');
-    const haveSeeds = document.getElementsByName('haveSeeds');
+    // // Retrieve radio button groups
+    // const haveFlower = document.getElementsByName('haveFlower');
+    // const haveLeaves = document.getElementsByName('haveLeaves');
+    // const haveSeeds = document.getElementsByName('haveSeeds');
 
-    // Check radio buttons
-    if (!checkRadios('haveFlower', haveFlower)) allFieldsFilled = false;
-    if (!checkRadios('haveLeaves', haveLeaves)) allFieldsFilled = false;
-    if (!checkRadios('haveSeeds', haveSeeds)) allFieldsFilled = false;
+    // // Check radio buttons
+    // if (!checkRadios('haveFlower', haveFlower)) allFieldsFilled = false;
+    // if (!checkRadios('haveLeaves', haveLeaves)) allFieldsFilled = false;
+    // if (!checkRadios('haveSeeds', haveSeeds)) allFieldsFilled = false;
 
     // Retrieve and check selects
-    const sunExposure = getValue('sunExposure')
-    const flowerColor = getValue('flowerColor')
-    if (!sunExposure) emptyFields.push('sunExposure');
-    if (!flowerColor) emptyFields.push('flowerColor');
+    // const sunExposure = getValue('sunExposure')
+    // const flowerColor = getValue('flowerColor')
+    // if (!sunExposure) emptyFields.push('sunExposure');
+    // if (!flowerColor) emptyFields.push('flowerColor');
 
     // If any select is empty, set allFieldsFilled to false
-    if (!sunExposure || !flowerColor) allFieldsFilled = false;
-
-    // If any field is empty, update allFieldsFilled status
-    if (emptyFields.length > 0) allFieldsFilled = false;
+    // if (!sunExposure || !flowerColor) allFieldsFilled = false;
+    //
+    // // If any field is empty, update allFieldsFilled status
+    // if (emptyFields.length > 0) allFieldsFilled = false;
 
     // Return the status and the list of empty fields
     return { allFieldsFilled, emptyFields };

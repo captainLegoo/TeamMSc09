@@ -138,14 +138,17 @@ function emptyOrNot() {
     // const userNickname = getValue('userNickname');
     const latitude = getValue('latitude');
     const longitude = getValue('longitude');
+    const name = getValue('name');
+
 
     // Check text inputs for emptiness
-    if (!description) emptyFields.push('description');
-    if (!plantSize) emptyFields.push('plantSize');
-    if (!photo) emptyFields.push('photo');
+    if (!name) emptyFields.push('Plant Name');
+    if (!description) emptyFields.push('Description');
+    if (!plantSize) emptyFields.push('plant Size');
+    if (!photo) emptyFields.push('Photo');
     //if (!userNickname) emptyFields.push('userNickname');
-    if (!latitude) emptyFields.push('latitude');
-    if (!longitude) emptyFields.push('longitude');
+    if (!latitude) emptyFields.push('Latitude');
+    if (!longitude) emptyFields.push('Longitude');
 
     // Function to check if any radio group is selected and report if not
     function checkRadios(radioName, radios) {

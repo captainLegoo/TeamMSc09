@@ -16,7 +16,12 @@ function init(id, nickName) {
 }
 function sendChatText(_id) {
     let chatText = document.getElementById('chat-input').value;
-    record2DB(_id, chatText);
+    getMongoStatus().then(status => {
+        if (status) {
+            record2DB(_id, chatText);
+        }
+    })
+    addCommentToPlant(roomNo, name, chatText)
     socket.emit('chat', roomNo, name, chatText);
 }
 function writeOnHistory(text) {
@@ -48,3 +53,66 @@ function record2DB(_id, msg){
             console.error('Error:', error);
         });
 }
+function getMongoStatus() {
+    return fetch('/mongo/mongoStatus')
+        .then(response => response.json())
+        .then(data => {
+            const {status} = data;
+            if (status === 1) {
+                console.log('MongoDB is connected!');
+                return true;
+            } else {
+                console.log('MongoDB is not connected!');
+                return false;
+            }
+        })
+        .catch(err => console.error('Error fetching MongoDB status:', err));
+}
+
+function addCommentToPlant(plantId, commentAuthor, commentText) {
+    var openRequest = indexedDB.open("plants");
+
+    openRequest.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction("plants", "readwrite");
+        var store = transaction.objectStore("plants");
+        var getRequest = store.get(plantId);
+
+        getRequest.onsuccess = function() {
+            var data = getRequest.result;
+
+            // Check if data exists
+            if (data) {
+                // Initialize comment array if it does not exist
+                if (!data.comment) {
+                    data.comment = [];
+                }
+
+                // Add the new comment
+                data.comment.push({ name: commentAuthor, msg: commentText });
+
+                // Put the updated data back into the store
+                var putRequest = store.put(data);
+
+                putRequest.onsuccess = function() {
+                    console.log("Comment added successfully!");
+                };
+
+                putRequest.onerror = function(event) {
+                    console.error("Error updating data: ", event.target.errorCode);
+                };
+            } else {
+                console.error("Plant with ID " + plantId + " not found.");
+            }
+        };
+
+        getRequest.onerror = function(event) {
+            console.error("Error fetching data: ", event.target.errorCode);
+        };
+    };
+
+    openRequest.onerror = function(event) {
+        console.error("Error opening database: ", event.target.errorCode);
+    };
+}
+

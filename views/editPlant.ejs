@@ -41,9 +41,9 @@
                 </div>
 
                 <div class="detail-label">Description</div>
-                <div class="detail-value">
-                    <input type="text" name="description" id="description" value="">
-                </div>
+                <div class="detail-value" id="description"></div>
+                <div class="detail-label">DBpedia Description</div>
+                <div class="detail-value" id="dbpedia_description"></div>
 
                 <div class="detail-label">Photo</div>
                 <label  class="detail-photo">
@@ -61,75 +61,39 @@
                         <span class="detail-value-question">Has Gain?</span>
                         <span class="detail-value-question">Sun?</span>
                         <span class="detail-value-question">Color</span>
-                        <span class="detail-value-question">Status</span>
                         <span class="detail-value-question">Plant Size</span>
+                        <span class="detail-value-question">Status</span>
 <!--                        <span class="detail-value-question">DBPedia</span>-->
-<!--                        <span class="detail-value-question">Your Nick Name</span>-->
+                        <span class="detail-value-question">Your Nick Name</span>
                         <span class="detail-value-question">Position</span>
                     </div>
                     <div class="attribute-item">
-                        <label class="detail-value-attribute-edit-boolean">
-                            <label for="haveFlowerTrue">True</label>
-                            <input type="radio" id="haveFlowerTrue" name="haveFlower" value="true">
-                            <label for="haveFlowerFalse">False</label>
-                            <input type="radio" id="haveFlowerFalse" name="haveFlower" value="false">
-                        </label>
-                        <label class="detail-value-attribute-edit-boolean">
-                            <label for="haveLeavesTrue">True</label>
-                            <input type="radio" id="haveLeavesTrue" name="haveLeaves" value="true">
-                            <label for="haveLeavesFalse">False</label>
-                            <input type="radio" id="haveLeavesFalse" name="haveLeaves" value="false">
-                        </label>
-                        <label class="detail-value-attribute-edit-boolean">
-                            <label for="haveSeedsTrue">True</label>
-                            <input type="radio" id="haveSeedsTrue" name="haveSeeds" value="true">
-                            <label for="haveSeedsFalse">False</label>
-                            <input type="radio" id="haveSeedsFalse" name="haveSeeds" value="false">
-                        </label>
-                        <label>
-                            <select name="sunExposure" class="detail-value-attribute-edit" id="sunExposure">
-                                <option value="Full Sun">Full Sun</option>
-                                <option value="Partial Shade">Partial Shade</option>
-                                <option value="Full Shade">Full Shade</option>
-                            </select>
-                        </label>
-                        <label>
-                            <select name="flowerColor" class="detail-value-attribute-edit" id="flowerColor">
-                                <option value="Red">Red</option>
-                                <option value="Yellow">Yellow</option>
-                                <option value="White">White</option>
-                                <option value="Purple">Purple</option>
-                                <option value="Orange">Orange</option>
-                                <option value="Green">Green</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Black">Black</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </label>
+                        <div class="detail-value-attribute" id="flower"></div>
+                        <div class="detail-value-attribute" id="leaves"></div>
+                        <div class="detail-value-attribute" id="seeds"></div>
+                        <div class="detail-value-attribute" id="sun"></div>
+                        <div class="detail-value-attribute" id="color"></div>
+                        <div class="detail-value-attribute" id="size"></div>
                         <label>
                             <select name="status" id="status" class="detail-value-attribute-edit">
                                 <option value="In-progress">In-progress</option>
                                 <option value="Complete">Complete</option>
                             </select>
                         </label>
-                        <label>
-                            <input class="detail-value-attribute" type="text" name="plantSize" id="plantSize" value="">
-                        </label>
 <!--                        <label>-->
 <!--                            <button class="detail-value-attribute" id="urlButton">URL</button>-->
 <!--                        </label>-->
-<!--                        <label>-->
-<!--                            <input class="detail-value-attribute" type="text" name="userNickname" id="userNickname">-->
-<!--                        </label>-->
+                        <label>
+                            <input class="detail-value-attribute" type="text" name="userNickname" id="userNickname">
+                        </label>
                         <label class = detail-value-attribute-edit-pos>
                             <label>latitude</label>
                             <label>
-                                <input class="detail-value-attribute-pos-input" type="text" name="latitude" id="latitude">
+                                <input class="detail-value-attribute-pos-input" type="text" name="latitude" id="latitude" disabled>
                             </label>
                             <label>longitude</label>
                             <label>
-                                <input class="detail-value-attribute-pos-input" type="text" name="longitude" id="longitude">
+                                <input class="detail-value-attribute-pos-input" type="text" name="longitude" id="longitude" disabled>
                             </label>
                         </label>
                     </div>

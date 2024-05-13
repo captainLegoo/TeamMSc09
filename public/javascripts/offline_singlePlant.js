@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (status) {
             fetchPlantDataFromServer(plantId);
         } else {
-            var discussionDiv = document.querySelector('.discussion');
-            discussionDiv.style.display = 'none';
+            // var discussionDiv = document.querySelector('.discussion');
+            // discussionDiv.style.display = 'none';
             fetchPlantDataFromIndexedDB(plantId);
         }
     })
@@ -160,7 +160,7 @@ function displayPlantData(plantData) {
             alert('No information found for this plant in DBpedia')
     };
     document.querySelector('#status').textContent = plantData.identification.status;
-    document.querySelector('#dbpedia_description').textContent = plantData.identification.status;
+    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo;
 
     const latitudeInput = document.querySelector('#latitude');
     const longitudeInput = document.querySelector('#longitude');
@@ -181,6 +181,7 @@ function displayPlantData(plantData) {
     init(plantId, userNickname);
 
     updateCommentList(plantData.comment);
+
     const sendButton = document.querySelector('#sendButton');
     sendButton.onclick = function() {
         sendChatText(plantData.plantId);
@@ -194,7 +195,6 @@ function displayPlantData(plantData) {
 function updateCommentList(comments) {
     const messageList = document.querySelector('#message');
     messageList.innerHTML = ''; // Clear existing comments
-
     comments.forEach(comment => {
         writeOnHistory(`<b>${comment.name === name ? 'Me' : comment.name}:</b> ${comment.msg}`);
     });
@@ -214,3 +214,4 @@ const getCookieValue = (name) => {
     }
     return null;
 };
+
