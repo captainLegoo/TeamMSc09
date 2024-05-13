@@ -16,10 +16,10 @@ router.get('/mongoStatus', (req, res, next) => {
 
 router.post('/saveOfflineData', async (req, res, next) => {
     const plantData = req.body.plant;
-    const { _id, ...dataToSend } = plantData;
-    console.log("plantData => ", dataToSend);
+    // const { _id, ...dataToSend } = plantData;
+    console.log("plantData => ", plantData);
     try {
-        const saveResult = await plantController.saveOfflineData(dataToSend);
+        const saveResult = await plantController.saveOfflineData(plantData);
         if (saveResult.success) {
             return res.status(200).json({ message: saveResult.message });
         } else {
