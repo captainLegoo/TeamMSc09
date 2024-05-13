@@ -60,7 +60,7 @@ window.onload = function () {
                     if (status) {
                         // TODO IndexedDB => MongoDB
                         await updateIndexedDBData();
-                        online_mode(plantId);
+                        online_mode(plantId,plant);
                     } else {
                         offline_mode(plant);
                     }
@@ -71,9 +71,10 @@ window.onload = function () {
         }
     });
 }
-function online_mode(plantId) {
+function online_mode(plantId,plant) {
     console.log("Online mode - Updating MongoDB");
     updateMongoDB(plantId);
+    updateIndexedDB(plant);
 }
 
 function offline_mode(plant) {
@@ -244,7 +245,7 @@ function gatherPlantData(plantId) {
         sunExposure: document.getElementById('sunExposure').value,
         flowerColor: document.getElementById('flowerColor').value,
         photo: document.getElementById('base64_code').value,
-        //userNickname: document.getElementById('userNickname').value,
+        userNickname: localStorage.getItem('userNickname'),
         identification: {
             name: document.getElementById('name').value,
             status: "In-progress",
