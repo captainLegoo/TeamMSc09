@@ -160,7 +160,7 @@ function displayPlantData(plantData) {
             alert('No information found for this plant in DBpedia')
     };
     document.querySelector('#status').textContent = plantData.identification.status;
-    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo;
+    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
 
     const latitudeInput = document.querySelector('#latitude');
     const longitudeInput = document.querySelector('#longitude');

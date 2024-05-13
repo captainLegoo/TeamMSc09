@@ -179,7 +179,7 @@ function displayPlantData(plantData) {
     document.querySelector('#color').textContent = plantData.flowerColor;
     document.querySelector('#size').textContent = plantData.plantSize;
     document.querySelector('#status').value = plantData.identification.status;
-    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo;
+    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
 
     // document.getElementById('urlButton').onclick = function() {
     //     window.location.href = plantData.identification.dbpediaInfo.uri;
@@ -227,7 +227,7 @@ function gatherPlantData(plantId, status) {
         // sunExposure: document.getElementById('sunExposure').value,
         // flowerColor: document.getElementById('flowerColor').value,
         // // photo: document.getElementById('base64_code').value,
-        userNickname: document.getElementById('userNickname').value,
+        // userNickname: document.getElementById('userNickname').value,
         identification: {
             name: document.getElementById('name').value,
             status: document.getElementById('status').value,
@@ -235,8 +235,8 @@ function gatherPlantData(plantId, status) {
             // dbpediaInfo: {}
         },
         // userId: localStorage.getItem("userId"),
-        isInMongoDB: isInMongoDB,
-        isInIndexedDB: true,
+        // isInMongoDB: isInMongoDB,
+        // isInIndexedDB: true,
         // plantId: plantId
     };
 }
@@ -258,7 +258,7 @@ function emptyOrNot() {
     // if (!plantSize) emptyFields.push('plantSize');
     // if (!photo) emptyFields.push('photo');
     if (!name) emptyFields.push('Plant Name');
-    if (!userNickname) emptyFields.push('Your Nick Name');
+    // if (!userNickname) emptyFields.push('Your Nick Name');
     // if (!latitude) emptyFields.push('latitude');
     // if (!longitude) emptyFields.push('longitude');
 
