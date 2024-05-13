@@ -159,7 +159,8 @@ function displayPlantData(plantData) {
         else
             alert('No information found for this plant in DBpedia')
     };
-    document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
+    document.querySelector('#status').textContent = plantData.identification.status;
+    document.querySelector('#dbpedia_description').textContent = plantData.identification.status;
 
     const latitudeInput = document.querySelector('#latitude');
     const longitudeInput = document.querySelector('#longitude');
@@ -186,9 +187,9 @@ function displayPlantData(plantData) {
     };
 }
 
-function editThisPlant(plantId) {
-    window.location.href = '/modify/edit?_id=' + plantId;
-}
+// function editThisPlant(plantId) {
+//     window.location.href = '/modify/edit?_id=' + plantId;
+// }
 
 function updateCommentList(comments) {
     const messageList = document.querySelector('#message');

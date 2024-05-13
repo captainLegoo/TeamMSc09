@@ -258,12 +258,12 @@ function gatherPlantData(plantId, status) {
         userNickname: localStorage.getItem('userNickname'),
         identification: {
             name: document.getElementById('name').value,
-            status: "In-progress",
-            suggestedNames: [],
+            status: document.getElementById('status').value,
+            // suggestedNames: [],
             dbpediaInfo: {}
         },
         userId: userId,
-        // comment: [],
+        comment: [],
         isInMongoDB: isInMongoDB,
         isInIndexedDB: true,
         plantId: plantId
