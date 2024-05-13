@@ -1,5 +1,7 @@
-// const idUtil = require('./idGenerate');
-const idGenerator = new IdGenerator(1, 1);
+let idGenerator = null;
+if (localStorage.getItem("userId") === null) {
+    idGenerator = new IdGenerator(1, 1);
+}
 let lat = 0;
 let lon = 0;
 let selectedSort = null;
@@ -154,16 +156,16 @@ window.onload = function () {
     //     var userNickName = prompt("Enter your nickname:");
     //     localStorage.setItem('userNickname',userNickName)
     // }
-    if (localStorage.getItem('userNickname')===null) {
+    if (localStorage.getItem('userNickname') === null) {
         var userNickName = prompt("Enter your nickname:");
-        localStorage.setItem('userNickname',userNickName)
+        localStorage.setItem('userNickname', userNickName)
     }
 
-    if (localStorage.getItem('userId')===null) {
+    if (localStorage.getItem('userId') === null) {
         const id = idGenerator.getId();
         userId = id;
         console.log('userId:', id)
-        localStorage.setItem('userId',id)
+        localStorage.setItem('userId', id)
     } else {
         userId = localStorage.getItem('userId');
     }
@@ -234,7 +236,10 @@ window.onload = function () {
             } else {
                 offline_mode();
             }
-        });
+        }).catch(error => {
+        offline_mode();
+        console.error("Error checking MongoDB status:", error);
+    });
 
     function online_mode() {
         console.log("Online mode")
