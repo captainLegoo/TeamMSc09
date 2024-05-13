@@ -1,16 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const IdGenerator = require('../utils/IdGenerator');
-const generator = new IdGenerator(1, 1);
 var plantController = require("../controllers/plant_controller");
 
 router.get('/', function (req, res, next) {
-    var userId = req.cookies.userId;
-    if (userId == null) {
-        userId = generator.getId();
-        res.cookie("userId", userId, {maxAge: 365 * 24 * 60 * 60 * 1000});
-    }
-    console.log("userId: " + userId);
     res.render('overview');
 });
 
