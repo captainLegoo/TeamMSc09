@@ -43,8 +43,10 @@ router.get('/singlePlantData', async (req, res) => {
       .then(data => {
         // The results are in the 'data' object
         let bindings = data.results.bindings;
-        plant.identification.dbpediaInfo.uri = bindings[0].plant.value;
-        plant.identification.dbpediaInfo.description = bindings[0].abstract.value;
+        plant.identification.dbpediaInfo.uri = (bindings[0].plant.value !== undefined && bindings[0].plant.value !== '') ? bindings[0].plant.value : ''
+        plant.identification.dbpediaInfo.description = (bindings[0].abstract.value !== undefined && bindings[0].abstract.value !== '') ? bindings[0].abstract.value : 'No information found for this plant in DBpedia'
+        // plant.identification.dbpediaInfo.uri = bindings[0].plant.value;
+        // plant.identification.dbpediaInfo.description = bindings[0].abstract.value;
         res.json(plant)
       }).
   catch( error => {

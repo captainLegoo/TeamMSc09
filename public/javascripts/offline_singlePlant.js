@@ -152,7 +152,10 @@ function displayPlantData(plantData) {
     document.querySelector('#nickName').textContent = plantData.userNickname;
 
     document.querySelector('#uri').onclick = function() {
-        window.open(plantData.identification.dbpediaInfo.uri, '_blank');
+        if (plantData.identification.dbpediaInfo.uri !=='')
+            window.open(plantData.identification.dbpediaInfo.uri, '_blank');
+        else
+            alert('No information found for this plant in DBpedia')
     };
     document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
 
