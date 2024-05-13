@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (status) {
             fetchPlantDataFromServer(plantId);
         } else {
+            var discussionDiv = document.querySelector('.discussion');
+            discussionDiv.style.display = 'none';
             fetchPlantDataFromIndexedDB(plantId);
         }
     })
@@ -107,24 +109,24 @@ function fetchPlantDataFromIndexedDB(plantId) {
 }
 
 
-function addComment(plantId, comment) {
-    fetch(`/modify/add-comment`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ _id: plantId, comment: comment }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Comment added successfully');
-            // Assume there's a function to refresh comments or the entire plant data
-            refreshComments(data._id);
-        })
-        .catch(error => {
-            console.error('Error adding comment:', error);
-        });
-}
+// function addComment(plantId, comment) {
+//     fetch(`/modify/add-comment`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ _id: plantId, comment: comment }),
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Comment added successfully');
+//             // Assume there's a function to refresh comments or the entire plant data
+//             refreshComments(data._id);
+//         })
+//         .catch(error => {
+//             console.error('Error adding comment:', error);
+//         });
+// }
 
 function displayPlantData(plantData) {
     document.querySelector('#plantName').textContent = plantData.identification.name;
@@ -149,7 +151,7 @@ function displayPlantData(plantData) {
     document.querySelector('#sun').textContent = plantData.sunExposure;
     document.querySelector('#color').textContent = plantData.flowerColor;
     document.querySelector('#size').textContent = plantData.plantSize;
-    document.querySelector('#nickName').textContent = plantData.userNickname;
+    // document.querySelector('#nickName').textContent = plantData.userNickname;
 
     document.querySelector('#uri').onclick = function() {
         if (plantData.identification.dbpediaInfo.uri !=='')
