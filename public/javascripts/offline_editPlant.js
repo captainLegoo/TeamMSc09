@@ -125,9 +125,17 @@ function updateIndexDB(plantId, updatedData){
         var getRequest = store.get(plantId);
         getRequest.onsuccess = function() {
             var data = getRequest.result;
-            Object.keys(updatedData).forEach(function(key) {
-                data[key] = updatedData[key];
-            });
+            function mergeObjects(obj1, obj2) {
+                Object.keys(obj2).forEach(function (key) {
+                    if (obj2[key] && typeof obj2[key] === 'object' && !Array.isArray(obj2[key])) {
+                        if (!obj1[key]) obj1[key] = {};
+                        mergeObjects(obj1[key], obj2[key]);
+                    } else {
+                        obj1[key] = obj2[key];
+                    }
+                });
+            }
+            mergeObjects(data, updatedData);
             var putRequest = store.put(data);
             putRequest.onsuccess = function() {
                 console.log("Data updated successfully!");
@@ -175,6 +183,7 @@ function displayPlantData(plantData) {
     document.querySelector('#flowerColor').value = plantData.flowerColor;
 
     document.querySelector('#plantSize').value = plantData.plantSize;
+    document.querySelector('#status').value = plantData.identification.status;
 
     // document.getElementById('urlButton').onclick = function() {
     //     window.location.href = plantData.identification.dbpediaInfo.uri;
@@ -225,9 +234,9 @@ function gatherPlantData(plantId, status) {
         // userNickname: localStorage.getItem('userNickname'),
         identification: {
             name: document.getElementById('name').value,
-            status: "In-progress",
-            suggestedNames: [],
-            dbpediaInfo: {}
+            status: document.getElementById('status').value,
+            // suggestedNames: [],
+            // dbpediaInfo: {}
         },
         // userId: localStorage.getItem("userId"),
         isInMongoDB: isInMongoDB,
