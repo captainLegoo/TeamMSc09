@@ -52,10 +52,10 @@ window.onload = function () {
         event.preventDefault(); // Prevent the form from submitting in the traditional way
         const validationResult = emptyOrNot();
         if (validationResult.allFieldsFilled) {
-            const plantId = new Date().getTime() * 1000 + Math.floor(Math.random() * 1000).toString()
-            const plant= gatherPlantData(plantId)
             getMongoStatus()
                 .then(async status => {
+                    const plantId = new Date().getTime() * 1000 + Math.floor(Math.random() * 1000).toString();
+                    const plant= gatherPlantData(plantId, status);
                     console.log("MongoDB status:", status);
                     if (status) {
                         // TODO IndexedDB => MongoDB
@@ -229,14 +229,16 @@ const getCookieValue = (name) => {
     return null;
 };
 
-function gatherPlantData(plantId) {
+function gatherPlantData(plantId, status) {
     var userId = null;
+    var isInMongoDB = !!status;
     if (localStorage.getItem('userId')===null) {
         userId = idGenerator.getId();
         localStorage.setItem('userId',id)
     } else {
         userId = localStorage.getItem('userId');
     }
+
     return {
         date: new Date(),
         location: {
@@ -262,7 +264,7 @@ function gatherPlantData(plantId) {
         },
         userId: userId,
         // comment: [],
-        isInMongoDB: false,
+        isInMongoDB: isInMongoDB,
         isInIndexedDB: true,
         plantId: plantId
     };
