@@ -228,6 +228,13 @@ const getCookieValue = (name) => {
 };
 
 function gatherPlantData(plantId) {
+    var userId = null;
+    if (localStorage.getItem('userId')===null) {
+        userId = idGenerator.getId();
+        localStorage.setItem('userId',id)
+    } else {
+        userId = localStorage.getItem('userId');
+    }
     return {
         date: new Date(),
         location: {
@@ -251,7 +258,7 @@ function gatherPlantData(plantId) {
             suggestedNames: [],
             dbpediaInfo: {}
         },
-        userId: getCookieValue("userId"),
+        userId: userId,
         comment: [],
         isInMongoDB: false,
         isInIndexedDB: true,
