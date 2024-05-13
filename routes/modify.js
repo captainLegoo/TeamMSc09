@@ -104,11 +104,13 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
 
 router.post('/updatePlant', async (req, res)=>{
 
-  plantId = req.body.plantId;
+  plantId = req.query.plantId;
   const result = await plantController.getSinglePlant(plantId);
   const plant = result[0]
 
-  plant.location.coordinates = [req.body.latitude, req.body.longitude];
+  console.log('/updatePlant => body: ', req);
+
+  plant.location.coordinates = [req.body.location.coordinates.latitude, req.body.location.coordinates.longitude];
   plant.description = req.body.description;
   plant.plantSize = req.body.plantSize;
   plant.haveFlower = (req.body.haveFlower==='true');
@@ -124,7 +126,7 @@ router.post('/updatePlant', async (req, res)=>{
   //plant.identification.dbpediaInfo.description = req.body.id_info_description;
   //plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
 
-  plant.userNickname = req.body.userNickname;
+  // plant.userNickname = req.body.userNickname;
   plant.save()
     .then(() => {
       console.log('update successfully!');
