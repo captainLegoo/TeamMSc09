@@ -170,10 +170,10 @@ function displayPlantData(plantData) {
     }
 
 
-    const editButton = document.querySelector('#editButton');
-    editButton.onclick = function() {
-        editThisPlant(plantData._id);
-    };
+    // const editButton = document.querySelector('#editButton');
+    // editButton.onclick = function() {
+    //     editThisPlant(plantData._id);
+    // };
 
     const plantId = plantData.plantId;
     const userNickname = localStorage.getItem('userNickname')
