@@ -157,6 +157,7 @@ window.onload = function () {
 
     if (localStorage.getItem('userId')===null) {
         const id = idGenerator.getId();
+        userId = id;
         console.log('userId:', id)
         localStorage.setItem('userId',id)
     }
