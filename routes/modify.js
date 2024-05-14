@@ -111,17 +111,17 @@ router.post('/updatePlant', async (req, res)=>{
 
   console.log('/updatePlant => body: ', req.body);
 
-  plant.location.coordinates = [req.body.location.coordinates[0], req.body.location.coordinates[1]];
-  plant.description = req.body.description;
-  plant.plantSize = req.body.plantSize;
-  plant.haveFlower = (req.body.haveFlower===true);
-  plant.haveLeaves = (req.body.haveLeaves===true);
-  plant.haveSeeds = (req.body.haveSeeds===true);
-  plant.sunExposure = req.body.sunExposure;
-  plant.flowerColor = req.body.flowerColor;
+  // plant.location.coordinates = [req.body.location.coordinates[0], req.body.location.coordinates[1]];
+  // plant.description = req.body.description;
+  // plant.plantSize = req.body.plantSize;
+  // plant.haveFlower = (req.body.haveFlower===true);
+  // plant.haveLeaves = (req.body.haveLeaves===true);
+  // plant.haveSeeds = (req.body.haveSeeds===true);
+  // plant.sunExposure = req.body.sunExposure;
+  // plant.flowerColor = req.body.flowerColor;
   plant.identification.name = req.body.identification.name;
   plant.identification.status = req.body.identification.status;
-  plant.identification.suggestedNames = req.body.identification.suggestedNames;
+  // plant.identification.suggestedNames = req.body.identification.suggestedNames;
   //plant.identification.dbpediaInfo.commonName = req.body.id_info_commonName;
   //plant.identification.dbpediaInfo.scientificName = req.body.id_info_scientificName;
   //plant.identification.dbpediaInfo.description = req.body.id_info_description;
