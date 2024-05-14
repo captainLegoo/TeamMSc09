@@ -1,6 +1,10 @@
 /* General Styles */
 body {
-    background-color: #00cc66; /* This is a placeholder color for the green background */
+    background-color: #e6ffe6; /* Light green background for a softer look */
+    font-family: Arial, sans-serif; /* Use a clean and readable font */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .container {
@@ -11,10 +15,10 @@ body {
 
 /* Header Styles */
 .header {
-    /*background-color: #000000;*/
-    border: 2px solid #000000;
+    background-color: #006600; /* Dark green header */
+    border: 2px solid #004d00;
     border-radius: 10px;
-    color: #000000;
+    color: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,15 +27,23 @@ body {
 
 .header-title {
     font-size: 24px;
+    font-weight: bold;
 }
 
 .header-button {
     background-color: #ffffff;
-    color: #000000;
+    color: #006600;
     border-radius: 5px;
-    border: 2px solid #000000;
+    border: 2px solid #004d00;
     padding: 8px 16px;
     margin: 0 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.header-button:hover {
+    background-color: #004d00;
+    color: #ffffff;
 }
 
 /* Title and Description Styles */
@@ -43,176 +55,118 @@ body {
 .title {
     font-size: 36px;
     font-weight: bold;
-    color: #000000;
+    color: #004d00;
 }
 
 .description {
-    color: #000000;
+    color: #333333;
     margin: 8px 0;
 }
 
 /* Detail Styles */
 .details {
     display: flex;
+    flex-wrap: wrap;
     margin: 16px 0;
     justify-content: space-between;
 }
 
 .detail-half {
-    flex-basis: 50%;
+    flex-basis: 45%;
     padding: 8px;
 }
 
 .detail-label {
-    color: #000000;
-    /*text-align: center;*/
+    color: #004d00;
+    font-weight: bold;
     margin-bottom: 5px;
-    /*margin-right: 10px;*/
 }
 
 .detail-value {
     background-color: #ffffff;
     padding: 8px;
     margin-bottom: 16px;
-    /*min-width: 100px; !* MINIMUM_WIDTH *!*/
-    /*max-width: 300px; !* MAXIMUM_WIDTH *!*/
-    white-space: nowrap; /* PREVENT_CONTENT_FROM_WRAPPING */
-    /*overflow: hidden; !* EXCESS_PARTS_ARE_HIDDEN *!*/
-    /*text-overflow: ellipsis; !* EXCESS_PARTS_ARE_SHOWN_WITH_AN_ELLIPSIS *!*/
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
 .detail-value input[type="text"] {
     width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     box-sizing: border-box;
 }
 
-.detail-value-attribute {
-    text-align: center;
-    border-radius: 10px;
-    width: 100px;
-    background-color: #ffffff;
-    padding: 4px;
-    white-space: nowrap;
-    height: 18px;
-    display: flex;
-    justify-content: center;
-}
-.detail-value-attribute-time {
-    text-align: center;
-    border-radius: 10px;
-    background-color: #ffffff;
-    width: 140px;
-    padding: 4px;
-    height: 18px;
-    white-space: nowrap;
-}
-.detail-value-attribute-time-choose {
-    text-align: center;
-    border-radius: 10px;
-    background-color: #ffffff;
-    height: 18px;
-    padding: 4px;
-    white-space: nowrap;
-    width: 200px;
-    display: flex;
-    justify-content: center;
-}
-
-.detail-value-attribute-edit {
-    text-align: center;
-    border-radius: 10px;
-    width: 115px;
-    background-color: #ffffff;
-    padding: 4px;
-    height: 18px;
-}
-.detail-value-attribute-edit-boolean {
-    text-align: center;
-    border-radius: 10px;
-    width: 130px;
-    background-color: #ffffff;
-    padding: 4px;
-    height: 18px;
-}
-.detail-value-attribute-edit-pos {
-    text-align: center;
-    border-radius: 10px;
-    width: 312px;
-    padding: 4px;
-    height: 18px;
-}
-
-.detail-value-attribute-pos-input {
-    text-align: center;
-    border-radius: 10px;
-    width: 58px;
-    background-color: #ffffff;
-    padding: 4px;
-    height: 10px;
-}
-
+.detail-value-attribute,
+.detail-value-attribute-time,
+.detail-value-attribute-time-choose,
+.detail-value-attribute-edit,
+.detail-value-attribute-edit-boolean,
+.detail-value-attribute-edit-pos,
 .detail-value-question {
     text-align: center;
     border-radius: 10px;
-    width: 140px;
-    height: 18px;
-    padding: 4px;
-}
-
-.detail-photo {
-    /*height: 200px;*/
-    /*width: 200px;*/
-    /*background-color: #ffffff;*/
+    background-color: #ffffff;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Attributes Styles */
 .attribute-grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    /*align-items: center;*/
     gap: 20px;
     padding: 30px;
-    /*margin-left: 52px;*/
 }
 
-
 .attribute-item {
-    display: grid;
-    row-gap: 30px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 /* Discussion Section Styles */
 .discussion {
-    /*background-color: #000000;*/
-    border: 2px solid #000000;
+    background-color: #f9f9f9;
+    border: 2px solid #004d00;
     border-radius: 10px;
-    color: #000000;
+    color: #333333;
     padding: 20px;
     margin-top: 16px;
 }
 
 .discussion-title {
     font-size: 24px;
+    font-weight: bold;
     margin-bottom: 16px;
 }
 
 .comment {
     background-color: #ffffff;
-    color: #000000;
+    color: #333333;
     padding: 8px;
     margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 /* Comment Form Styles */
 .comment-form {
     margin-top: 16px;
-    width: 500px;
+    width: 100%;
 }
 
 .comment-history-form {
     margin-top: 16px;
     height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
 }
@@ -221,15 +175,25 @@ body {
     width: 100%;
     padding: 8px;
     margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .comment-form button {
-    background-color: #008000; /* This is a placeholder color for the green button */
+    background-color: #006600;
     color: #ffffff;
     padding: 8px 16px;
     border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
+.comment-form button:hover {
+    background-color: #004d00;
+}
+
+/* Photo Styles */
 .photoView {
     width: 100%;
     height: auto;
@@ -237,10 +201,12 @@ body {
     display: block;
 }
 
+/* Button Styles */
 .button-class {
     margin-top: 30px;
 }
 
+/* Map Styles */
 .map {
-    transform: translateX(50px); /* 向右移动50像素 */
+    transform: translateX(50px); /* Move to the right by 50px */
 }
