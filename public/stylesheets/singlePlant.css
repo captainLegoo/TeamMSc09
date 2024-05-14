@@ -7,30 +7,32 @@ body {
     box-sizing: border-box;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-}
-
 /* Header Styles */
 .header {
     background-color: #4CAF50;
     color: white;
-    padding: 20px 50px;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
 }
 
 .header-title {
     font-size: 24px;
     font-weight: bold;
+    margin-right: 20px;
 }
 
-.header-buttons {
+.header-right {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
@@ -52,34 +54,11 @@ body {
     border: 2px solid #ffffff;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 50px;
-    align-items: center;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-}
-
-.navbar ul {
-    list-style-type: none;
-    display: flex;
-    gap: 10px;
-    padding: 0;
-    margin: 0;
-}
-
 /* Title and Description Styles */
 .title-section {
     text-align: center;
     padding: 32px 0;
-    background-color: #4CAF50; /* Matching background color */
-    border-radius: 10px;
-    color: white; /* White text for contrast */
+    color: white; /* 白色文本以增加对比 */
     margin-bottom: 20px;
 }
 
@@ -87,11 +66,13 @@ body {
     font-size: 36px;
     font-weight: bold;
     margin: 0;
+    color: #ffffff; /* 确保标题颜色为白色 */
 }
 
 .title-section p {
     margin: 0;
     font-size: 18px;
+    color: #ffffff; /* 确保描述文字颜色为白色 */
 }
 
 /* Detail Styles */
@@ -240,5 +221,5 @@ body {
 
 /* Map Styles */
 .map {
-    transform: translateX(50px); /* Move to the right by 50px */
+    transform: translateX(50px); /* 向右移动50像素 */
 }
