@@ -32,6 +32,11 @@ body {
     text-decoration: none; /* 取消下划线 */
 }
 
+.header-title:hover, .header-title:visited, .header-title:active {
+    color: white;
+    text-decoration: none; /* 取消下划线 */
+}
+
 .header-right {
     display: flex;
     align-items: center;
@@ -52,6 +57,13 @@ body {
 
 .header-button:hover {
     background-color: #45a049; /* 鼠标悬停时变淡 */
+    color: #ffffff; /* 确保文字颜色保持白色 */
+}
+
+.header-button:visited, .header-button:active {
+    background-color: #4CAF50; /* 访问过后仍保持绿色 */
+    color: #ffffff; /* 确保文字颜色保持白色 */
+    text-decoration: none; /* 取消下划线 */
 }
 
 /* Title and Description Styles */
@@ -75,6 +87,32 @@ body {
     font-size: 14px;
     margin: 0;
     margin-top: 5px;
+}
+
+/* Form Styles */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    width: 150px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group select,
+.form-group input[type="datetime-local"],
+.form-group input[type="radio"] {
+    flex-grow: 1;
+}
+
+.form-group .radio-group {
+    display: flex;
+    gap: 10px;
 }
 
 /* Detail Styles */
@@ -132,18 +170,69 @@ body {
 
 /* Attributes Styles */
 .attribute-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
     padding: 30px;
 }
 
 .attribute-item {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
+}
+
+.detail-value-attribute-time-choose {
+    text-align: center;
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 4px;
+    white-space: nowrap;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.detail-value-attribute-edit-boolean {
+    text-align: center;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 4px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
+}
+
+.detail-value-attribute-edit {
+    text-align: center;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 4px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+}
+
+.detail-value-attribute-pos-input {
+    text-align: center;
+    border-radius: 10px;
+    width: 58px;
+    background-color: #ffffff;
+    padding: 4px;
+    height: 10px;
+}
+
+.detail-value-attribute-edit-pos {
+    text-align: center;
+    border-radius: 10px;
+    width: 100%;
+    padding: 4px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
 }
 
 /* Discussion Section Styles */
@@ -223,5 +312,5 @@ body {
 
 /* Map Styles */
 .map {
-    transform: translateX(50px); /* 向右移动50像素 */
+    transform: translateX(50px);
 }
