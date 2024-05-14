@@ -73,7 +73,7 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
       flowerColor : req.body.flowerColor,
       identification : {
         name : req.body.name,
-        status : req.body.id_status,
+        status : req.body.status,
         suggestedNames : req.body.id_suggestedNames,
         // dbpediaInfo : {
         //   commonName : req.body.id_info_commonName,
