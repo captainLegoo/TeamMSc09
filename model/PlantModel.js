@@ -22,8 +22,10 @@ let PlantSchema = new mongoose.Schema({
         required: true
     },
     plantSize: {
-        type: String,
-        required: true
+        size:{
+            type: [Number],
+            required: true
+        }
     },
     haveFlower: {
         type: Boolean,

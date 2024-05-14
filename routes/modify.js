@@ -60,12 +60,12 @@ router.get('/singlePlantData', async (req, res) => {
 router.post('/addPlant',upload.single('photo'),function (req,res){
     const base64Image = 'data:image/png;base64,'+req.file.buffer.toString('base64');
     const plant = new PlantModel({
-      date: new Date(),
+      date: req.body.datetime,
       location: {
         coordinates: [req.body.latitude, req.body.longitude]
       },
       description : req.body.description,
-      plantSize : req.body.plantSize,
+      plantSize : {size:[req.body.plantSize_height,req.body.plantSize_spread]},
       haveFlower : (req.body.haveFlower === 'true'),
       haveLeaves : (req.body.haveLeaves === 'true'),
       haveSeeds : (req.body.haveSeeds === 'true'),
