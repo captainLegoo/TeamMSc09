@@ -24,7 +24,7 @@ self.addEventListener('install', event => {
                 '/javascripts/commentArea.js',
                 '/javascripts/offline_editPlant.js',
                 '/javascripts/offline_addPlant.js',
-                '/stylesheets/home.css',
+                // '/stylesheets/home.css',
                 '/stylesheets/overview.css',
                 '/stylesheets/singlePlant.css',
                 '/stylesheets/style.css',
