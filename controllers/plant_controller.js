@@ -53,15 +53,20 @@ exports.getAll = function (sort, lat, lng) {
 
 
     let sortQuery = {date: -1}; // Default sorting by date
+    let filter = null;
 
     if (sort === 'date' || sort === 'default' || sort === null) {
         sortQuery = ({date: -1});
     } else if (sort === 'name') {
         sortQuery = ({'identification.name': 1});
+    } else if (sort === 'withFlowers') {
+        filter = {haveFlower: true};
+    } else if (sort === 'withoutFlowers') {
+        filter = {haveFlower: false};
     }
 
     // Retrieve all plants from the database
-    return plantModel.find({}).sort(sortQuery).then(plants => {
+    return plantModel.find(filter).sort(sortQuery).then(plants => {
         // Return the list of plants as a JSON string
         return plants;
     }).catch(err => {
