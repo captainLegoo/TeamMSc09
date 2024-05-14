@@ -60,12 +60,12 @@ router.get('/singlePlantData', async (req, res) => {
 router.post('/addPlant',upload.single('photo'),function (req,res){
     const base64Image = 'data:image/png;base64,'+req.file.buffer.toString('base64');
     const plant = new PlantModel({
-      date: new Date(),
+      date: req.body.datetime,
       location: {
         coordinates: [req.body.latitude, req.body.longitude]
       },
       description : req.body.description,
-      plantSize : req.body.plantSize,
+      plantSize : {size:[req.body.plantSize_height,req.body.plantSize_spread]},
       haveFlower : (req.body.haveFlower === 'true'),
       haveLeaves : (req.body.haveLeaves === 'true'),
       haveSeeds : (req.body.haveSeeds === 'true'),
@@ -73,7 +73,7 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
       flowerColor : req.body.flowerColor,
       identification : {
         name : req.body.name,
-        status : req.body.id_status,
+        status : req.body.status,
         suggestedNames : req.body.id_suggestedNames,
         // dbpediaInfo : {
         //   commonName : req.body.id_info_commonName,
@@ -111,17 +111,17 @@ router.post('/updatePlant', async (req, res)=>{
 
   console.log('/updatePlant => body: ', req.body);
 
-  plant.location.coordinates = [req.body.location.coordinates[0], req.body.location.coordinates[1]];
-  plant.description = req.body.description;
-  plant.plantSize = req.body.plantSize;
-  plant.haveFlower = (req.body.haveFlower===true);
-  plant.haveLeaves = (req.body.haveLeaves===true);
-  plant.haveSeeds = (req.body.haveSeeds===true);
-  plant.sunExposure = req.body.sunExposure;
-  plant.flowerColor = req.body.flowerColor;
+  // plant.location.coordinates = [req.body.location.coordinates[0], req.body.location.coordinates[1]];
+  // plant.description = req.body.description;
+  // plant.plantSize = req.body.plantSize;
+  // plant.haveFlower = (req.body.haveFlower===true);
+  // plant.haveLeaves = (req.body.haveLeaves===true);
+  // plant.haveSeeds = (req.body.haveSeeds===true);
+  // plant.sunExposure = req.body.sunExposure;
+  // plant.flowerColor = req.body.flowerColor;
   plant.identification.name = req.body.identification.name;
   plant.identification.status = req.body.identification.status;
-  plant.identification.suggestedNames = req.body.identification.suggestedNames;
+  // plant.identification.suggestedNames = req.body.identification.suggestedNames;
   //plant.identification.dbpediaInfo.commonName = req.body.id_info_commonName;
   //plant.identification.dbpediaInfo.scientificName = req.body.id_info_scientificName;
   //plant.identification.dbpediaInfo.description = req.body.id_info_description;

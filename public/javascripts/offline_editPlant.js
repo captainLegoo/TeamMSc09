@@ -206,8 +206,8 @@ function displayPlantData(plantData) {
         longitudeInput.value = plantData.location.coordinates[1];
     }
 
-    const height = document.querySelector('#plantSize-height');
-    const spread = document.querySelector('#plantSize-spread');
+    const height = document.querySelector('#plantSize_height');
+    const spread = document.querySelector('#plantSize_spread');
 
     if (plantData && plantData.plantSize && plantData.plantSize.size.length >= 2) {
         height.value = plantData.plantSize.size[0];

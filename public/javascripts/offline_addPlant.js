@@ -140,13 +140,13 @@ function emptyOrNot() {
     const longitude = getValue('longitude');
     const name = getValue('name');
     const time = getValue('datetime');
-    const height = getValue('plantSize-height');
-    const spread = getValue('plantSize-spread');
+    const height = getValue('plantSize_height');
+    const spread = getValue('plantSize_spread');
 
 
     // Check text inputs for emptiness
-    if (!height) emptyFields.push('plantSize-height');
-    if (!spread) emptyFields.push('plantSize-spread');
+    if (!height) emptyFields.push('plantSize_height');
+    if (!spread) emptyFields.push('plantSize_spread');
     if (!time) emptyFields.push('Data&Time');
     if (!name) emptyFields.push('Plant Name');
     if (!description) emptyFields.push('Description');
@@ -258,8 +258,8 @@ function gatherPlantData(plantId, status) {
         },
         plantSize: {
             size: [
-                document.getElementById('plantSize-height').value,
-                document.getElementById('plantSize-spread').value
+                document.getElementById('plantSize_height').value,
+                document.getElementById('plantSize_spread').value
             ]
         },
         description: document.getElementById('description').value,
