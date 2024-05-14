@@ -203,6 +203,10 @@ body {
     width: 312px;
     padding: 4px;
     height: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Equal width columns */
+    grid-row-gap: 10px; /* Space between rows */
+    grid-column-gap: 10px; /* Space between columns */
 }
 
 .detail-value-attribute-pos-input {
