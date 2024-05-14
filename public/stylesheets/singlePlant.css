@@ -1,7 +1,7 @@
 /* General Styles */
 body {
-    background-color: #e6ffe6; /* Light green background for a softer look */
-    font-family: Arial, sans-serif; /* Use a clean and readable font */
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -15,14 +15,13 @@ body {
 
 /* Header Styles */
 .header {
-    background-color: #006600; /* Dark green header */
-    border: 2px solid #004d00;
-    border-radius: 10px;
-    color: #ffffff;
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 16px;
+    border-radius: 10px;
 }
 
 .header-title {
@@ -30,20 +29,48 @@ body {
     font-weight: bold;
 }
 
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
 .header-button {
     background-color: #ffffff;
-    color: #006600;
+    color: #4CAF50;
     border-radius: 5px;
-    border: 2px solid #004d00;
+    border: 2px solid #ffffff;
     padding: 8px 16px;
     margin: 0 4px;
     cursor: pointer;
     text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .header-button:hover {
-    background-color: #004d00;
+    background-color: #4CAF50;
     color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
 }
 
 /* Title and Description Styles */
@@ -181,16 +208,17 @@ body {
 }
 
 .comment-form button {
-    background-color: #006600;
+    background-color: #4CAF50;
     color: #ffffff;
     padding: 8px 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .comment-form button:hover {
-    background-color: #004d00;
+    background-color: #45a049;
 }
 
 /* Photo Styles */
