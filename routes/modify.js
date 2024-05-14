@@ -8,17 +8,27 @@ var plantController = require("../controllers/plant_controller");
 const multer  = require('multer');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage });
-
+/**
+ *  GET view page.
+ */
 router.get('/',function (req, res){
   res.render('singlePlant')
 })
+/**
+ * GET edit page.
+ */
 router.get('/editPlant',function (req, res){
   res.render('editPlant')
 })
+/**
+ * GET add page
+ */
 router.get('/addPlant',function (req,res){
   res.render('addPlant')
 })
-
+/**
+ * GET detailed information about specific plant.
+ */
 router.get('/singlePlantData', async (req, res) => {
   const plantId = req.query.plantId;
   const result = await plantController.getSinglePlant(plantId);
@@ -44,8 +54,6 @@ router.get('/singlePlantData', async (req, res) => {
         let bindings = data.results.bindings;
         plant.identification.dbpediaInfo.uri = (bindings[0].plant.value !== undefined && bindings[0].plant.value !== '') ? bindings[0].plant.value : ''
         plant.identification.dbpediaInfo.description = (bindings[0].abstract.value !== undefined && bindings[0].abstract.value !== '') ? bindings[0].abstract.value : 'No information found for this plant in DBpedia'
-        // plant.identification.dbpediaInfo.uri = bindings[0].plant.value;
-        // plant.identification.dbpediaInfo.description = bindings[0].abstract.value;
         res.json(plant)
       }).
   catch( error => {
@@ -57,6 +65,9 @@ router.get('/singlePlantData', async (req, res) => {
 
 });
 
+/**
+ * POST add new plant
+ */
 router.post('/addPlant',upload.single('photo'),function (req,res){
     const base64Image = 'data:image/png;base64,'+req.file.buffer.toString('base64');
     const plant = new PlantModel({
@@ -75,12 +86,6 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
         name : req.body.name,
         status : req.body.status,
         suggestedNames : req.body.id_suggestedNames,
-        // dbpediaInfo : {
-        //   commonName : req.body.id_info_commonName,
-        //   scientificName : req.body.id_info_scientificName,
-        //   description : req.body.id_info_description,
-        //   uri : req.body.id_info_uri,
-        // }
       },
       photo : base64Image,
       userNickname : req.body.userNickname,
@@ -101,34 +106,20 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
         });
 })
 
+/**
+ * POST update information about specific plant
+ */
 router.post('/updatePlant', async (req, res)=>{
 
   plantId = req.query.plantId;
   const result = await plantController.getSinglePlant(plantId);
   const plant = result[0]
 
-
-
   console.log('/updatePlant => body: ', req.body);
 
-  // plant.location.coordinates = [req.body.location.coordinates[0], req.body.location.coordinates[1]];
-  // plant.description = req.body.description;
-  // plant.plantSize = req.body.plantSize;
-  // plant.haveFlower = (req.body.haveFlower===true);
-  // plant.haveLeaves = (req.body.haveLeaves===true);
-  // plant.haveSeeds = (req.body.haveSeeds===true);
-  // plant.sunExposure = req.body.sunExposure;
-  // plant.flowerColor = req.body.flowerColor;
   plant.identification.name = req.body.identification.name;
   plant.identification.status = req.body.identification.status;
-  // plant.identification.suggestedNames = req.body.identification.suggestedNames;
-  //plant.identification.dbpediaInfo.commonName = req.body.id_info_commonName;
-  //plant.identification.dbpediaInfo.scientificName = req.body.id_info_scientificName;
-  //plant.identification.dbpediaInfo.description = req.body.id_info_description;
-  //plant.identification.dbpediaInfo.uri = req.body.id_info_uri;
 
-
-  // plant.userNickname = req.body.userNickname;
   plant.save()
     .then(() => {
       console.log('update successfully!');
@@ -142,6 +133,9 @@ router.post('/updatePlant', async (req, res)=>{
     });
 })
 
+/**
+ * POST insert comments into plant
+ */
 router.post('/add-comment', async (req,res) => {
   const plantId = req.body._id;
   const comment = req.body.comment;
@@ -153,6 +147,11 @@ router.post('/add-comment', async (req,res) => {
   res.json({})
 })
 
+/**
+ * Retrieves the name of a plant in valid format.
+ * @param plantName The un-formatted name of the plant
+ * @returns {String} The formatted name of the plant
+ */
 function retrievePlantName(plantName){
 
   plantName = plantName.replace(/_/g, ' ')
