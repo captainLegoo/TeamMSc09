@@ -99,7 +99,35 @@
                         </label>
                         <script>
                             const input = document.getElementById('datetime');
+
+                            // Function to get the current date and time in the format required by datetime-local
+                            function getCurrentDateTime() {
+                                const now = new Date();
+                                const year = now.getFullYear();
+                                const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                                const day = String(now.getDate()).padStart(2, '0');
+                                const hours = String(now.getHours()).padStart(2, '0');
+                                const minutes = String(now.getMinutes()).padStart(2, '0');
+                                const seconds = String(now.getSeconds()).padStart(2, '0');
+                                return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+                            }
+
+                            // Function to update the max attribute periodically
+                            function updateMaxDateTime() {
+                                input.max = getCurrentDateTime();
+                            }
+
+                            // Set the max attribute initially
+                            updateMaxDateTime();
+
+                            // Update the max attribute every second to keep it current
+                            setInterval(updateMaxDateTime, 1000);
+
                             input.addEventListener('change', function() {
+                                if (this.value > this.max) {
+                                    alert('The selected date and time cannot be in the future');
+                                    this.value = '';
+                                }
                                 console.log('Date and Time selected:', this.value);
                             });
                         </script>
