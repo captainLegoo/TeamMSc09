@@ -223,9 +223,9 @@ body {
 }
 
 .detail-photo {
-    /*height: 200px;*/
-    /*width: 200px;*/
-    /*background-color: #ffffff;*/
+    max-width: 100%; /* Ensures the image will not be larger than the container */
+    height: auto; /* Maintains the aspect ratio */
+    display: block; /* Ensures the image is displayed as a block element */
 }
 
 /* Attributes Styles */
