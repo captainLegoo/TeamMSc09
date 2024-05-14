@@ -7,6 +7,9 @@ let lon = 0;
 let selectedSort = null;
 let userId = null;
 
+/**
+ * DOMContentLoaded event listener, executed after the page is loaded
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const sortDropdown = document.getElementById('sortDropdown');
     const urlParams = new URLSearchParams(window.location.search);
@@ -70,6 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                             }
                                             return 0;
                                         });
+                                    } else if (selectedSort === 'withFlowers') {
+                                        plants = plants.filter(plant => plant.haveFlowers)
+                                    } else if (selectedSort === 'withoutFlowers') {
+                                        plants = plants.filter(plant => !plant.haveFlowers)
                                     }
 
                                     showPlantData(plants);
