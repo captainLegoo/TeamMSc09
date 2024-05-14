@@ -91,6 +91,30 @@ body {
     width: 100px;
     background-color: #ffffff;
     padding: 4px;
+    white-space: nowrap;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+}
+.detail-value-attribute-time {
+    text-align: center;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 140px;
+    padding: 4px;
+    height: 18px;
+    white-space: nowrap;
+}
+.detail-value-attribute-time-choose {
+    text-align: center;
+    border-radius: 10px;
+    background-color: #ffffff;
+    height: 18px;
+    padding: 4px;
+    white-space: nowrap;
+    width: 200px;
+    display: flex;
+    justify-content: center;
 }
 
 .detail-value-attribute-edit {
@@ -99,6 +123,7 @@ body {
     width: 115px;
     background-color: #ffffff;
     padding: 4px;
+    height: 18px;
 }
 .detail-value-attribute-edit-boolean {
     text-align: center;
@@ -106,26 +131,30 @@ body {
     width: 130px;
     background-color: #ffffff;
     padding: 4px;
+    height: 18px;
 }
 .detail-value-attribute-edit-pos {
     text-align: center;
     border-radius: 10px;
     width: 312px;
     padding: 4px;
+    height: 18px;
 }
 
 .detail-value-attribute-pos-input {
     text-align: center;
     border-radius: 10px;
-    width: 50px;
+    width: 58px;
     background-color: #ffffff;
     padding: 4px;
+    height: 10px;
 }
 
 .detail-value-question {
     text-align: center;
     border-radius: 10px;
     width: 140px;
+    height: 18px;
     padding: 4px;
 }
 
@@ -139,15 +168,17 @@ body {
 .attribute-grid {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     gap: 20px;
     padding: 30px;
+    /*margin-left: 52px;*/
 }
 
 
 .attribute-item {
     display: grid;
     row-gap: 30px;
+    align-items: center;
 }
 
 /* Discussion Section Styles */
