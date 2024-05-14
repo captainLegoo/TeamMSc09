@@ -81,6 +81,7 @@
                 <div class="attribute-grid">
                     <!-- Attributes -->
                     <div class="attribute-item">
+                        <span class="detail-value-question">Choose time</span>
                         <span class="detail-value-question">Has Flower?</span>
                         <span class="detail-value-question">Has Leaf?</span>
                         <span class="detail-value-question">Has Gain?</span>
@@ -93,6 +94,15 @@
                         <span class="detail-value-question">Position</span>
                     </div>
                     <div class="attribute-item">
+                        <label class="detail-value-attribute-time-choose">
+                            <input type="datetime-local" id="datetime" name="datetime">
+                        </label>
+                        <script>
+                            const input = document.getElementById('datetime');
+                            input.addEventListener('change', function() {
+                                console.log('Date and Time selected:', this.value);
+                            });
+                        </script>
                         <label class="detail-value-attribute-edit-boolean">
                             <label for="haveFlowerTrue">True</label>
                             <input type="radio" id="haveFlowerTrue" name="haveFlower" value="true">
@@ -111,15 +121,15 @@
                             <label for="haveSeedsFalse">False</label>
                             <input type="radio" id="haveSeedsFalse" name="haveSeeds" value="false">
                         </label>
-                        <label>
-                            <select name="sunExposure" id="sunExposure" class="detail-value-attribute-edit">
+                        <label class="detail-value-attribute-edit">
+                            <select name="sunExposure" id="sunExposure">
                                 <option value="Full Sun">Full Sun</option>
                                 <option value="Partial Shade">Partial Shade</option>
                                 <option value="Full Shade">Full Shade</option>
                             </select>
                         </label>
-                        <label>
-                            <select name="flowerColor" id="flowerColor" class="detail-value-attribute-edit">
+                        <label class="detail-value-attribute-edit">
+                            <select name="flowerColor" id="flowerColor" >
                                 <option value="Red">Red</option>
                                 <option value="Yellow">Yellow</option>
                                 <option value="White">White</option>
@@ -132,14 +142,21 @@
                                 <option value="Other">Other</option>
                             </select>
                         </label>
-                        <label>
-                            <select name="status" id="status" class="detail-value-attribute-edit">
+                        <label class="detail-value-attribute-edit">
+                            <select name="status" id="status">
                                 <option value="In-progress">In-progress</option>
-                                <option value="Complete">Complete</option>
+                                <option value="Complete">Completed</option>
                             </select>
                         </label>
-                        <label>
-                            <input class="detail-value-attribute" type="text" name="plantSize" id="plantSize" value="">
+                        <label class="detail-value-attribute-edit-pos">
+                            <label>Height (cm)</label>
+                            <label>
+                                <input class="detail-value-attribute-pos-input" type="text" id ="plantSize-height" name="plantSize-height" value="">
+                            </label>
+                            <label>Spread (cm)</label>
+                            <label>
+                                <input class="detail-value-attribute-pos-input" type="text" id ="plantSize-spread" name="plantSize-spread" value="">
+                            </label>
                         </label>
 <!--                        <label>-->
 <!--                            <input class="detail-value-attribute" type="text" name="URL" value="">-->

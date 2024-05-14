@@ -52,27 +52,41 @@
             <div class="attribute-grid">
                 <!-- Attributes -->
                 <div class="attribute-item">
+                    <span class="detail-value-question">Add Time</span>
                     <span class="detail-value-question">Has Flower?</span>
                     <span class="detail-value-question">Has Leaf?</span>
                     <span class="detail-value-question">Has Gain?</span>
                     <span class="detail-value-question">Sun?</span>
                     <span class="detail-value-question">Color</span>
-                    <span class="detail-value-question">Plant Size</span>
                     <span class="detail-value-question">DBPedia</span>
                     <span class="detail-value-question">Status</span>
+                    <span class="detail-value-question">User Nickname</span>
+                    <span class="detail-value-question">Plant Size</span>
 <!--                    <span class="detail-value-question">Your Nick Name</span>-->
                     <span class="detail-value-question">Position</span>
                 </div>
                 <div class="attribute-item">
+                    <div class="detail-value-attribute-time" id="dataTime"></div>
                     <div class="detail-value-attribute" id="flower"></div>
                     <div class="detail-value-attribute" id="leaves"></div>
                     <div class="detail-value-attribute" id="seeds"></div>
                     <div class="detail-value-attribute" id="sun"></div>
                     <div class="detail-value-attribute" id="color"></div>
-                    <div class="detail-value-attribute" id="size"></div>
-                    <button class="detail-value-attribute" id="uri" onclick="">URI</button>
+                    <div class="detail-value-attribute">
+                        <button id="uri" onclick="">URI</button>
+                    </div>
                     <div class="detail-value-attribute" id="status"></div>
-<!--                    <div class="detail-value-attribute" id="nickName"></div>-->
+                    <div class="detail-value-attribute" id="nickName"></div>
+                    <div class="detail-value-attribute-edit-pos">
+                        <label>Height (cm)</label>
+                        <label>
+                            <input class="detail-value-attribute-pos-input" type="number" id ="plantSize-height" name="plantSize-height" disabled>
+                        </label>
+                        <label>Spread (cm)</label>
+                        <label>
+                            <input class="detail-value-attribute-pos-input" type="number" id ="plantSize-spread" name="plantSize-spread" disabled>
+                        </label>
+                    </div>
                     <div class = detail-value-attribute-edit-pos>
                         <label>latitude</label>
                         <label>

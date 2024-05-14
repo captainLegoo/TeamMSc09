@@ -161,10 +161,14 @@ function displayPlantData(plantData) {
     document.querySelector('#plantDescription').textContent = '===========================' + plantData.description + '===========================';
     document.querySelector('#name').value = plantData.identification.name;
     document.querySelector('#description').textContent = plantData.description;
+    document.querySelector('#nickName').textContent = plantData.userNickname;
 
     const imageElement = document.querySelector('#plantPhoto');
     imageElement.src = `${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
+
+    const dataTime = document.querySelector('#dataTime');
+    dataTime.textContent = plantData.date;
 
     const flowerElement = document.querySelector('#flower');
     flowerElement.textContent = plantData.haveFlower ? 'Yes' : 'No';
@@ -177,7 +181,7 @@ function displayPlantData(plantData) {
 
     document.querySelector('#sun').textContent = plantData.sunExposure;
     document.querySelector('#color').textContent = plantData.flowerColor;
-    document.querySelector('#size').textContent = plantData.plantSize;
+    // document.querySelector('#size').textContent = plantData.plantSize;
     document.querySelector('#status').value = plantData.identification.status;
     document.querySelector('#dbpedia_description').textContent = plantData.identification.dbpediaInfo.description;
 
@@ -185,10 +189,30 @@ function displayPlantData(plantData) {
     //     window.location.href = plantData.identification.dbpediaInfo.uri;
     // };
     //
-    document.getElementById('userNickname').value = plantData.userNickname;
+    // document.getElementById('userNickname').value = plantData.userNickname;
 
-    document.getElementById('latitude').value = plantData.location.coordinates[0];
-    document.getElementById('longitude').value = plantData.location.coordinates[1];
+    document.querySelector('#uri').onclick = function() {
+        if (plantData.identification.dbpediaInfo.uri !=='')
+            window.open(plantData.identification.dbpediaInfo.uri, '_blank');
+        else
+            alert('No information found for this plant in DBpedia')
+    };
+
+    const latitudeInput = document.querySelector('#latitude');
+    const longitudeInput = document.querySelector('#longitude');
+
+    if (plantData && plantData.location && plantData.location.coordinates.length >= 2) {
+        latitudeInput.value = plantData.location.coordinates[0];
+        longitudeInput.value = plantData.location.coordinates[1];
+    }
+
+    const height = document.querySelector('#plantSize-height');
+    const spread = document.querySelector('#plantSize-spread');
+
+    if (plantData && plantData.plantSize && plantData.plantSize.size.length >= 2) {
+        height.value = plantData.plantSize.size[0];
+        spread.value = plantData.plantSize.size[1];
+    }
 
     // showMap(plantData.location.coordinates[0], plantData.location.coordinates[1])
 

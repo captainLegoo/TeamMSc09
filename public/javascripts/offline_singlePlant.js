@@ -139,6 +139,8 @@ function displayPlantData(plantData) {
     imageElement.src = `${plantData.photo}`;
     imageElement.alt = `Photo of ${plantData.identification.name}`;
 
+    document.querySelector('#dataTime').textContent = plantData.date;
+
     const flowerElement = document.querySelector('#flower');
     flowerElement.textContent = plantData.haveFlower ? 'Yes' : 'No';
 
@@ -150,8 +152,8 @@ function displayPlantData(plantData) {
 
     document.querySelector('#sun').textContent = plantData.sunExposure;
     document.querySelector('#color').textContent = plantData.flowerColor;
-    document.querySelector('#size').textContent = plantData.plantSize;
-    // document.querySelector('#nickName').textContent = plantData.userNickname;
+    // document.querySelector('#size').textContent = plantData.plantSize;
+    document.querySelector('#nickName').textContent = plantData.userNickname;
 
     document.querySelector('#uri').onclick = function() {
         if (plantData.identification.dbpediaInfo.uri !=='')
@@ -170,6 +172,13 @@ function displayPlantData(plantData) {
         longitudeInput.value = plantData.location.coordinates[1];
     }
 
+    const height = document.querySelector('#plantSize-height');
+    const spread = document.querySelector('#plantSize-spread');
+
+    if (plantData && plantData.plantSize && plantData.plantSize.size.length >= 2) {
+        height.value = plantData.plantSize.size[0];
+        spread.value = plantData.plantSize.size[1];
+    }
 
     // const editButton = document.querySelector('#editButton');
     // editButton.onclick = function() {

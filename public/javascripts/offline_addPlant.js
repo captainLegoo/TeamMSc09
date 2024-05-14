@@ -133,18 +133,24 @@ function emptyOrNot() {
 
     // Retrieve values from input fields
     const description = getValue('description');
-    const plantSize = getValue('plantSize');
+    // const plantSize = getValue('plantSize');
     const photo = getValue('photo');
     // const userNickname = getValue('userNickname');
     const latitude = getValue('latitude');
     const longitude = getValue('longitude');
     const name = getValue('name');
+    const time = getValue('datetime');
+    const height = getValue('plantSize-height');
+    const spread = getValue('plantSize-spread');
 
 
     // Check text inputs for emptiness
+    if (!height) emptyFields.push('plantSize-height');
+    if (!spread) emptyFields.push('plantSize-spread');
+    if (!time) emptyFields.push('Data&Time');
     if (!name) emptyFields.push('Plant Name');
     if (!description) emptyFields.push('Description');
-    if (!plantSize) emptyFields.push('plant Size');
+    // if (!plantSize) emptyFields.push('plant Size');
     if (!photo) emptyFields.push('Photo');
     //if (!userNickname) emptyFields.push('userNickname');
     if (!latitude) emptyFields.push('Latitude');
@@ -243,15 +249,21 @@ function gatherPlantData(plantId, status) {
     }
 
     return {
-        date: new Date(),
+        date: document.getElementById('datetime').value,
         location: {
             coordinates: [
                 document.getElementById('latitude').value,
                 document.getElementById('longitude').value
             ]
         },
+        plantSize: {
+            size: [
+                document.getElementById('plantSize-height').value,
+                document.getElementById('plantSize-spread').value
+            ]
+        },
         description: document.getElementById('description').value,
-        plantSize: document.getElementById('plantSize').value,
+        // plantSize: document.getElementById('plantSize').value,
         haveFlower: getRadioValue('haveFlower'),
         haveLeaves: getRadioValue('haveLeaves'),
         haveSeeds: getRadioValue('haveSeeds'),
