@@ -30,7 +30,7 @@ const addPlant = (plantData) => {
 
         transaction.onupgradeneeded = function (event) {
             const db = event.target.result;
-            db.createObjectStore("plants", { autoIncrement: true });
+            db.createObjectStore("plants", {autoIncrement: true});
         };
     });
 };
@@ -104,7 +104,7 @@ const updateMongoDBDataToIndexedDB = async (plants) => {
     }
 };
 
-const updateIndexedDBData = async () => {
+const updateIndexedDBDataSendRequest = async () =>     {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants");
 
@@ -123,7 +123,9 @@ const updateIndexedDBData = async () => {
             request.onsuccess = async function (event) {
                 const plants = event.target.result;
                 try {
-                    await updatePlants(plants, store, db);
+                    // await handleOfflineData(plants, store, db);
+                    await sendOfflineDataRequest(plants);
+                    // await reAddPlantsToIndexedDB(plants);
                     resolve();
                 } catch (error) {
                     reject(error);
@@ -138,6 +140,140 @@ const updateIndexedDBData = async () => {
     });
 };
 
+const updateIndexedDBDataProperty = async () =>     {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("plants");
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            const store = db.createObjectStore("plants", { keyPath: "plantId" });
+            // store.createIndex("isInMongoDB", "isInMongoDB");
+        };
+
+        request.onsuccess = function (event) {
+            const db = event.target.result;
+            const transaction = db.transaction(["plants"], "readwrite");
+            const store = transaction.objectStore("plants");
+            const request = store.getAll();
+
+            request.onsuccess = async function (event) {
+                const plants = event.target.result;
+                try {
+                    // await handleOfflineData(plants, store, db);
+                    // await reAddPlantsToIndexedDB(plants);
+                    updatePlants2(plants, store, db);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            request.onerror = function (event) {
+                console.error("Error fetching plant data from IndexedDB", event.target.error);
+                reject(event.target.error);
+            };
+        };
+    });
+};
+
+async function updatePlants2(plants, store, db) {
+    const promises = plants.map(plant => {
+        if (!plant.isInMongoDB) {
+            return new Promise((resolve, reject) => {
+                plant.isInMongoDB = true;
+                const updateRequest = store.put(plant);
+
+                updateRequest.onsuccess = function (event) {
+                    console.log("Plant data updated in IndexedDB");
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error("Error updating plant data in IndexedDB", event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        }
+    });
+
+    await Promise.all(promises);
+
+    // end transaction
+    store.transaction.oncomplete = function (event) {
+        db.close();
+        console.log("IndexedDB transaction completed");
+    };
+}
+
+async function handleOfflineData(plants, store, db) {
+    const offlinePlants = plants.filter(plant => !plant.isInMongoDB);
+    const offlineIds = offlinePlants.map(plant => plant.plantId);
+
+    const deleteRequests = offlineIds.map(id => {
+        return new Promise((resolve, reject) => {
+            const deleteRequest = store.delete(id);
+            deleteRequest.onsuccess = function (event) {
+                console.log(`Plant data with plantId ${id} deleted from IndexedDB`);
+                addPlant(offlinePlants.find(plant => plant.plantId === id));
+                resolve();
+            };
+            deleteRequest.onerror = function (event) {
+                console.error(`Error deleting plant data with plantId ${id} from IndexedDB`, event.target.error);
+                reject(event.target.error);
+            };
+        });
+    });
+
+    await Promise.all(deleteRequests);
+}
+
+async function sendOfflineDataRequest(plants) {
+    plants.map(plant => {
+        if (!plant.isInMongoDB) {
+            plant.isInMongoDB = true;
+            // Send hold request to route
+            fetch('/mongo/saveOfflineData', {
+            // fetch('/modify/addPlant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ plant })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Plant data saved successfully!");
+                        resolve();
+                    } else {
+                        console.error("Failed to save plant data!");
+                        reject();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error saving plant data:", error);
+                    reject(error);
+                });
+        }
+        // fetch('/mongo/saveOfflineData', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({plant})
+        // })
+        //     .then(response => response.json())
+        //     .then(rs => {
+        //         if (rs) {
+        //             resolve();
+        //         } else {
+        //             reject(new Error("Failed to save plant data!"));
+        //         }
+        //     })
+        //     .catch(error => {
+        //         // reject(error);
+        //     });
+    });
+}
+
 async function updatePlants(plants, store, db) {
     const promises = plants.map(plant => {
         if (!plant.isInMongoDB) {
@@ -147,27 +283,7 @@ async function updatePlants(plants, store, db) {
 
                 updateRequest.onsuccess = function (event) {
                     console.log("Plant data updated in IndexedDB");
-                    // Send hold request to route
-                    fetch('/mongo/saveOfflineData', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ plant })
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                console.log("Plant data saved successfully!");
-                                resolve();
-                            } else {
-                                console.error("Failed to save plant data!");
-                                reject();
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error saving plant data:", error);
-                            reject(error);
-                        });
+                    resolve();
                 };
 
                 updateRequest.onerror = function (event) {
@@ -207,7 +323,46 @@ const getAllPlantsByUserId = (plantIDB, userId) => {
     });
 };
 
-// Function to get the plant list from the IndexedDB
+const updateIndexedDBData = async () => {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("plants");
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            const store = db.createObjectStore("plants", { keyPath: "plantId" });
+            // store.createIndex("isInMongoDB", "isInMongoDB");
+        };
+
+        request.onsuccess = function (event) {
+            const db = event.target.result;
+            const transaction = db.transaction(["plants"], "readwrite");
+            const store = transaction.objectStore("plants");
+            const request = store.getAll();
+
+            request.onsuccess = async function (event) {
+                const plants = event.target.result;
+                try {
+                    await updatePlants(plants, store, db);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            request.onerror = function (event) {
+                console.error("Error fetching plant data from IndexedDB", event.target.error);
+                reject(event.target.error);
+            };
+        };
+    });
+};
+
+
+/**
+ * Function to get the plant list from the IndexedDB
+ * @param syncplantIDB
+ * @returns {Promise<unknown>}
+ */
 const getAllSyncPlants = (syncplantIDB) => {
     return new Promise((resolve, reject) => {
         const transaction = syncplantIDB.transaction(["sync-plants"]);
