@@ -19,10 +19,12 @@
     <div class="header">
         <h1 class="header-title">Plant Sightings</h1>
         <div>
-            <button class="header-button">Overview</button>
-            <button class="header-button">Add</button>
-            <button class="header-button">Github</button>
+            <button class="header-button"><a href="/overview?sort=date">Overview</a></button>
+            <button class="header-button"><a href="/modify/addPlant">Add</a></button>
+            <button class="header-button"><a href="https://github.com/captainLegoo/TeamMSc09" class="nav-button"><img
+                            style="width: 20px; height: 20px;" src="/images/github_logo.png" alt="GitHub"></a></button>
         </div>
+    </div>
     </div>
 
     <!-- Title and Description -->
@@ -36,12 +38,10 @@
         <div class="detail-half">
             <div class="detail-label">Name</div>
             <div class="detail-value" id="name"></div>
-
             <div class="detail-label">Description</div>
             <div class="detail-value" id="description"></div>
             <div class="detail-label">DBpedia Description</div>
             <div class="detail-value" id="dbpedia_description"></div>
-
             <div class="detail-label">Photo</div>
             <label  class="detail-photo">
                 <!-- Assuming you have a URL for the photo -->
