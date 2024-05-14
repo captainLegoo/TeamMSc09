@@ -2,10 +2,66 @@ var express = require('express');
 var router = express.Router();
 var plantController = require("../controllers/plant_controller");
 
+/**
+ * @swagger
+ * /overview:
+ *   get:
+ *     summary: Get plants page
+ *     tags: [Overview]
+ *     requestBody:
+ *       required: false
+ *     response:
+ *       200:
+ *         description: show overview page
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: <html>...</html>
+ */
 router.get('/', function (req, res, next) {
     res.render('overview');
 });
 
+/**
+ * @swagger
+ * /overview/all:
+ *  get:
+ *      summary: Get all plants.
+ *      tags: [Overview]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          sort:
+ *                              type: string
+ *                              enum: [name, distance, date, withFlowers, withoutFlowers]
+ *                              description: The sort type.
+ *                              required: true
+ *                          lat:
+ *                              type: number
+ *                              description: The latitude of the user.
+ *                              required: false
+ *                          lng:
+ *                              type: number
+ *                              description: The longitude of the user.
+ *                              required: false
+ *                          userId:
+ *                              type: string
+ *                              description: The user id.
+ *                              required: false
+ *                              example: 1234567890
+ *      response:
+ *          200:
+ *              description: The list of plants.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ */
 router.get('/all', async (req, res, next) => {
 
     const {sort, lat, lng, userId} = req.query;
@@ -27,21 +83,5 @@ router.get('/all', async (req, res, next) => {
         res.status(500).send(error);
     }
 });
-
-function calculateDistance(coord1, coord2) {
-    const R = 6371e3;
-    const phi1 = coord1[1] * Math.PI / 180;
-    const phi2 = coord2[1] * Math.PI / 180;
-    const deltaPhi = (coord2[1] - coord1[1]) * Math.PI / 180;
-    const deltaLambda = (coord2[0] - coord1[0]) * Math.PI / 180;
-
-    const a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-        Math.cos(phi1) * Math.cos(phi2) *
-        Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // meter
-
-    return distance;
-}
 
 module.exports = router;

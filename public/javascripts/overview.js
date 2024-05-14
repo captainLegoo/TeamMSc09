@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                             return 0;
                                         });
                                     } else if (selectedSort === 'withFlowers') {
-                                        plants = plants.filter(plant => plant.haveFlowers)
+                                        plants = plants.filter(plant => plant.haveFlower)
                                     } else if (selectedSort === 'withoutFlowers') {
-                                        plants = plants.filter(plant => !plant.haveFlowers)
+                                        plants = plants.filter(plant => !plant.haveFlower)
                                     }
 
                                     showPlantData(plants);
@@ -236,9 +236,10 @@ window.onload = function () {
 
             if (status) {
                 // IndexedDB => MongoDB
-                await updateIndexedDBData();
+                await updateIndexedDBDataSendRequest();
+                updateIndexedDBDataProperty();
                 // MongoDB => IndexedDB
-                // await updateMongoDBData();
+                await updateMongoDBData();
                 online_mode();
             } else {
                 offline_mode();

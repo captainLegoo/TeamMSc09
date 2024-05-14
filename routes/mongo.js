@@ -21,9 +21,9 @@ router.post('/saveOfflineData', async (req, res, next) => {
     try {
         const saveResult = await plantController.saveOfflineData(plantData);
         if (saveResult.success) {
-            return res.status(200).json({ message: saveResult.message });
+            return res.status(200).json({ rs: true });
         } else {
-            return res.status(500).json({ error: saveResult.error });
+            return res.status(500).json({ rs: false });
         }
     } catch (error) {
         console.error("Error saving plant data:", error);

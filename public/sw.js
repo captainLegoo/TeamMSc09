@@ -71,39 +71,39 @@ self.addEventListener('fetch', event => {
 });
 
 //Sync event to sync the todos
-self.addEventListener('sync', event => {
-    if (event.tag === 'sync-plant') {
-        console.log('Service Worker: Syncing new Plants');
-        openSyncPlantsIDB().then((syncPostDB) => {
-            getAllSyncPlants(syncPostDB).then((syncPlants) => {
-                for (const syncPlant of syncPlants) {
-                    console.log('Service Worker: Syncing new Plant: ', syncPlant);
-                    console.log(syncPlant.text)
-                    // Create a FormData object
-                    const formData = new URLSearchParams();
-
-                    // Iterate over the properties of the JSON object and append them to FormData
-                    formData.append("text", syncPlant.text);
-
-                    // TODO Fetch with FormData instead of JSON
-                    fetch('http://localhost:3000/modify/addPlant', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                    }).then(() => {
-                        console.log('Service Worker: Syncing new Plant: ', syncPlant, ' done');
-                        deleteSyncTodoFromIDB(syncPostDB,syncTodo.id);
-                        // Send a notification
-                        self.registration.showNotification('Plant Synced', {
-                            body: 'Plant synced successfully!',
-                        });
-                    }).catch((err) => {
-                        console.error('Service Worker: Syncing new Plant: ', syncPlant, ' failed');
-                    });
-                }
-            });
-        });
-    }
-});
+// self.addEventListener('sync', event => {
+//     if (event.tag === 'sync-plant') {
+//         console.log('Service Worker: Syncing new Plants');
+//         openSyncPlantsIDB().then((syncPostDB) => {
+//             getAllSyncPlants(syncPostDB).then((syncPlants) => {
+//                 for (const syncPlant of syncPlants) {
+//                     console.log('Service Worker: Syncing new Plant: ', syncPlant);
+//                     console.log(syncPlant.text)
+//                     // Create a FormData object
+//                     const formData = new URLSearchParams();
+//
+//                     // Iterate over the properties of the JSON object and append them to FormData
+//                     formData.append("text", syncPlant.text);
+//
+//                     // TODO Fetch with FormData instead of JSON
+//                     fetch('http://localhost:3000/modify/addPlant', {
+//                         method: 'POST',
+//                         body: formData,
+//                         headers: {
+//                             'Content-Type': 'application/x-www-form-urlencoded',
+//                         },
+//                     }).then(() => {
+//                         console.log('Service Worker: Syncing new Plant: ', syncPlant, ' done');
+//                         deleteSyncTodoFromIDB(syncPostDB,syncTodo.id);
+//                         // Send a notification
+//                         self.registration.showNotification('Plant Synced', {
+//                             body: 'Plant synced successfully!',
+//                         });
+//                     }).catch((err) => {
+//                         console.error('Service Worker: Syncing new Plant: ', syncPlant, ' failed');
+//                     });
+//                 }
+//             });
+//         });
+//     }
+// });
