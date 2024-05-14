@@ -2,7 +2,7 @@
   "lang": "en-uk",
   "name": "Plant Sightings - Discover and Share",
   "short_name": "Plant Sightings",
-  "description": "A basic application that fecthes the image of the day from an API",
+  "description": "A basic application to discover and share plant sightings.",
   "start_url": "/",
   "background_color": "#2f3d58",
   "theme_color": "#2f3d58",
