@@ -25,9 +25,11 @@ body {
 }
 
 .header-title {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 20px;
+    color: white; /* 改为白色 */
+    text-decoration: none; /* 取消下划线 */
 }
 
 .header-right {
@@ -37,10 +39,10 @@ body {
 }
 
 .header-button {
-    background-color: #ffffff;
-    color: #4CAF50;
+    background-color: #4CAF50; /* 绿色背景 */
+    color: #ffffff; /* 白色文字 */
     border-radius: 5px;
-    border: 2px solid #ffffff;
+    border: none; /* 取消边框 */
     padding: 8px 16px;
     margin: 0 4px;
     cursor: pointer;
@@ -49,9 +51,7 @@ body {
 }
 
 .header-button:hover {
-    background-color: #4CAF50;
-    color: #ffffff;
-    border: 2px solid #ffffff;
+    background-color: #45a049; /* 鼠标悬停时变淡 */
 }
 
 /* Title and Description Styles */
