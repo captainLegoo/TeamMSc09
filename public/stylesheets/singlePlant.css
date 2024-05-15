@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    background-color: #e0f7e0;
+    background-color: #e0f7e0; /* 修改为淡绿色背景色 */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -116,7 +116,9 @@ body {
     background-color: #ffffff;
     padding: 8px;
     margin-bottom: 16px;
-    white-space: nowrap;
+    white-space: normal; /* 修改为正常换行 */
+    overflow-wrap: break-word; /* 允许长单词换行 */
+    word-wrap: break-word; /* 兼容旧版浏览器 */
 }
 
 .detail-value input[type="text"] {
