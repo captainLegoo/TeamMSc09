@@ -426,7 +426,7 @@ function showPlantData(plants) {
         <img src=${plant.photo} alt="Plant image">
         <p>Plant Name: ${plant.identification.name}</p>
         <p>Description: ${plant.description}</p>
-        <p>Plant Size: ${plant.plantSize}</p>
+        <p>Plant Size: ${plant.plantSize.size[0]} H * ${plant.plantSize.size[1]} W</p>
         <p>Flower: ${plant.haveFlower ? 'Yes' : 'No'}</p>
         <p>Leaves: ${plant.haveLeaves ? 'Yes' : 'No'}</p>
         <p>Seeds: ${plant.haveSeeds ? 'Yes' : 'No'}</p>
