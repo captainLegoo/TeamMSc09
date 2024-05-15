@@ -8,27 +8,119 @@ var plantController = require("../controllers/plant_controller");
 const multer  = require('multer');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage });
+
 /**
- *  GET view page.
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Render single plant page
+ *     description: Renders the singlePlant page.
+ *     responses:
+ *       200:
+ *         description: Successfully rendered the singlePlant page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: "<html>...</html>"
+ *       500:
+ *         description: Internal server error.
  */
 router.get('/',function (req, res){
   res.render('singlePlant')
 })
+
 /**
- * GET edit page.
+ * @swagger
+ * /editPlant:
+ *   get:
+ *     summary: Render edit plant page
+ *     description: Renders the editPlant page.
+ *     responses:
+ *       200:
+ *         description: Successfully rendered the editPlant page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: "<html>...</html>"
+ *       500:
+ *         description: Internal server error.
  */
 router.get('/editPlant',function (req, res){
   res.render('editPlant')
 })
+
 /**
- * GET add page
+ * @swagger
+ * /addPlant:
+ *   get:
+ *     summary: Render add plant page
+ *     description: Renders the addPlant page.
+ *     responses:
+ *       200:
+ *         description: Successfully rendered the addPlant page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: "<html>...</html>"
+ *       500:
+ *         description: Internal server error.
  */
 router.get('/addPlant',function (req,res){
   res.render('addPlant')
 })
+
 /**
- * GET detailed information about specific plant.
+ * @swagger
+ * /singlePlantData:
+ *   get:
+ *     summary: Retrieve single plant data with additional DBpedia information
+ *     description: Fetches data for a single plant by its ID and enriches it with information from DBpedia.
+ *     parameters:
+ *       - in: query
+ *         name: plantId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the plant to retrieve.
+ *     responses:
+ *       200:
+ *         description: A single plant's data with DBpedia information.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 identification:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                     dbpediaInfo:
+ *                       type: object
+ *                       properties:
+ *                         uri:
+ *                           type: string
+ *                           description: URI of the plant in DBpedia.
+ *                         description:
+ *                           type: string
+ *                           description: Description of the plant from DBpedia.
+ *               example:
+ *                 identification:
+ *                   name: "Aloe Vera"
+ *                   dbpediaInfo:
+ *                     uri: "http://dbpedia.org/resource/Aloe_vera"
+ *                     description: "Aloe vera is a succulent plant species of the genus Aloe."
+ *       400:
+ *         description: Bad request. Missing or invalid plantId parameter.
+ *       404:
+ *         description: Plant not found.
+ *       500:
+ *         description: Internal server error.
  */
+
 router.get('/singlePlantData', async (req, res) => {
   const plantId = req.query.plantId;
   const result = await plantController.getSinglePlant(plantId);
@@ -66,8 +158,92 @@ router.get('/singlePlantData', async (req, res) => {
 });
 
 /**
- * POST add new plant
+ * @swagger
+ * /addPlant:
+ *   post:
+ *     summary: Add a new plant entry
+ *     description: Adds a new plant entry with various details including an uploaded photo.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               photo:
+ *                 type: string
+ *                 format: binary
+ *                 description: Photo of the plant in PNG format.
+ *               datetime:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Date and time of the plant observation.
+ *               latitude:
+ *                 type: number
+ *                 format: float
+ *                 description: Latitude of the plant location.
+ *               longitude:
+ *                 type: number
+ *                 format: float
+ *                 description: Longitude of the plant location.
+ *               description:
+ *                 type: string
+ *                 description: Description of the plant.
+ *               plantSize_height:
+ *                 type: number
+ *                 format: float
+ *                 description: Height of the plant.
+ *               plantSize_spread:
+ *                 type: number
+ *                 format: float
+ *                 description: Spread of the plant.
+ *               haveFlower:
+ *                 type: string
+ *                 description: Indicates if the plant has flowers. Use 'true' or 'false'.
+ *               haveLeaves:
+ *                 type: string
+ *                 description: Indicates if the plant has leaves. Use 'true' or 'false'.
+ *               haveSeeds:
+ *                 type: string
+ *                 description: Indicates if the plant has seeds. Use 'true' or 'false'.
+ *               sunExposure:
+ *                 type: string
+ *                 description: Sun exposure of the plant.
+ *               flowerColor:
+ *                 type: string
+ *                 description: Color of the flowers.
+ *               name:
+ *                 type: string
+ *                 description: Name of the plant.
+ *               status:
+ *                 type: string
+ *                 description: Status of the plant.
+ *               id_suggestedNames:
+ *                 type: string
+ *                 description: Suggested names for the plant.
+ *               userNickname:
+ *                 type: string
+ *                 description: Nickname of the user adding the plant.
+ *               userId:
+ *                 type: string
+ *                 description: ID of the user adding the plant.
+ *               plantId:
+ *                 type: string
+ *                 description: ID of the plant.
+ *     responses:
+ *       200:
+ *         description: Plant added successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {}
+ *       400:
+ *         description: Bad request. Missing or invalid parameters.
+ *       500:
+ *         description: Internal server error.
  */
+
 router.post('/addPlant',upload.single('photo'),function (req,res){
     const base64Image = 'data:image/png;base64,'+req.file.buffer.toString('base64');
     const plant = new PlantModel({
@@ -107,8 +283,53 @@ router.post('/addPlant',upload.single('photo'),function (req,res){
 })
 
 /**
- * POST update information about specific plant
+ * @swagger
+ * /updatePlant:
+ *   post:
+ *     summary: Update plant information
+ *     description: Updates the identification name and status of a plant based on its ID.
+ *     parameters:
+ *       - in: query
+ *         name: plantId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the plant to update.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               identification:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: The new name of the plant.
+ *                   status:
+ *                     type: string
+ *                     description: The new status of the plant.
+ *     responses:
+ *       200:
+ *         description: Plant updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Plant updated successfully."
+ *       400:
+ *         description: Bad request. Missing or invalid parameters.
+ *       404:
+ *         description: Plant not found.
+ *       500:
+ *         description: Internal server error.
  */
+
 router.post('/updatePlant', async (req, res)=>{
 
   plantId = req.query.plantId;
@@ -134,8 +355,43 @@ router.post('/updatePlant', async (req, res)=>{
 })
 
 /**
- * POST insert comments into plant
+ * @swagger
+ * /add-comment:
+ *   post:
+ *     summary: Add a comment to a plant
+ *     description: Adds a comment to a specific plant based on its ID.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               _id:
+ *                 type: string
+ *                 description: The ID of the plant to add the comment to.
+ *               comment:
+ *                 type: string
+ *                 description: The content of the comment.
+ *               name:
+ *                 type: string
+ *                 description: The name of the person making the comment.
+ *     responses:
+ *       200:
+ *         description: Comment added successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: {}
+ *       400:
+ *         description: Bad request. Missing or invalid parameters.
+ *       404:
+ *         description: Plant not found.
+ *       500:
+ *         description: Internal server error.
  */
+
 router.post('/add-comment', async (req,res) => {
   const plantId = req.body._id;
   const comment = req.body.comment;
