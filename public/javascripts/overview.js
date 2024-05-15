@@ -88,6 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    /**
+     * showPosition function
+     * @param position
+     */
     function showPosition(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -121,6 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    /**
+     * calculateDistance function
+     * @param lat1
+     * @param lon1
+     * @param lat2
+     * @param lon2
+     * @returns {number}
+     */
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371; // Radius of the earth in km
         const dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -139,6 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return deg * (Math.PI / 180);
     };
 
+    /**
+     * showError function
+     * @param error
+     */
     function showError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
@@ -157,7 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Register service worker to control making site work offline
+/**
+ * Register service worker to control making site work offline
+ */
 window.onload = function () {
     // if (localStorage.getItem('userNickname')===null) {
     //     var userNickName = prompt("Enter your nickname:");
@@ -248,12 +266,18 @@ window.onload = function () {
         console.error("Error checking MongoDB status:", error);
     });
 
+    /**
+     * online mode
+     */
     function online_mode() {
         console.log("Online mode")
         document.getElementById("monogo_Status").textContent = "Online mode";
         sendRequest();
     }
 
+    /**
+     * offline mode
+     */
     function offline_mode() {
         console.log("Offline mode")
         document.getElementById("monogo_Status").textContent = "Offline mode";
@@ -265,6 +289,10 @@ window.onload = function () {
         });
     }
 
+    /**
+     * open Plants IDB
+     * @returns {Promise<unknown>}
+     */
     function openPlantsIDB() {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open("plants", 1);
@@ -285,6 +313,10 @@ window.onload = function () {
         });
     }
 
+    /**
+     * update MongoDB data to IndexedDB
+     * @returns {Promise<unknown>}
+     */
     function updateMongoDBData() {
         return new Promise((resolve, reject) => {
             fetch(`http://localhost:3000/mongo/saveOnlineData`)
