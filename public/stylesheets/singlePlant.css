@@ -1,69 +1,49 @@
 /* General Styles */
 body {
-    background-color: #f0f0f0;
+    background-color: #e0f7e0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Header Styles */
 .header {
     background-color: #4CAF50;
     color: white;
-    padding: 20px;
+    padding: 20px 0; /* Reduced padding at the top and bottom */
+}
+
+.navbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.header-left {
-    display: flex;
+    padding: 0 50px;
     align-items: center;
 }
 
-.header-title {
+.logo {
     font-size: 24px;
     font-weight: bold;
-    margin-right: 20px;
-    color: white; /* 改为白色 */
-    text-decoration: none; /* 取消下划线 */
 }
 
-.header-title:hover, .header-title:visited, .header-title:active {
+.navbar a {
     color: white;
-    text-decoration: none; /* 取消下划线 */
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.header-button {
-    background-color: #4CAF50; /* 绿色背景 */
-    color: #ffffff; /* 白色文字 */
-    border-radius: 5px;
-    border: none; /* 取消边框 */
-    padding: 8px 16px;
-    margin: 0 4px;
-    cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
+    padding: 5px 10px;
+    transition: background-color 0.3s, color 0.3s; /* Transition effect */
 }
 
-.header-button:hover {
-    background-color: #45a049; /* 鼠标悬停时变淡 */
-    color: #ffffff; /* 确保文字颜色保持白色 */
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Hover background color */
+    color: white; /* Hover text color */
+    border-radius: 5px; /* Border radius same as the homepage buttons */
 }
 
-.header-button:visited, .header-button:active {
-    background-color: #4CAF50; /* 访问过后仍保持绿色 */
-    color: #ffffff; /* 确保文字颜色保持白色 */
-    text-decoration: none; /* 取消下划线 */
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
 }
 
 /* Title and Description Styles */
