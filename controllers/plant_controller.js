@@ -84,7 +84,6 @@ exports.getSinglePlant = function (plantId) {
 
 exports.saveOfflineData = async function (plant) {
     try {
-        // 创建新的植物数据并保存到数据库
         const newPlant = new plantModel(plant);
         await newPlant.save();
         return { success: true, message: 'Plant data saved successfully!' };

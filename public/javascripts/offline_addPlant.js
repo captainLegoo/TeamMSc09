@@ -1,10 +1,9 @@
 // Register service worker to control making site work offline
 window.onload = function () {
-    const plantTemplateContainer = document.querySelector('#plant_template'); // 选择模板容器
+    const plantTemplateContainer = document.querySelector('#plant_template');
     if (plantTemplateContainer) {
-        const cardTemplate = plantTemplateContainer.querySelector('.card'); // 从模板容器中选择第一个.card元素
+        const cardTemplate = plantTemplateContainer.querySelector('.card');
         if (cardTemplate) {
-            // 使用cardTemplate做你想做的事情，比如克隆它
             console.log('Card template found:', cardTemplate);
         } else {
             console.error('No card template found in #plant_template.');

@@ -181,7 +181,6 @@ window.onload = function () {
     if (plantTemplateContainer) {
         const cardTemplate = plantTemplateContainer.querySelector('.card'); // 从模板容器中选择第一个.card元素
         if (cardTemplate) {
-            // 使用cardTemplate做你想做的事情，比如克隆它
             console.log('Card template found:', cardTemplate);
         } else {
             console.error('No card template found in #plant_template.');
@@ -258,7 +257,6 @@ window.onload = function () {
     function offline_mode() {
         console.log("Offline mode")
         document.getElementById("monogo_Status").textContent = "Offline mode";
-        // 如果不在线，从 IndexedDB 获取数据
         openPlantsIDB().then((db) => {
             getAllPlants(db).then((plants) => {
                 // console.log('Plants from IndexedDB:', plants.length);

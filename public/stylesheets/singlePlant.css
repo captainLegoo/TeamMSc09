@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    background-color: #e0f7e0; /* 修改为淡绿色背景色 */
+    background-color: #e0f7e0; /* Set background to light green */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -50,14 +50,14 @@ body {
 .title-section {
     text-align: center;
     padding: 20px;
-    background-color: #4CAF50; /* 与导航栏背景颜色一致 */
-    color: #ffffff; /* 白色文本 */
+    background-color: #4CAF50; /* Same as the navbar background color */
+    color: #ffffff; /* White text color */
     border-bottom: 2px solid #ffffff;
     width: 100%;
     box-sizing: border-box;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
 }
 
 .title-section h1 {
@@ -119,10 +119,10 @@ body {
     background-color: #ffffff;
     padding: 8px;
     margin-bottom: 16px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
-    max-width: 700px; /* 设置最大宽度，控制换行 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
+    max-width: 700px; /* Set max width to control wrapping */
 }
 
 .detail-value input[type="text"] {
@@ -136,9 +136,9 @@ body {
     width: 100px;
     background-color: #ffffff;
     padding: 4px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
     height: 18px;
     display: flex;
     justify-content: center;
@@ -151,10 +151,10 @@ body {
     width: 300px; /* Increased width to accommodate longer text */
     padding: 4px;
     height: 18px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
-    display: inline-block; /* Changed to inline-block for better control */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
+    display: inline-block; /* Better control */
 }
 
 .detail-value-attribute-time-choose {
@@ -163,9 +163,9 @@ body {
     background-color: #ffffff;
     height: 18px;
     padding: 4px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
     width: 200px;
     display: flex;
     justify-content: center;
@@ -178,9 +178,9 @@ body {
     background-color: #ffffff;
     padding: 4px;
     height: 18px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
 }
 
 .detail-value-attribute-edit-boolean {
@@ -190,9 +190,9 @@ body {
     background-color: #ffffff;
     padding: 4px;
     height: 18px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
 }
 
 .detail-value-attribute-edit-pos {
@@ -263,9 +263,9 @@ body {
     color: #000000;
     padding: 8px;
     margin-bottom: 8px;
-    white-space: normal; /* 修改为正常换行 */
-    overflow-wrap: break-word; /* 允许长单词换行 */
-    word-wrap: break-word; /* 兼容旧版浏览器 */
+    white-space: normal; /* Normal text wrapping */
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* Compatibility for older browsers */
 }
 
 /* Comment Form Styles */
@@ -289,7 +289,7 @@ body {
 }
 
 .comment-form button {
-    background-color: #008000; /* This is a placeholder color for the green button */
+    background-color: #008000; /* Green button background color */
     color: #ffffff;
     padding: 8px 16px;
     border: none;
@@ -307,5 +307,5 @@ body {
 }
 
 .map {
-    transform: translateX(50px); /* 向右移动50像素 */
+    transform: translateX(50px); /* Move right by 50px */
 }

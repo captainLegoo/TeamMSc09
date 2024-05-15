@@ -47,28 +47,29 @@ body {
     text-align: center;
     padding: 20px;
 }
-/* 过滤条按钮的样式 */
+
+/* Filter bar button styles */
 .filter-bar button {
-    background: #ffffff; /* 设置按钮背景为白色 */
-    border: 2px solid #4CAF50; /* 设置边框颜色为标题栏相同的绿色 */
-    color: #4CAF50; /* 设置文本颜色为绿色 */
-    padding: 10px 20px; /* 按钮内边距 */
-    margin: 0 10px; /* 按钮外边距 */
-    font-weight: bold; /* 文本加粗 */
-    border-radius: 5px; /* 边框圆角效果 */
+    background: #ffffff; /* Set button background to white */
+    border: 2px solid #4CAF50; /* Set border color to match header */
+    color: #4CAF50; /* Set text color to green */
+    padding: 10px 20px; /* Button padding */
+    margin: 0 10px; /* Button margin */
+    font-weight: bold; /* Bold text */
+    border-radius: 5px; /* Rounded corners */
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s; /* 过渡动画效果 */
-    width: 100px; /* 统一按钮宽度 */
+    transition: background-color 0.3s, color 0.3s; /* Transition effect */
+    width: 100px; /* Uniform button width */
     height: 40px;
-    box-sizing: border-box; /* box-sizing 设置为 border-box 以包含边框和内边距 */
-    display: inline-block; /* 使按钮按内联块级元素渲染 */
+    box-sizing: border-box; /* Include border and padding in element's total width and height */
+    display: inline-block;
 }
 
-/* 当鼠标悬浮在按钮上时的样式 */
+/* Button hover styles */
 .filter-bar button:hover {
-    background: #4CAF50; /* 鼠标悬浮时背景颜色变为绿色 */
-    color: #ffffff; /* 鼠标悬浮时文本颜色变为白色 */
-    border: 2px solid #ffffff; /* 鼠标悬浮时边框颜色变为白色 */
+    background: #4CAF50; /* Background color on hover */
+    color: #ffffff; /* Text color on hover */
+    border: 2px solid #ffffff; /* Border color on hover */
 }
 
 #plant_container {
@@ -81,14 +82,14 @@ body {
 .card {
     border: 1px solid #ccc;
     padding: 20px;
-    margin: 20px 0; /* 上下间距调整 */
+    margin: 20px 0; /* Vertical margin */
     text-align: center;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-    flex: 0 1 calc(33.33% - 40px); /* 计算每行3个卡片的宽度 */
-    max-width: 300px; /* 最大宽度 */
-    box-sizing: border-box; /* 盒模型设定 */
+    flex: 0 1 calc(33.33% - 40px); /* Width for 3 cards per row */
+    max-width: 300px; /* Max width */
+    box-sizing: border-box; /* Include border and padding in element's total width and height */
 }
 
 .card img {
@@ -101,30 +102,29 @@ body {
 
 .card p {
     margin: 5px 0;
-    white-space: nowrap; /* 禁止换行 */
-    overflow: hidden; /* 隐藏溢出文本 */
-    text-overflow: ellipsis; /* 超出部分显示省略号 */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
 
 .card a {
     display: block;
     text-decoration: none;
-    color: #007bff; /* 修改链接颜色 */
+    color: #007bff; /* Link color */
 }
 
-
-/* 导航按钮的基础样式 */
+/* Navigation button base styles */
 .nav-button {
     padding: 5px 10px;
-    display: inline-block; /* 使链接像按钮一样显示 */
-    transition: background-color 0.3s, color 0.3s; /* 添加过渡动画效果 */
-    border-radius: 5px; /* 轻微的圆角效果 */
+    display: inline-block;
+    transition: background-color 0.3s, color 0.3s; /* Transition effect */
+    border-radius: 5px; /* Slightly rounded corners */
 }
 
-/* 鼠标悬浮在导航按钮上时的样式 */
+/* Navigation button hover styles */
 .nav-button:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* 添加淡白色背景 */
-    color: #ffffff; /* 文本颜色保持不变，即使在淡白色背景上也能看清 */
+    background-color: rgba(255, 255, 255, 0.2); /* Light white background on hover */
+    color: #ffffff; /* Text color remains white */
 }
 
 .sort-dropdown {
@@ -139,6 +139,7 @@ body {
     width: 200px;
     height: 40px;
 }
+
 .clearfix {
     clear: both;
 }

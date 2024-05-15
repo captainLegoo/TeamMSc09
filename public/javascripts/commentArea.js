@@ -41,9 +41,9 @@ function record2DB(_id, msg){
     fetch('http://localhost:3000/modify/add-comment', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json', // 設置請求的 Content-Type
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data), // 將數據轉換為 JSON 字符串並設置為請求的主體
+        body: JSON.stringify(data),
     })
         .then(response => response.json())
         .then(data => {
