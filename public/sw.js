@@ -1,7 +1,9 @@
 importScripts('/javascripts/idb-utility.js');
 
 
-// Use the install event to pre-cache all initial resources.
+/**
+ * Use the install event to pre-cache all initial resources.
+ */
 self.addEventListener('install', event => {
     console.log('Service Worker: Installing....');
     event.waitUntil((async () => {
@@ -40,7 +42,9 @@ self.addEventListener('install', event => {
     })());
 });
 
-//clear cache on reload
+/**
+ * clear cache on reload
+ */
 self.addEventListener('activate', event => {
 // Remove old caches
     event.waitUntil(

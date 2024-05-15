@@ -1,3 +1,6 @@
+/**
+ * @description: id generator
+ */
 class IdGenerator {
     constructor(dataCenterId, machineId) {
         if (dataCenterId > this.DATA_CENTER_MAX || machineId > this.MACHINE_MAX) {

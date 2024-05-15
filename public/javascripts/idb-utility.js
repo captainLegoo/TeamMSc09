@@ -90,6 +90,11 @@ const getAllPlants = (plantIDB) => {
     });
 }
 
+/**
+ * Update the IndexedDB with the MongoDB data
+ * @param plants
+ * @returns {Promise<void>}
+ */
 const updateMongoDBDataToIndexedDB = async (plants) => {
     if (plants instanceof Array) {
         plants.forEach(plant => {
@@ -104,6 +109,10 @@ const updateMongoDBDataToIndexedDB = async (plants) => {
     }
 };
 
+/**
+ * Update the IndexedDB with the MongoDB data
+ * @returns {Promise<unknown>}
+ */
 const updateIndexedDBDataSendRequest = async () =>     {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants");
@@ -140,6 +149,9 @@ const updateIndexedDBDataSendRequest = async () =>     {
     });
 };
 
+/**
+ * Update the IndexedDB with the MongoDB data
+ */
 const updateIndexedDBDataProperty = async () =>     {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants");
@@ -176,6 +188,13 @@ const updateIndexedDBDataProperty = async () =>     {
     });
 };
 
+/**
+ * Update the IndexedDB with the MongoDB data
+ * @param plants
+ * @param store
+ * @param db
+ * @returns {Promise<void>}
+ */
 async function updatePlants2(plants, store, db) {
     const promises = plants.map(plant => {
         if (!plant.isInMongoDB) {
@@ -204,6 +223,13 @@ async function updatePlants2(plants, store, db) {
     };
 }
 
+/**
+ * Handle offline data
+ * @param plants
+ * @param store
+ * @param db
+ * @returns {Promise<void>}
+ */
 async function handleOfflineData(plants, store, db) {
     const offlinePlants = plants.filter(plant => !plant.isInMongoDB);
     const offlineIds = offlinePlants.map(plant => plant.plantId);
@@ -226,6 +252,9 @@ async function handleOfflineData(plants, store, db) {
     await Promise.all(deleteRequests);
 }
 
+/*
+ * Send offline data to MongoDB
+ */
 async function sendOfflineDataRequest(plants) {
     plants.map(plant => {
         if (!plant.isInMongoDB) {
@@ -274,6 +303,13 @@ async function sendOfflineDataRequest(plants) {
     });
 }
 
+/**
+ * Update the IndexedDB with the MongoDB data
+ * @param plants
+ * @param store
+ * @param db
+ * @returns {Promise<void>}
+ */
 async function updatePlants(plants, store, db) {
     const promises = plants.map(plant => {
         if (!plant.isInMongoDB) {
@@ -303,6 +339,12 @@ async function updatePlants(plants, store, db) {
     };
 }
 
+/**
+ * Get all plants by userId
+ * @param plantIDB
+ * @param userId
+ * @returns {Promise<unknown>}
+ */
 const getAllPlantsByUserId = (plantIDB, userId) => {
     return new Promise((resolve, reject) => {
         const transaction = plantIDB.transaction(["plants"]);
@@ -323,6 +365,10 @@ const getAllPlantsByUserId = (plantIDB, userId) => {
     });
 };
 
+/**
+ * Update IndexedDB data
+ * @returns {Promise<unknown>}
+ */
 const updateIndexedDBData = async () => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants");
@@ -379,7 +425,11 @@ const getAllSyncPlants = (syncplantIDB) => {
     });
 }
 
-// Function to delete a syn
+/**
+ * Delete plant from IndexedDB
+ * @param syncplantIDB
+ * @param id
+ */
 const deleteSyncPlantFromIDB = (syncplantIDB, id) => {
     const transaction = syncplantIDB.transaction(["sync-plants"], "readwrite")
     const plantStore = transaction.objectStore("sync-plants")
@@ -389,6 +439,10 @@ const deleteSyncPlantFromIDB = (syncplantIDB, id) => {
     })
 }
 
+/**
+ * Open the IndexedDB
+ * @returns {Promise<unknown>}
+ */
 function openPlantsIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("plants", 1);
@@ -409,6 +463,10 @@ function openPlantsIDB() {
     });
 }
 
+/**
+ * open sync plants idb
+ * @returns {Promise<unknown>}
+ */
 function openSyncPlantsIDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("sync-plants", 1);
