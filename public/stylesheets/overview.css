@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -100,6 +101,9 @@ body {
 
 .card p {
     margin: 5px 0;
+    white-space: nowrap; /* 禁止换行 */
+    overflow: hidden; /* 隐藏溢出文本 */
+    text-overflow: ellipsis; /* 超出部分显示省略号 */
 }
 
 .card a {
